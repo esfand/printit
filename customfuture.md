@@ -29,10 +29,11 @@ This <code>Future</code> abstraction should handle all the logic and we can safe
 future outcome. Here is the plumbing code used to create temporary queue and send request:</p>
 
 <pre class="brush: java">
-private &lt;T extends Serializable&gt; Future&lt;T&gt; asynchRequest(ConnectionFactory connectionFactory, 
-                                                                     Serializable      request, 
-                                                                     String            queue) 
-                                                                     throws JMSException {
+private &lt;T extends Serializable&gt; Future&lt;T&gt; asynchRequest(
+                 ConnectionFactory connectionFactory, 
+                 Serializable      request, 
+                 String            queue) 
+                 throws JMSException {
         
     Connection connection = connectionFactory.createConnection();
     connection.start();
