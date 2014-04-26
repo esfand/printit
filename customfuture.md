@@ -1,23 +1,28 @@
 <h1>Implementing custom Future</h1>
 
-<p><code>Future&lt;T&gt;</code> is typically returned by libraries or frameworks. 
-But there is nothing stopping us from implementing it all by ourselves when it makes sense. 
-It is not particularly complex and may significantly improve your design. I did my best to pick 
-interesting use case for our example.</p>
+<p><code>Future&lt;T&gt;</code> is typically returned by libraries or
+ frameworks.  But there is nothing stopping us from implementing it all by
+ourselves when it makes sense.  It is not particularly complex and may
+significantly improve your design. I did my best to pick interesting use case 
+for our example.</p>
 
-<p>JMS (Java Message Service) is a standard Java API for sending asynchronous messages. When we think about JMS, 
-we immediately see a client sending a message to a server (broker) in a <i>fire and forget</i> manner. 
-But it is equally common to implement <i>request-reply</i> messaging pattern on top of JMS. </p>
+<p>JMS (Java Message Service) is a standard Java API for sending
+asynchronous messages. When we think about JMS, we immediately see a
+client sending a message to a server (broker) in a <i>fire and forget</i>
+manner. But it is equally common to implement <i>request-reply</i> messaging
+pattern on top of JMS. </p>
 
-<p>The implementation is fairly simple: you send a request message (of course asynchronously) 
-to an MDB on the other side. MDB processes the request and sends a reply back either 1) to hardcoded 
-<i>reply</i> queue or 2) to an arbitrary queue chosen by the client and sent along with the message in 
-<code>JMSReplyTo</code> property. The second scenario is much more interesting. 
-Client can create a temporary queue and use it as a reply queue when sending a request. 
-This way each request/reply pair uses different reply queue, this there is no need for 
-correlation ID, selectors, etc.</p>
+<p>The implementation is fairly simple: you send a request message (of course
+asynchronously) to an MDB on the other side. MDB processes the request and
+sends a reply back either 1) to hardcoded <i>reply</i> queue or 2) to an
+arbitrary queue chosen by the client and sent along with the message in 
+<code>JMSReplyTo</code> property. The second scenario is much more
+interesting.  Client can create a temporary queue and use it as a reply queue
+when sending a request.  This way each request/reply pair uses different reply
+queue, this there is no need for correlation ID, selectors, etc.</p>
 
-<p>There is one catch, however. Sending a message to JMS broker is simple and asynchronous. But receiving reply 
+<p>There is one catch, however. Sending a message to JMS broker is simple
+and asynchronous. But receiving reply 
 is much more cumbersome. You can either implement <code>MessageListener</code> to consume one, single message 
 or use blocking <code>MessageConsumer.receive()</code>. First approach is quite heavyweight and hard to 
 use in practice.  Second one defeats the purpose of asynchronous messaging. You can also poll the reply 
@@ -70,8 +75,10 @@ public class JmsReplyFuture&lt;T extends Serializable&gt;
 
     //...
 
-    public JmsReplyFuture(Connection connection, Session session, Queue replyQueue) 
-                          throws JMSException {
+    public JmsReplyFuture(Connection connection, 
+                                        Session session, 
+                                        Queue replyQueue) 
+                                        throws JMSException {
         this.connection = connection;
         this.session = session;
         replyConsumer = session.createConsumer(replyQueue);
@@ -125,17 +132,20 @@ public class JmsReplyFuture&lt;Textends Serializable&gt;
 }
 </pre>
 
-The implementation is still not complete, but it covers most important concepts. Notice how nicely 
-<code>BlockingQueue.poll(long, TimeUnit)</code> method fits into <code>Future.get(long, TimeUnit)</code>. 
-Unfortunately, even though they come from the same package and were developed more or less in the same time, 
-one method returns <code>null</code> upon timeout while the other should throw an exception. Easy to fix.<br>
-<br>
+<p>The implementation is still not complete, but it covers most important
+concepts.  Notice how nicely <code>BlockingQueue.poll(long, TimeUnit)</code>
+method fits into <code>Future.get(long, TimeUnit)</code>.   Unfortunately, even
+though
+they come from the same package and were developed more or less in the
+same time, one method returns <code>null</code> upon timeout while the 
+other should throw an exception. Easy to fix.</p>
 
-Also notice how easy the implementation of <code>onMessage()</code> became. 
-We just place newly received message in a <code>BlockingQueue reply</code> and the collection does all the 
-synchronization for us. We are still missing some less significant, but still important details - 
-cancelling and clean up. Without going much into details, here is a full implementation:<br>
-<br>
+<p>Also notice how easy the implementation of <code>onMessage()</code>
+became.  We just place newly received message in a 
+<code>BlockingQueue reply</code> and the collection does all the
+synchronization for us. We are still missing some less significant, but still
+important details - cancelling and clean up. Without going much into details,
+here is a full implementation:</p>
 
 <pre class="brush: java">
 public class JmsReplyFuture&lt;T extends Serializable&gt; 
@@ -146,11 +156,14 @@ public class JmsReplyFuture&lt;T extends Serializable&gt;
     private final Connection connection;
     private final Session session;
     private final MessageConsumer replyConsumer;
-    private final BlockingQueue&lt;T&gt; reply = new ArrayBlockingQueue&lt;&gt;(1);
+    private final BlockingQueue&lt;T&gt; reply = 
+                          new ArrayBlockingQueue&lt;&gt;(1);
     private volatile State state = State.WAITING;
 
-    public JmsReplyFuture(Connection connection, Session session, Queue replyQueue) 
-                          throws JMSException {
+    public JmsReplyFuture(Connection connection, 
+                                        Session session, 
+                                        Queue replyQueue) 
+                                        throws JMSException {
         this.connection = connection;
         this.session = session;
         replyConsumer = session.createConsumer(replyQueue);
@@ -185,7 +198,7 @@ public class JmsReplyFuture&lt;T extends Serializable&gt;
 
     @Override
     public T get(long timeout, TimeUnit unit) 
-                 throws InterruptedException, ExecutionException, TimeoutException {
+              throws InterruptedException, ExecutionException, TimeoutException {
         final T replyOrNull = reply.poll(timeout, unit);
         if (replyOrNull == null) {
             throw new TimeoutException();
@@ -214,21 +227,19 @@ public class JmsReplyFuture&lt;T extends Serializable&gt;
 }
 </pre>
 
-I use special <code>State</code> enum to hold the information about state. 
+<p>I use special <code>State</code> enum to hold the information about state. 
 I find it much more readable compared to complex conditions based on multiple flags, <code>null</code> checks, etc. 
 Second thing to keep in mind is cancelling. Fortunately it's quite simple. 
 We basically close the underlying session/connection. It has to remain open throughout the course of whole request/reply
 message exchange, otherwise temporary JMS reply queue disappears. Note that we cannot easily inform broker/MDB that 
 we are no longer interested about the reply. We simply stop listening for it, but MDB will still process request and 
-try to send a reply to no longer existing temporary queue.<br>
-<br>
+try to send a reply to no longer existing temporary queue.</p>
 
-<hr>
+<hr/>
 
-So how does this all look in practice? Say we have an MDB that receives a number and returns a square of it. 
+<p>So how does this all look in practice? Say we have an MDB that receives a number and returns a square of it. 
 Imagine the computation takes a little bit of time so we start it in advance, do some work in the meantime and 
-later retrieve the results. Here is how such a design might look like:<br>
-<br>
+later retrieve the results. Here is how such a design might look like:<p>
 
 <pre class="brush: java">
 final Future&lt;Double&gt; replyFuture = asynchRequest(connectionFactory, 7, "square");
@@ -236,9 +247,9 @@ final Future&lt;Double&gt; replyFuture = asynchRequest(connectionFactory, 7, "sq
 final double resp = replyFuture.get();      //49
 </pre>
 
-Where <code>"square"</code> is the name of request queue. If we refactor it and use dependency injection 
-we can further simplify it to something like:<br>
-<br>
+<p>Where <code>"square"</code> is the name of request queue. If we refactor 
+it and use dependency injection we can further simplify it to something 
+like:</p>
 
 <pre class="brush: java">
 final Future&lt;Double&gt; replyFuture = calculator.square(7);
@@ -246,19 +257,21 @@ final Future&lt;Double&gt; replyFuture = calculator.square(7);
 final double resp = replyFuture.get();      //49
 </pre>
 
-You know what's best about this design? Even though we are exploiting quite advanced JMS capabilities, 
-there is no JMS code here. Moreover we can later replace <code>calculator</code> with a different implementation, 
-using SOAP or GPU. As far as the client code is concerned, we still use <code>Future&lt;Double&gt;</code> abstraction.
-Computation result that is not yet available. The underlying mechanism is irrelevant. That is the beauty of 
-abstraction.<br>
-<br>
+<p>You know what's best about this design? Even though we are exploiting 
+quite advanced JMS capabilities, there is no JMS code here. Moreover we 
+can later replace <code>calculator</code> with a different implementation, 
+using SOAP or GPU. As far as the client code is concerned, we still use 
+<code>Future&lt;Double&gt;</code> abstraction.  Computation result that 
+is not yet available. The underlying mechanism is irrelevant. 
+That is the beauty of abstraction.</p>
 
-<hr>
+<hr/>
 
-Obviously this implementation is not production ready (by far). But even worse, it misses some essential features. 
-We still call blocking <code>Future.get()</code> at some point. Moreover there is no way of composing/chaining futures 
-(e.g. <i>when the response arrives, send another message</i>) or waiting for the <i>fastest</i> future to complete. 
-Be patient!
+<p>Obviously this implementation is not production ready (by far). But even
+worse, it misses some essential features.  We still call blocking
+<code>Future.get()</code> at some point.  Moreover there is no way of
+composing/chaining futures (e.g. <i>when the response arrives, send another
+message</i>) or waiting for the <i>fastest</i> future to complete. 
+Be patient!</p>
 
-</div>
 
