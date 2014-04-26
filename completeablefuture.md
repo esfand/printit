@@ -16,8 +16,8 @@ exotic, e.g.:</p>
 <pre class="brush: java">
 public &lt;U,V&gt; CompletableFuture&lt;V&gt; 
    thenCombineAsync(CompletableFuture&lt;? extends U&gt; other, 
-                                  BiFunction&lt;? super T,? super U,? extends V&gt; fn, 
-                                  Executor executor)
+                    BiFunction&lt;? super T,? super U,? extends V&gt; fn, 
+                    Executor executor)
 </pre>
 
 </p>Don't worry, but keep reading. <code>CompletableFuture</code> collects
@@ -73,10 +73,23 @@ invocations are ignored. But there is a back-door called
 of the <code>Future</code> with new one. Use with caution.<br>
 <br>
 
-Sometimes you want to signal failure. As you know <code>Future</code> objects can handle either wrapped result or exception. If you want to pass some exception further, there is <code>CompletableFuture.completeExceptionally(ex)</code> (and <code>obtrudeException(ex)</code> evil brother that overrides the previous exception). <code>completeExceptionally()</code> also unlock all waiting clients, but this time throwing an exception from <code>get()</code>. Speaking of <code>get()</code>, there is also <code>CompletableFuture.join()</code> method with some subtle changes in error handling. But in general they are the same. And finally there is also <code>CompletableFuture.getNow(valueIfAbsent)</code> method that doesn't block but if the <code>Future</code> is not completed yet, returns default value. Useful when building robust systems where we don't want to wait too much.<br>
+Sometimes you want to signal failure. As you know <code>Future</code> objects can 
+handle either wrapped result or exception. If you want to pass some exception 
+further, there is <code>CompletableFuture.completeExceptionally(ex)</code> (and
+<code>obtrudeException(ex)</code> evil brother that overrides the previous
+exception). <code>completeExceptionally()</code> also unlock all waiting clients, 
+but this time throwing an exception from <code>get()</code>. 
+Speaking of <code>get()</code>, there is also <code>CompletableFuture.join()</code> 
+method with some subtle changes in error handling. But in general they are the same. 
+And finally there is also <code>CompletableFuture.getNow(valueIfAbsent)</code> 
+method that doesn't block but if the <code>Future</code> is not completed yet, 
+returns default value. Useful when building robust systems where we don't want 
+to wait too much.<br>
 <br>
 
-Last <code>static</code> utility method is <code>completedFuture(value)</code> that returns already completed <code>Future</code> object. Might be useful for testing or when writing some adapter layer.<br>
+Last <code>static</code> utility method is <code>completedFuture(value)</code> 
+that returns already completed <code>Future</code> object. Might be useful for 
+testing or when writing some adapter layer.<br>
 <br>
 
 <h2>Creating and obtaining <code>CompletableFuture</code></h2>
@@ -85,11 +98,9 @@ OK, so is creating <code>CompletableFuture</code> manually our only option? Not 
 <br>
 
 <pre class="brush: java">
-static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(
-                                            Supplier&lt;U&gt; supplier);
-static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(
-                                            Supplier&lt;U&gt; supplier, 
-                                            Executor executor);
+static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(Supplier&lt;U&gt; supplier);
+static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(Supplier&lt;U&gt; supplier, 
+                                                        Executor executor);
 static CompletableFuture&lt;Void&gt; runAsync(Runnable runnable);
 static CompletableFuture&lt;Void&gt; runAsync(Runnable runnable, 
                                               Executor executor);
