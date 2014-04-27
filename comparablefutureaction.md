@@ -51,8 +51,9 @@ _relevance_ will be computed. As a last step we take all computed _relevance_
 metrics and find the biggest one. This sounds pretty straightforward to the 
 oment when you realize that both downloading content and computing _relevance_ 
 is asynchronous (returns `CompletableFuture`) and we definitely don't want to 
-block or busy wait. Here is the first piece:      
-    
+block or busy wait. Here is the first piece:
+
+<br>
 
 ```java
 
