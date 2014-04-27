@@ -51,8 +51,7 @@ block or busy wait. Here is the first piece:
 ExecutorService executor = Executors.newFixedThreadPool(4);
  
 List<String> topSites = Arrays.asList("www.google.com", "www.youtube.com", 
-                                                        "www.yahoo.com",
-                                                        "www.msn.com");
+                                      "www.yahoo.com",  "www.msn.com");
  
 List<CompletableFuture<Double>> relevanceFutures = topSites.stream().
     map(site -> CompletableFuture.supplyAsync(() -> downloadSite(site), executor)).
@@ -70,9 +69,16 @@ task (`downloadSite()`) into thread pool.
 
 So we have a list of `CompletableFuture<String>`. We continue transforming it, 
 this time applying `parse()` method on each of them. Remember that `thenApply()` 
-will invoke supplied lambda when underlying future completes and returns <code>CompletableFuture&lt;Document&gt;</code> immediately. Third and last transformation step composes each `CompletableFuture&lt;Document&gt;` in the input list with `calculateRelevance()`. Note that `calculateRelevance()` returns <code>CompletableFuture&lt;Double&gt;</code> instead of <code>Double</code>, thus we use <code>thenCompose()</code> rather than <code>thenApply()</code>. After that many stages we finally <code>collect()</code> a list of <code>CompletableFuture&lt;Double&gt;</code>.
+will invoke supplied lambda when underlying future completes and returns 
+`CompletableFuture<Document>` immediately.  Third and last transformation step 
+composes each `CompletableFuture<Document>` in the input list with 
+`calculateRelevance()`. Note that `calculateRelevance()` returns 
+`CompletableFuture<Double>` instead of `Double`, thus we use `thenCompose()` 
+rather than `thenApply()`. After that many stages we finally `collect()` 
+a list of `CompletableFuture<Double>`.
 
-Now we would like to run some computations on _all_ results. We have a list of futures and we would like to know when all of them (last one) complete. Of course we can register completion callback on each future and use <code>CountDownLatch</code> to block until all callbacks are invoked. I am too lazy for that, let us utilize existing `CompletableFuture.allOf()`
+Now we would like to run some computations on _all_ results. We have a list of 
+futures and we would like to know when all of them (last one) complete. Of course we can register completion callback on each future and use <code>CountDownLatch</code> to block until all callbacks are invoked. I am too lazy for that, let us utilize existing `CompletableFuture.allOf()`
  Unfortunately it has two minor drawbacks - takes vararg instead of <code>Collection</code> and doesn't return a future of aggregated results but <code>Void</code> instead. By aggregated results I mean: if we provide <code>List&lt;CompletableFuture&lt;Double&gt;&gt;</code> such method should return <code>CompletableFuture&lt;List&lt;Double&gt;&gt;</code>, not <code>CompletableFuture&lt;Void&gt;</code>! Luckily it's easy to fix with a bit of glue code:
 
 ```java
