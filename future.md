@@ -67,7 +67,9 @@ The last call to <code>contentsFuture.get()</code> is guaranteed to return immed
 Cancelling futures is the last aspect we have not covered yet. Imagine you started some asynchronous job and you can only wait for it given amount of time. If it's not there after, say, 2 seconds, we give up and either propagate error or work around it. However if you are a good citizen, you should somehow tell this future object: I no longer need you, forget about it. You save processing resources by not running obsolete tasks. The syntax is simple:
 
 ```java
+
 contentsFuture.cancel(true);    //meh...
+
 ```
 
 We all love cryptic, boolean parameters, aren't we? Cancelling comes in two flavours. By passing <code>false</code> to <code>mayInterruptIfRunning</code> parameter we only cancel tasks that didn't yet started, when the <code>Future</code> represents results of computation that did not even began. But if our <code>Callable.call()</code> is already in the middle, we let it finish. However if we pass <code>true</code>, <code>Future.cancel()</code> will be more aggressive, trying to interrupt already running jobs as well. How? Think about all these methods that throw infamous <code>InterruptedException</code>, namely <code>Thread.sleep()</code>, <code>Object.wait()</code>, <code>Condition.await()</code>,  and many others (including <code>Future.get()</code>). If you are blocking on any of such methods and someone decided to cancel your <code>Callable</code>, they will actually throw <code>InterruptedException</code>, signalling that someone is trying to interrupt currently running task.
@@ -77,6 +79,7 @@ We all love cryptic, boolean parameters, aren't we? Cancelling comes in two flav
 So we now understand what <code>Future&lt;T&gt;</code> is - a place-holder for something, that you will get in the future. It's like keys to a car that was not yet manufactured. But how do you actually obtain an instance of <code>Future&lt;T&gt;</code> in your application? Two most common sources are thread pools and asynchronous methods (backed by thread pools for you). Thus our <code>startDownloading()</code> method can be rewritten to:
 
 ```java
+
 private final ExecutorService pool = Executors.newFixedThreadPool(10);
  
 public Future<String> startDownloading(final URL url) throws IOException {
@@ -89,6 +92,7 @@ public Future<String> startDownloading(final URL url) throws IOException {
         }
     });
 }
+
 ```
 
 A lot of syntax boilerplate, but the basic idea is simple: wrap long-running computations in <code>Callable&lt;String&gt;</code> and <code>submit()</code> them to a thread pool of 10 threads. Submitting returns some implementation of <code>Future&lt;String&gt;</code>, most likely somehow linked to your task and thread pool. Obviously your task is not executed immediately. Instead it is placed in a queue which is later (maybe even much later) polled by thread from a pool. Now it should be clear what these two flavours of <code>cancel()</code> mean - you can always cancel task that still resides in that queue. But cancelling already running task is a bit more complex.
