@@ -1,6 +1,6 @@
-<h1>Java 8: Definitive guide to CompletableFuture</h1>
+<h1>Java 8: Guide to CompletableFuture</h1>
 
-<p>Java 8 is coming so it's time to study new features. While Java 7 and 
+Java 8 is coming so it's time to study new features. While Java 7 and 
 Java 6 were rather minor releases, version 8 will be a big step forward. 
 Maybe even too big? Today I will give you a thorough explanation of new
 abstraction in JDK 8 - <code>CompletableFuture&lt;T&gt;</code>. 
@@ -11,7 +11,7 @@ operations and promoting asynchronous, event-driven programming model,
 as opposed to blocking in older Java. If you opened JavaDoc of 
 <code>CompletableFuture&lt;T&gt;</code> you are surely overwhelmed. 
 About <b>fifty methods</b> (!), some of them being extremely cryptic and
-exotic, e.g.:</p>
+exotic, e.g.:
 
 <pre class="brush: java">
 public &lt;U,V&gt; CompletableFuture&lt;V&gt; 
@@ -20,7 +20,7 @@ public &lt;U,V&gt; CompletableFuture&lt;V&gt;
                     Executor executor)
 </pre>
 
-</p>Don't worry, but keep reading. <code>CompletableFuture</code> collects
+Don't worry, but keep reading. <code>CompletableFuture</code> collects
 all the features of <code>ListenableFuture</code> in Guavawith 
 <code>SettableFuture</code>.  Moreover built-in lambda support brings it
 closer to Scala/Akka futures. Sounds too good to be true, but keep reading.
@@ -28,7 +28,7 @@ closer to Scala/Akka futures. Sounds too good to be true, but keep reading.
 <code>Future&lt;T&gt;</code> - 
 asynchronous callback/transformations support and 
 the ability to set value of <code>CompletableFuture</code> from any thread at
-any point in time. </p>
+any point in time.
 
 <h2>Extract/modify wrapped value</h2>
 
@@ -42,8 +42,8 @@ create <code>CompletableFuture</code>, return it to your client and whenever
 you think your results are available, simply <code>complete()</code> the future 
 and unlock all clients waiting on that future.</p>
 
-<p>For starters you can simply create new <code>CompletableFuture</code> out of 
-thin air and give it to your client:</p>
+<p>For starters you can simply create new <code>CompletableFuture</code>
+ out of thin air and give it to your client:</p>
 
 <pre class="brush: java">
 public CompletableFuture&lt;String&gt; ask() {
@@ -63,51 +63,58 @@ So what's the point? Now you can say:</p>
 future.complete("42")
 </pre>
 
-...and at this very moment all clients blocked on <code>Future.get()</code> will 
-get the result string. Also completion callbacks will fire immediately. 
-This comes quite handy when you want to represent a task in the future, but not 
-necessarily computational task running on some thread of execution. 
+<p>...and at this very moment all clients blocked on <code>Future.get()</code>
+will get the result string. Also completion callbacks will fire immediately. 
+This comes quite handy when you want to represent a task in the future, but 
+not necessarily computational task running on some thread of execution. 
 <code>CompletableFuture.complete()</code> can only be called once, subsequent 
 invocations are ignored. But there is a back-door called
-<code>CompletableFuture.obtrudeValue(...)</code> which overrides previous value 
-of the <code>Future</code> with new one. Use with caution.<br>
-<br>
+<code>CompletableFuture.obtrudeValue(...)</code> which overrides previous
+value of the <code>Future</code> with new one. Use with caution.</p>
 
-Sometimes you want to signal failure. As you know <code>Future</code> objects can 
-handle either wrapped result or exception. If you want to pass some exception 
-further, there is <code>CompletableFuture.completeExceptionally(ex)</code> (and
+Sometimes you want to signal failure. As you know <code>Future</code> objects 
+can handle either wrapped result or exception. If you want to pass
+some exception further, there is
+<code>CompletableFuture.completeExceptionally(ex)</code> (and
 <code>obtrudeException(ex)</code> evil brother that overrides the previous
-exception). <code>completeExceptionally()</code> also unlock all waiting clients, 
-but this time throwing an exception from <code>get()</code>. 
-Speaking of <code>get()</code>, there is also <code>CompletableFuture.join()</code> 
-method with some subtle changes in error handling. But in general they are the same. 
-And finally there is also <code>CompletableFuture.getNow(valueIfAbsent)</code> 
-method that doesn't block but if the <code>Future</code> is not completed yet, 
+exception). <code>completeExceptionally()</code> also unlock all waiting
+clients, but this time throwing an exception from <code>get()</code>. 
+Speaking of <code>get()</code>, there is also 
+<code>CompletableFuture.join()</code> method with some subtle changes 
+in error handling. But in general they are the same. And finally there is also
+<code>CompletableFuture.getNow(valueIfAbsent)</code> method that doesn't
+block but if the <code>Future</code> is not completed yet, 
 returns default value. Useful when building robust systems where we don't want 
 to wait too much.<br>
 <br>
 
 Last <code>static</code> utility method is <code>completedFuture(value)</code> 
 that returns already completed <code>Future</code> object. Might be useful for 
-testing or when writing some adapter layer.<br>
-<br>
+testing or when writing some adapter layer.
 
 <h2>Creating and obtaining <code>CompletableFuture</code></h2>
 
-OK, so is creating <code>CompletableFuture</code> manually our only option? Not quite. Just as with normal <code>Future</code>s we can wrap existing task with <code>CompletableFuture</code> using the following family of factory methods:<br>
-<br>
+</p>OK, so is creating <code>CompletableFuture</code> manually our only option? 
+Not quite. Just as with normal <code>Future</code>s we can wrap existing task 
+with <code>CompletableFuture</code> using the following family of factory methods:</p>
 
 <pre class="brush: java">
 static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(Supplier&lt;U&gt; supplier);
-static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(Supplier&lt;U&gt; supplier, 
-                                                        Executor executor);
+static &lt;U&gt; CompletableFuture&lt;U&gt; supplyAsync(Supplier&lt;U&gt; supplier,
+                                                Executor executor);
 static CompletableFuture&lt;Void&gt; runAsync(Runnable runnable);
 static CompletableFuture&lt;Void&gt; runAsync(Runnable runnable, 
-                                              Executor executor);
+                                       Executor executor);
 </pre>
 
-Methods that do not take an <code>Executor</code> as an argument but end with <code>...Async</code> will use <code>ForkJoinPool.commonPool()</code></a> (global, general purpose pool introduces in JDK 8). This applies to most methods in <code>CompletableFuture</code> class. <code>runAsync()</code> is simple to understand, notice that it takes <code>Runnable</code>, therefore it returns <code>CompletableFuture&lt;Void&gt;</code> as <code>Runnable</code> doesn't return anything. If you need to process something asynchronously and return result, use <code>Supplier&lt;U&gt;</code>:<br>
-<br>
+Methods that do not take an <code>Executor</code> as an argument but end with 
+<code>...Async</code> will use <code>ForkJoinPool.commonPool()</code>
+(global, general purpose pool introduces in JDK 8). This applies to most methods 
+in <code>CompletableFuture</code> class. <code>runAsync()</code> is simple to 
+understand, notice that it takes <code>Runnable</code>, therefore it returns 
+<code>CompletableFuture&lt;Void&gt;</code> as <code>Runnable</code> doesn't 
+return anything. If you need to process something asynchronously and return 
+result, use <code>Supplier&lt;U&gt;</code>:
 
 <pre class="brush: java">
 final CompletableFuture&lt;String&gt; 
@@ -130,8 +137,7 @@ final CompletableFuture&lt;String&gt; future = CompletableFuture.supplyAsync(() 
 }, executor);
 </pre>
 
-or even:<br>
-<br>
+or even:
 
 <pre class="brush: java">
 final CompletableFuture&lt;String&gt; 
@@ -143,13 +149,22 @@ final CompletableFuture&lt;String&gt;
 
 <h2>Transforming and acting on one <code>CompletableFuture</code> (<code>thenApply</code>)</h2>
 
-So I said that <code>CompletableFuture</code> is superior to <code>Future</code> but you haven't yet seen why? Simply put, it's because <code>CompletableFuture</code> is a monad and a functor. Not helping I guess? Both Scala and JavaScript allow registering asynchronous callbacks when future is completed. We don't have to wait and block until it's ready. We can simply say: <i>run this function on a result, when it arrives</i>. Moreover, we can stack such functions, combine multiple futures together, etc. For example if we have a function from <code>String</code> to <code>Integer</code> we can turn <code>CompletableFuture&lt;String&gt;</code> to <code>CompletableFuture&lt;Integer</code> without unwrapping it. This is achieved with <code>thenApply()</code> family of methods:<br>
-<br>
+So I said that <code>CompletableFuture</code> is superior to <code>Future</code> 
+but you haven't yet seen why? Simply put, it's because <code>CompletableFuture</code> 
+is a monad and a functor. Not helping I guess? Both Scala and JavaScript allow registering 
+asynchronous callbacks when future is completed. We don't have to wait and block until 
+it's ready. We can simply say: <i>run this function on a result, when it arrives</i>. 
+Moreover, we can stack such functions, combine multiple futures together, etc. 
+For example if we have a function from <code>String</code> to <code>Integer</code> we 
+can turn <code>CompletableFuture&lt;String&gt;</code> 
+to <code>CompletableFuture&lt;Integer</code> without unwrapping it. 
+This is achieved with <code>thenApply()</code> family of methods:
 
 <pre class="brush: java">
 &lt;U&gt; CompletableFuture&lt;U&gt; thenApply(Function&lt;? super T,? extends U&gt; fn);
 &lt;U&gt; CompletableFuture&lt;U&gt; thenApplyAsync(Function&lt;? super T,? extends U&gt; fn);
-&lt;U&gt; CompletableFuture&lt;U&gt; thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor);
+&lt;U&gt; CompletableFuture&lt;U&gt; thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, 
+                                  Executor executor);
 </pre>
 
 As stated before <code>...Async</code> versions are provided for most operations on <code>CompletableFuture</code> thus I will skip them in subsequent sections. Just remember that first method will apply function within the same thread in which the future completed while the remaining two will apply it asynchronously in different thread pool.<br>
@@ -292,12 +307,12 @@ If instead of producing new <code>CompletableFuture</code> combining both result
 <br>
 
 <pre class="brush: java">
-&lt;U&gt; CompletableFuture&lt;Void&gt; thenAcceptBoth(CompletableFuture&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; block)
+&lt;U&gt; CompletableFuture&lt;Void&gt; thenAcceptBoth(CompletableFuture&lt;? extends U&gt; other, 
+                          BiConsumer&lt;? super T,? super U&gt; block)
 CompletableFuture&lt;Void&gt; runAfterBoth(CompletableFuture&lt;?&gt; other, Runnable action)
 </pre>
 
-Imagine that in the example above, instead of producing new <code>CompletableFuture&lt;Route&gt;</code> you simply want send some event or refresh GUI immediately. This can be easily achieved with <code>thenAcceptBoth()</code>:<br>
-<br>
+<p>Imagine that in the example above, instead of producing new <code>CompletableFuture&lt;Route&gt;</code> you simply want send some event or refresh GUI immediately. This can be easily achieved with <code>thenAcceptBoth()</code>:</p>
 
 <pre class="brush: java">
 customerFuture.thenAcceptBoth(shopFuture, (cust, shop) -&gt; {
@@ -351,7 +366,7 @@ fast.acceptEither(predictable, s -&gt; {
 &lt;U&gt; CompletableFuture&lt;U&gt; applyToEither(CompletableFuture&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)
 </pre>
 
-The extra <code>fn</code> function is invoked on the result of first future that completed. I am not really sure what's the purpose of such a specialized method, after all one could simply use: <code>fast.applyToEither(predictable).thenApply(fn)</code>. Since we are stuck with this API but we don't really need extra function application, I will simply use <a href="http://download.java.net/lambda/b88/docs/api/java/util/function/Function.html#identity()"><code>Function.identity()</code></a> placeholder:<br>
+The extra <code>fn</code> function is invoked on the result of first future that completed. I am not really sure what's the purpose of such a specialized method, after all one could simply use: <code>fast.applyToEither(predictable).thenApply(fn)</code>. Since we are stuck with this API but we don't really need extra function application, I will simply use <code>Function.identity()</code> placeholder:<br>
 <br>
 
 <pre class="brush: java">
