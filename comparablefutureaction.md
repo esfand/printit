@@ -10,6 +10,7 @@ First we shall define a simple, blocking method to download the contents of
 a single URL:
 
 ```java
+
 private String downloadSite(final String site) {
     try {
         log.debug("Downloading {}", site);
@@ -20,6 +21,7 @@ private String downloadSite(final String site) {
         throw Throwables.propagate(e);
     }
 }
+
 ```
 
 Nothing fancy. This method will be later invoked for different sites inside 
@@ -27,7 +29,9 @@ thread pool. Another method parses the String into an XML Document
 (let me leave out the implementation, no one wants to look at it):
 
 ```java
+
 private Document parse(String xml)  //...
+
 ```
 
 Finally the core of our algorithm, function computing <i>relevance</i> of each 
@@ -35,7 +39,9 @@ website taking `Document` as input. Just as above we don't care about
 the implementation, only the signature is important:
 
 ```java
+
 private CompletableFuture<Double> calculateRelevance(Document doc) //...
+
 ```
 
 Let's put all the pieces together. Having a list of websites our crawler shall 
@@ -45,7 +51,8 @@ _relevance_ will be computed. As a last step we take all computed _relevance_
 metrics and find the biggest one. This sounds pretty straightforward to the 
 oment when you realize that both downloading content and computing _relevance_ 
 is asynchronous (returns `CompletableFuture`) and we definitely don't want to 
-block or busy wait. Here is the first piece:
+block or busy wait. Here is the first piece:    
+
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(4);
