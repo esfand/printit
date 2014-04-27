@@ -93,21 +93,16 @@ This one is easy - when <code>allDone</code> completes, apply our function that 
 
 <code>CompletableFuture</code> in Java 8 is a huge step forward. From tiny, thin abstraction over asynchronous task to full-blown, functional, feature rich utility. However after few days of playing with it I found few minor disadvantages:
 
-<ul>
-<li>
-`CompletableFuture.allOf()` returning `CompletableFuture&lt;Void&gt;` discussed earlier. I think it's fair to say that if I pass a collection of futures and want to wait for all of them, I would also like to extract the results when they arrive easily. It's even worse with <code>CompletableFuture.anyOf()</code></a>. If I am waiting for <i>any</i> of the futures to complete, I can't imagine passing futures of different types, say <code>CompletableFuture&lt;Car&gt;</code> and <code>CompletableFuture&lt;Restaurant&gt;</code>. If I don't care which one completes first, how am I suppose to handle return type? Typically you will pass a collection of homogeneous futures (e.g. <code>CompletableFuture&lt;Car&gt;</code>) and then <code>anyOf()</code> can simply return future of that type (instead of <code>CompletableFuture&lt;Void&gt;</code> again).<br><br>
-</li>
+- `CompletableFuture.allOf()` returning `CompletableFuture&lt;Void&gt;` discussed earlier. I think it's fair to say that if I pass a collection of futures and want to wait for all of them, I would also like to extract the results when they arrive easily. It's even worse with <code>CompletableFuture.anyOf()</code></a>. If I am waiting for <i>any</i> of the futures to complete, I can't imagine passing futures of different types, say <code>CompletableFuture&lt;Car&gt;</code> and <code>CompletableFuture&lt;Restaurant&gt;</code>. If I don't care which one completes first, how am I suppose to handle return type? Typically you will pass a collection of homogeneous futures (e.g. <code>CompletableFuture&lt;Car&gt;</code>) and then <code>anyOf()</code> can simply return future of that type (instead of <code>CompletableFuture&lt;Void&gt;</code> again).<br><br>
 
-<li>
-Mixing <i>settable</i> and <i>listenable</i> abstractions. In Guava there is <a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/ListenableFuture.html"><code>ListenableFuture</code></a> and <a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/SettableFuture.html"><code>SettableFuture</code></a> extending it. <code>ListenableFuture</code> allows registering callbacks while <code>SettableFuture</code> adds possibility to set value of the future (resolve it) from arbitrary thread and context. <code>CompletableFuture</code> is equivalent to <code>SettableFuture</code> but there is no limited version equivalent to <code>ListenableFuture</code>. Why is it a problem? If API returns <code>CompletableFuture</code> and then two threads wait for it to complete (nothing wrong with that), one of these threads can resolve this future and wake up other thread, while it's only the API implementation that should do it. But when API tries to resolve the future later, call to <code>complete()</code> is ignored. It can lead to really nasty bugs which are avoided in Guava by separating these two responsibilities.
-</li>
 
-<li>
-<code>CompletableFuture</code> is ignored in JDK. <code>ExecutorService</code> was not retrofitted to return <code>CompletableFuture</code>. Literally <code>CompletableFuture</code> is not referenced anywhere in JDK. It's a really useful class, backward compatible with <code>Future</code>, but not really promoted in standard library.
-</li>
+- Mixing <i>settable</i> and <i>listenable</i> abstractions. In Guava there is <a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/ListenableFuture.html"><code>ListenableFuture</code></a> and <a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/util/concurrent/SettableFuture.html"><code>SettableFuture</code></a> extending it. <code>ListenableFuture</code> allows registering callbacks while <code>SettableFuture</code> adds possibility to set value of the future (resolve it) from arbitrary thread and context. <code>CompletableFuture</code> is equivalent to <code>SettableFuture</code> but there is no limited version equivalent to <code>ListenableFuture</code>. Why is it a problem? If API returns <code>CompletableFuture</code> and then two threads wait for it to complete (nothing wrong with that), one of these threads can resolve this future and wake up other thread, while it's only the API implementation that should do it. But when API tries to resolve the future later, call to <code>complete()</code> is ignored. It can lead to really nasty bugs which are avoided in Guava by separating these two responsibilities.
 
-<li>
-Bloated API (?) Fifty methods in total, most in three variants. 
+
+- `CompletableFuture` is ignored in JDK. `ExecutorService` was not retrofitted to return <code>CompletableFuture</code>. Literally `CompletableFuture` is not referenced anywhere in JDK. It's a really useful class, backward compatible with <code>Future</code>, but not really promoted in standard library.
+
+
+- Bloated API (?) Fifty methods in total, most in three variants. 
 Splitting <i>settable</i> and <i>listenable</i> (see above) would help. 
 Also some methods like <code>runAfterBoth()</code> or `runAfterEither()` 
 IMHO do not really belong to any <code>CompletableFuture</code>. 
@@ -115,10 +110,9 @@ Is there a difference between `fast.runAfterBoth(predictable, ...)` and
 `predictable.runAfterBoth(fast, ...)`? No, but API favours one or the other. 
 Actually I believe `runAfterBoth(fast, predictable, ...)` much better 
 expresses my intention.
-</li>
 
-<li>
-`CompletableFuture.getNow(T)` should take `Supplier<>` instead of raw reference. 
+
+- `CompletableFuture.getNow(T)` should take `Supplier<>` instead of raw reference. 
 In the example below `expensiveAlternative()` is always code, irrespective to 
 whether future finished or not:
 
@@ -150,9 +144,7 @@ getNow(future, () -> expensiveAlternative());
 getNow(future, this::expensiveAlternative);
 ```
 
-</li>
 
-</ul>
 
 In overall `CompletableFuture` is a wonderful new tool in our JDK belt. 
 Minor API issues and sometimes too verbose syntax due to limited type 
