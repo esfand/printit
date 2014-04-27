@@ -1,6 +1,5 @@
 <h1>ExecutorCompletionService in practice</h1>
 
-
 `ExecutorCompletionService` wrapper class tries to address one of the biggest 
 deficiencies of `Future<T>` type - no support for callbacks or any 
 event-driven behaviour whatsoever.  Let's go back for a moment to our 
@@ -36,14 +35,15 @@ for (final String site : topSites) {
     final Future<String> contentFuture = pool.submit(new Callable<String>() {
         @Override
         public String call() throws Exception {
-            return IOUtils.toString(new URL("http://" + site), StandardCharsets.UTF_8);
+            return IOUtils.toString(new URL("http://" + site), 
+                                            StandardCharsets.UTF_8);
         }
     });
     contentsFutures.add(contentFuture);
 }
 ```
 
-As easy as that. We simply submit separate task for each web site to a pool 
+As easy as that. We simply submit separate task for each web site to a pool
 and wait for results. To achieve that we collect all `Future<String>` objects 
 into a collection and iterate through them:
 
@@ -54,11 +54,33 @@ for (Future<String> contentFuture : contentsFutures) {
 }
 ```
 
-Each call to <code>contentFuture.get()</code> waits until downloading given web site (remember that each <code>Future</code> represent one site) is finished. This works, but has a major bottleneck. Imagine you have as many threads in a pool as tasks (20 sites in that case). I think it's understandable that you want to start processing contents of web sites as soon as they arrive, no matter which one is first. Response times vary greatly so don't be surprised to find some web sites responding within a second while others need even 20 seconds. But here's the problem: after submitting all the tasks we block on an arbitrary `Future<T>`. There is no guarantee that this <code>Future</code> will complete first. It is very likely that other <code>Future</code> objects already completed and are ready for processing but we keep hanging on that arbitrary, first <code>Future</code>. In worst case scenario, if the first submitted page is slower by an order of magnitude compared to all the others, all the results except the first one are ready for processing and idle, while we keep waiting for the first one.
+Each call to `contentFuture.get()` waits until downloading given web site
+(remember that each `Future` represent one site) is finished. This works, but
+has a major bottleneck. Imagine you have as many threads in a pool as tasks
+(20 sites in that case). I think it's understandable that you want to start
+processing contents of web sites as soon as they arrive, no matter which one
+is first. Response times vary greatly so don't be surprised to find some web
+sites responding within a second while others need even 20 seconds. But
+here's the problem: after submitting all the tasks we block on an arbitrary
+`Future<T>`. There is no guarantee that this `Future` will complete first. It is
+very likely that other `Future` objects already completed and are ready for
+processing but we keep hanging on that arbitrary, first `Future`. In worst case
+scenario, if the first submitted page is slower by an order of magnitude
+compared to all the others, all the results except the first one are ready for
+processing and idle, while we keep waiting for the first one.
 
-The obvious solution would be to sort web sites from fastest to slowest and submit them in that order. Then we would be guaranteed that <code>Future</code>s complete in the order in which we submitted them. But this is impractical and almost impossible in real life due to dynamic nature of web.
+The obvious solution would be to sort web sites from fastest to slowest and
+submit them in that order. Then we would be guaranteed that `Future`s complete
+in the order in which we submitted them. But this is impractical and almost 
+impossible in real life due to dynamic nature of web.
 
-This is where <code>ExecutorCompletionService</code> steps in. It is a thin wrapper around <code>ExecutorService</code> that "remembers" all submitted tasks and allows you to wait for the first <i>completed</i>, as opposed to first <i>submitted</i> task. In a way <code>ExecutorCompletionService</code> keeps a handle to all intermediate <code>Future</code> objects and once any of them finishes, it's returned. Crucial API method is <code>CompletionService.take()</code> that blocks and waits for <i>any</i> underlying <code>Future</code> to complete. Here is the submit step with <code>ExecutorCompletionService</code>:
+This is where `ExecutorCompletionService` steps in. It is a thin wrapper around
+`ExecutorService` that "remembers" all submitted tasks and allows you to wait
+for the first __completed_, as opposed to first _submitted_ task. In a way
+`ExecutorCompletionService` keeps a handle to all intermediate `Future`
+objects and once any of them finishes, it's returned. Crucial API method is
+`CompletionService.take()` that blocks and waits for _any_ underlying `Future` 
+to complete. Here is the submit step with `ExecutorCompletionService`:
 
 ```java
 final ExecutorService pool = Executors.newFixedThreadPool(5);
@@ -68,13 +90,15 @@ for (final String site : topSites) {
     completionService.submit(new Callable<String>() {
         @Override
         public String call() throws Exception {
-            return IOUtils.toString(new URL("http://" + site), StandardCharsets.UTF_8);
+            return IOUtils.toString(new URL("http://" + site), 
+                                    StandardCharsets.UTF_8);
         }
     });
 }
 ```
 
-Notice how we seamlessly switched to <code>completionService</code>. Now the retrieval step:
+Notice how we seamlessly switched to `completionService`. Now the retrieval
+step:
 
 ```java
 for(int i = 0; i < topSites.size(); ++i) {
@@ -88,9 +112,17 @@ for(int i = 0; i < topSites.size(); ++i) {
 }
 ```
 
-You might be wondering why we need an extra counter? Unfortunately <code>ExecutorCompletionService</code> doesn't tell you how many <code>Future</code> objects are still there waiting so you must remember how many times to call <code>take()</code>.<br>
+You might be wondering why we need an extra counter? Unfortunately
+`ExecutorCompletionService` doesn't tell you how many `Future` objects are
+still there waiting so you must remember how many times to call `take()`.
 
-This solution feels much more robust. We process responses immediately when they are ready. <code>take()</code> blocks until fastest task still running finishes. And if processing takes a little bit longer and multiple responses finished, subsequent call to <code>take()</code> will return immediately. It's fun to observe the program when number of pool threads is as big as the number of tasks so that we begin downloading each site at the same time. You can easily see which websites have shortest response time and which respond very slowly.
+This solution feels much more robust. We process responses immediately when
+they are ready. `take()` blocks until fastest task still running finishes. And if
+processing takes a little bit longer and multiple responses finished, subsequent
+call to `take()` will return immediately. It's fun to observe the program when
+number of pool threads is as big as the number of tasks so that we begin
+downloading each site at the same time. You can easily see which websites
+have shortest response time and which respond very slowly.
 
 <hr>
 
