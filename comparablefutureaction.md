@@ -22,6 +22,10 @@ private String downloadSite(final String site) {
 }
 ```
 
+Nothing fancy. This method will be later invoked for different sites inside 
+thread pool. Another method parses the String into an XML Document 
+(let me leave out the implementation, no one wants to look at it):
+
 ```java
 private Document parse(String xml)  //...
 ```
@@ -34,14 +38,17 @@ the implementation, only the signature is important:
 private CompletableFuture<Double> calculateRelevance(Document doc) //...
 ```
 
-Let's put all the pieces together. Having a list of websites our crawler shall start downloading the contents of each web site asynchronously and concurrently. Then each downloaded HTML string will be parsed to XML <code>Document</code> and later <i>relevance</i> will be computed. As a last step we take all computed <i>relevance</i> metrics and find the biggest one. This sounds pretty straightforward to the moment when you realize that both downloading content and computing <i>relevance</i> is asynchronous (returns <code>CompletableFuture</code>) and we definitely don't want to block or busy wait. Here is the first piece:
+Let's put all the pieces together. Having a list of websites our crawler shall start downloading the contents of each web site asynchronously and concurrently.
+Then each downloaded HTML string will be parsed to XML `Document` and later
+<i>relevance</i> will be computed. As a last step we take all computed <i>relevance</i> metrics and find the biggest one. This sounds pretty straightforward to the moment when you realize that both downloading content and computing <i>relevance</i> is asynchronous (returns <code>CompletableFuture</code>) and we definitely don't want to block or busy wait. Here is the first piece:
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(4);
  
-List<String> topSites = Arrays.asList(
-        "www.google.com", "www.youtube.com", "www.yahoo.com", "www.msn.com"
-);
+List<String> topSites = Arrays.asList("www.google.com", 
+                                                          "www.youtube.com", 
+                                                          "www.yahoo.com",
+                                                          "www.msn.com");
  
 List<CompletableFuture<Double>> relevanceFutures = topSites.stream().
         map(site -> CompletableFuture.supplyAsync(() -> downloadSite(site), executor)).
@@ -52,7 +59,7 @@ List<CompletableFuture<Double>> relevanceFutures = topSites.stream().
 
 There is actually *a lot* going on here. Defining thread pool and sites to crawl is obvious. But there is this chained expression computing <code>relevanceFutures</code>. The sequence of <code>map()</code> and <code>collect()</code> in the end is quite descriptive. Starting from a list of web sites we transform each site (<code>String</code>) into <code>CompletableFuture&lt;String&gt;</code> by submitting asynchronous task (<code>downloadSite()</code>) into thread pool.
 
-So we have a list of <code>CompletableFuture&lt;String&gt;</code>. We continue transforming it, this time applying <code>parse()</code> method on each of them. Remember that <code>thenApply()</code> will invoke supplied lambda when underlying future completes and returns <code>CompletableFuture&lt;Document&gt;</code> immediately. Third and last transformation step composes each <code>CompletableFuture&lt;Document&gt;</code> in the input list with <code>calculateRelevance()</code>. Note that <code>calculateRelevance()</code> returns <code>CompletableFuture&lt;Double&gt;</code> instead of <code>Double</code>, thus we use <code>thenCompose()</code> rather than <code>thenApply()</code>. After that many stages we finally <code>collect()</code> a list of <code>CompletableFuture&lt;Double&gt;</code>.
+So we have a list of <code>CompletableFuture&lt;String&gt;</code>. We continue transforming it, this time applying <code>parse()</code> method on each of them. Remember that <code>thenApply()</code> will invoke supplied lambda when underlying future completes and returns <code>CompletableFuture&lt;Document&gt;</code> immediately. Third and last transformation step composes each `CompletableFuture&lt;Document&gt;` in the input list with `calculateRelevance()`. Note that `calculateRelevance()` returns <code>CompletableFuture&lt;Double&gt;</code> instead of <code>Double</code>, thus we use <code>thenCompose()</code> rather than <code>thenApply()</code>. After that many stages we finally <code>collect()</code> a list of <code>CompletableFuture&lt;Double&gt;</code>.
 
 Now we would like to run some computations on <i>all</i> results. We have a list of futures and we would like to know when all of them (last one) complete. Of course we can register completion callback on each future and use <code>CountDownLatch</code> to block until all callbacks are invoked. I am too lazy for that, let us utilize existing `CompletableFuture.allOf()`
  Unfortunately it has two minor drawbacks - takes vararg instead of <code>Collection</code> and doesn't return a future of aggregated results but <code>Void</code> instead. By aggregated results I mean: if we provide <code>List&lt;CompletableFuture&lt;Double&gt;&gt;</code> such method should return <code>CompletableFuture&lt;List&lt;Double&gt;&gt;</code>, not <code>CompletableFuture&lt;Void&gt;</code>! Luckily it's easy to fix with a bit of glue code:
