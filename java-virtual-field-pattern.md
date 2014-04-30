@@ -1,11 +1,13 @@
 Java Virtual Field Pattern 
 ==============================
 
+Source: https://kerflyn.wordpress.com/2012/07/09/java-8-now-you-have-mixins/
+
 This pattern can be used to add services to an existing class by using 
 multiple inheritance and delegation. This approach is referenced as 
 virtual field pattern.
 
-So lets start again with our Switchable.
+So lets start with definint our service interface.
 
 ```java
 interface Switchable {    boolean isActive();
