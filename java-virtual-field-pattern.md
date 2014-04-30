@@ -1,16 +1,18 @@
 Java Virtual Field Pattern 
 ==============================
 
-Source: https://kerflyn.wordpress.com/2012/07/09/java-8-now-you-have-mixins/
+Source: [https://kerflyn.wordpress.com/2012/07/09/java-8-now-you-have-mixins/](https://kerflyn.wordpress.com/2012/07/09/java-8-now-you-have-mixins/)
 
 This pattern can be used to add services to an existing class by using 
 multiple inheritance and delegation. This approach is referenced as 
-virtual field pattern.
+[Virtual Field Pattern](http://mail.openjdk.java.net/pipermail/lambda-dev/2012-July/005171.html).
 
 So lets start with definint our service interface.
 
 ```java
+
 interface Switchable {    boolean isActive();
+
     void setActive(boolean active);
 }
 ```
