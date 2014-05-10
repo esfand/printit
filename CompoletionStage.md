@@ -26,7 +26,7 @@ rather than their results.
 
 * Two method forms support processing whether the triggering stage completed normally or exceptionally: Method whenComplete allows injection of an action regardless of outcome, otherwise preserving the outcome in its completion. Method handle additionally allows the stage to compute a replacement result that may enable further processing by other dependent stages. In all other cases, if a stage's computation terminates abruptly with an (unchecked) exception or error, then all dependent stages requiring its completion complete exceptionally as well, with a CompletionException holding the exception as its cause. If a stage is dependent on both of two stages, and both complete exceptionally, then the CompletionException may correspond to either one of these exceptions. If a stage is dependent on either of two others, and only one of them completes exceptionally, no guarantees are made about whether the dependent stage completes normally or exceptionally. In the case of method whenComplete, when the supplied action itself encounters an exception, then the stage exceptionally completes with this exception if not already completed exceptionally.
 
-* All methods adhere to the above triggering, execution, and exceptional completion specifications (which are not repeated in individual method specifications). Additionally, while arguments used to pass a completion result (that is, for parameters of type T) for methods accepting them may be null, passing a null value for any other parameter will result in a NullPointerException being thrown.
+All methods adhere to the above triggering, execution, and exceptional completion specifications (which are not repeated in individual method specifications). Additionally, while arguments used to pass a completion result (that is, for parameters of type T) for methods accepting them may be null, passing a null value for any other parameter will result in a NullPointerException being thrown.
 
 This interface does not define methods for initially creating, forcibly completing 
 normally or exceptionally, probing completion status or results, or awaiting 
@@ -61,71 +61,137 @@ eturns a new CompletionStage that, when either this or the other given stage com
 
 U> CompletionStage<U>	applyToEitherAsync(CompletionStage<? extends T> other, Function<? super T,U> fn, Executor executor)
 
-eturns a new CompletionStage that, when either this or the other given stage complete normally, is executed using the supplied executor, with the corresponding result as argument to the supplied function.
+Returns a new CompletionStage that, when either this or the other given stage complete normally, is executed using the supplied executor, with the corresponding result as argument to the supplied function.
+
 CompletionStage<T>	exceptionally(Function<Throwable,? extends T> fn)
+
 Returns a new CompletionStage that, when this stage completes exceptionally, is executed with this stage's exception as the argument to the supplied function.
+
 <U> CompletionStage<U>	handle(BiFunction<? super T,Throwable,? extends U> fn)
+
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed with this stage's result and exception as arguments to the supplied function.
+
 <U> CompletionStage<U>	handleAsync(BiFunction<? super T,Throwable,? extends U> fn)
+
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed using this stage's default asynchronous execution facility, with this stage's result and exception as arguments to the supplied function.
+
 <U> CompletionStage<U>	handleAsync(BiFunction<? super T,Throwable,? extends U> fn, Executor executor)
+
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed using the supplied executor, with this stage's result and exception as arguments to the supplied function.
+
 CompletionStage<Void>	runAfterBoth(CompletionStage<?> other, Runnable action)
+
 Returns a new CompletionStage that, when this and the other given stage both complete normally, executes the given action.
+
 CompletionStage<Void>	runAfterBothAsync(CompletionStage<?> other, Runnable action)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
+
 CompletionStage<Void>	runAfterBothAsync(CompletionStage<?> other, Runnable action, Executor executor)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using the supplied executor See the CompletionStage documentation for rules covering exceptional completion.
+
 CompletionStage<Void>	runAfterEither(CompletionStage<?> other, Runnable action)
+
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action.
+
 CompletionStage<Void>	runAfterEitherAsync(CompletionStage<?> other, Runnable action)
+
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
+
 CompletionStage<Void>	runAfterEitherAsync(CompletionStage<?> other, Runnable action, Executor executor)
+
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using supplied executor.
+
 CompletionStage<Void>	thenAccept(Consumer<? super T> action)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage's result as the argument to the supplied action.
+
 CompletionStage<Void>	thenAcceptAsync(Consumer<? super T> action)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage's result as the argument to the supplied action.
+
 CompletionStage<Void>	thenAcceptAsync(Consumer<? super T> action, Executor executor)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied action.
+
 <U> CompletionStage<Void>	thenAcceptBoth(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
+
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied action.
+
 <U> CompletionStage<Void>	thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied action.
+
 <U> CompletionStage<Void>	thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action, Executor executor)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
+
 <U> CompletionStage<U>	thenApply(Function<? super T,? extends U> fn)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage's result as the argument to the supplied function.
+
 <U> CompletionStage<U>	thenApplyAsync(Function<? super T,? extends U> fn)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage's result as the argument to the supplied function.
+
 <U> CompletionStage<U>	thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
+
 <U,V> CompletionStage<V>	thenCombine(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
+
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied function.
+
 <U,V> CompletionStage<V>	thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied function.
+
 <U,V> CompletionStage<V>	thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn, Executor executor)
+
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
+
 <U> CompletionStage<U>	thenCompose(Function<? super T,? extends CompletionStage<U>> fn)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage as the argument to the supplied function.
+
 <U> CompletionStage<U>	thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage as the argument to the supplied function.
+
 <U> CompletionStage<U>	thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, Executor executor)
+
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
+
 CompletionStage<Void>	thenRun(Runnable action)
+
 Returns a new CompletionStage that, when this stage completes normally, executes the given action.
+
 CompletionStage<Void>	thenRunAsync(Runnable action)
+
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using this stage's default asynchronous execution facility.
+
 CompletionStage<Void>	thenRunAsync(Runnable action, Executor executor)
+
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using the supplied Executor.
+
 CompletableFuture<T>	toCompletableFuture()
+
 Returns a CompletableFuture maintaining the same completion properties as this stage.
+
 CompletionStage<T>	whenComplete(BiConsumer<? super T,? super Throwable> action)
+
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action with the result (or null if none) and the exception (or null if none) of this stage.
+
 CompletionStage<T>	whenCompleteAsync(BiConsumer<? super T,? super Throwable> action)
+
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action executes the given action using this stage's default asynchronous execution facility, with the result (or null if none) and the exception (or null if none) of this stage as arguments.
+
 CompletionStage<T>	whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, Executor executor)
+
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes using the supplied Executor, the given action with the result (or null if none) and the exception (or null if none) of this stage as arguments.
+
+
 Method Detail
 
 thenApply
