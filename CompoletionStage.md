@@ -79,8 +79,6 @@ ____________
 CompletionStage<Void> acceptEither(CompletionStage<? extends T> other, 
                                    Consumer<? super T>          action)
 ```
-____________
-
 Returns a new CompletionStage that, when either this or the other given stage 
 complete normally, is executed with the corresponding result as argument to 
 the supplied action.
@@ -162,7 +160,7 @@ ____________
 
 ```java
 <U> CompletionStage<U>  handleAsync(BiFunction<? super T,Throwable,? extends U> fn, 
-                                    Executor                                    executor)
+                                    Executor                              executor)
 ```
 Returns a new CompletionStage that, when this stage completes 
 either normally or exceptionally, is executed using the supplied
@@ -258,8 +256,9 @@ the supplied action.
 ____________
 
 ```java
-<U> CompletionStage<Void>  thenAcceptBothAsync(CompletionStage<? extends U>    other, 
-                                               BiConsumer<? super T,? super U> action)
+<U> CompletionStage<Void>  thenAcceptBothAsync(
+                               CompletionStage<? extends U>    other, 
+                               BiConsumer<? super T,? super U> action)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete
 normally, is executed using this stage's default asynchronous execution facility, 
@@ -267,9 +266,10 @@ with the two results as arguments to the supplied action.
 ____________
 
 ```java
-<U> CompletionStage<Void>  thenAcceptBothAsync(CompletionStage<? extends U>    other, 
-                                               BiConsumer<? super T,? super U> action, 
-					       Executor                        executor)
+<U> CompletionStage<Void>  thenAcceptBothAsync(
+                               CompletionStage<? extends U>    other, 
+                               BiConsumer<? super T,? super U> action, 
+                               Executor                        executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, 
 is executed using the supplied executor, with the two results as arguments to the 
@@ -292,8 +292,9 @@ with this stage's result as the argument to the supplied function.
 ____________
 
 ```java
-<U> CompletionStage<U>  thenApplyAsync(Function<? super T,? extends U> fn, 
-                                       Executor                        executor)
+<U> CompletionStage<U>  thenApplyAsync(
+                            Function<? super T,? extends U> fn, 
+                            Executor                        executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, 
 is executed using the supplied Executor, with this stage's result as the 
@@ -301,8 +302,9 @@ argument to the supplied function.
 ____________
 
 ```java
-<U,V> CompletionStage<V>  thenCombine(CompletionStage<? extends U>                other, 
-                                      BiFunction<? super T,? super U,? extends V> fn)
+<U,V> CompletionStage<V>  thenCombine(
+                          CompletionStage<? extends U>                other, 
+                          BiFunction<? super T,? super U,? extends V> fn)
 ```
 Returns a new CompletionStage that, when this and the other given stage both 
 complete normally, is executed with the two results as arguments to the 
@@ -310,18 +312,20 @@ supplied function.
 ____________
 
 ```java
-<U,V> CompletionStage<V>  thenCombineAsync(CompletionStage<? extends U>                other, 
-                                           BiFunction<? super T,? super U,? extends V> fn)
+<U,V> CompletionStage<V>  thenCombineAsync(
+                              CompletionStage<? extends U>                other, 
+                              BiFunction<? super T,? super U,? extends V> fn)
 ```
-Returns a new CompletionStage that, when this and the other given stage complete normally, 
-is executed using this stage's default asynchronous execution facility, with the 
-two results as arguments to the supplied function.
+Returns a new CompletionStage that, when this and the other given stage complete 
+normally, is executed using this stage's default asynchronous execution facility, 
+with the two results as arguments to the supplied function.
 ____________
 
 ```java
-<U,V> CompletionStage<V>  thenCombineAsync(CompletionStage<? extends U>                  other, 
-                                           BiFunction<? super T, ? super U, ? extends V> fn, 
-					   Executor                                      executor)
+<U,V> CompletionStage<V>  thenCombineAsync(
+                              CompletionStage<? extends U>                  other, 
+                              BiFunction<? super T, ? super U, ? extends V> fn, 
+                              Executor                                      executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage 
 complete normally, is executed using the supplied executor, 
@@ -329,14 +333,16 @@ with the two results as arguments to the supplied function.
 ____________
 
 ```java
-<U> CompletionStage<U>  thenCompose(Function<? super T,? extends CompletionStage<U>> fn)
+<U> CompletionStage<U>  thenCompose(
+                            Function<? super T,? extends CompletionStage<U>> fn)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed 
 with this stage as the argument to the supplied function.
 ____________
 
 ```java
-<U> CompletionStage<U>  thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn)
+<U> CompletionStage<U>  thenComposeAsync(
+                            Function<? super T, ? extends CompletionStage<U>> fn)
 ```
 Returns a new CompletionStage that, when this stage completes normally, 
 is executed using this stage's default asynchronous execution facility, 
@@ -344,8 +350,9 @@ with this stage as the argument to the supplied function.
 ____________
 
 ```java
-<U> CompletionStage<U>  thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, 
-                                         Executor                                         executor)
+<U> CompletionStage<U>  thenComposeAsync(
+                            Function<? super T,? extends CompletionStage<U>> fn, 
+                            Executor                                   executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, 
 is executed using the supplied Executor, with this stage's result as 
@@ -377,7 +384,8 @@ ____________
 ```java
 CompletableFuture<T>  toCompletableFuture()
 ```
-Returns a CompletableFuture maintaining the same completion properties as this stage.
+Returns a CompletableFuture maintaining the same completion properties 
+as this stage.
 ____________
 
 ```java
@@ -389,7 +397,8 @@ and when this stage completes, executes the given action with the result
 ____________
 
 ```java
-CompletionStage<T>  whenCompleteAsync(BiConsumer<? super T,? super Throwable> action)
+CompletionStage<T>  whenCompleteAsync(
+                        BiConsumer<? super T,? super Throwable> action)
 ```
 Returns a new CompletionStage with the same result or exception as this stage, 
 and when this stage completes, executes the given action executes the given action 
@@ -398,8 +407,9 @@ using this stage's default asynchronous execution facility, with the result
 ____________
 
 ```java
-CompletionStage<T>  whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, 
-                                      Executor                                executor)
+CompletionStage<T>  whenCompleteAsync(
+                        BiConsumer<? super T,? super Throwable> action, 
+                        Executor                                executor)
 ```
 Returns a new CompletionStage with the same result or exception as this stage, 
 and when this stage completes, executes using the supplied Executor, 
