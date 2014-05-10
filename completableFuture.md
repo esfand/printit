@@ -223,179 +223,253 @@ this CompletableFuture's completion when it completes exceptionally;
 otherwise, if this CompletableFuture completes normally, then the returned 
 CompletableFuture also completes normally with the same value.
 ____
-
+```
 T	get()
-
+```
 Waits if necessary for this future to complete, and then returns its result.
 ____
-
+```
 T	get(long timeout, TimeUnit unit)
-
+```
 Waits if necessary for at most the given time for this future to complete, and then returns its result, if available.
 ____
-
+```
 T	getNow(T valueIfAbsent)
-
+```
 Returns the result value (or throws any encountered exception) if completed, else returns the given valueIfAbsent.
 
 ____
-
+```
 int	getNumberOfDependents()
-
+```
 Returns the estimated number of CompletableFutures whose completions are awaiting completion of this CompletableFuture.
 ____
-
+```
 <U> CompletableFuture<U>	handle(BiFunction<? super T,Throwable,? extends U> fn)
-
+```
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed with this stage's result and exception as arguments to the supplied function.
-
+____________
+```
 <U> CompletableFuture<U>	handleAsync(BiFunction<? super T,Throwable,? extends U> fn)
-
+```
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed using this stage's default asynchronous execution facility, with this stage's result and exception as arguments to the supplied function.
+____________
 
+```
 <U> CompletableFuture<U>	handleAsync(BiFunction<? super T,Throwable,? extends U> fn, Executor executor)
-
+```
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed using the supplied executor, with this stage's result and exception as arguments to the supplied function.
+____________
 
+```
 boolean	isCancelled()
-
+```
 Returns true if this CompletableFuture was cancelled before it completed normally.
+____________
 
+```
 boolean	isCompletedExceptionally()
-
+```
 Returns true if this CompletableFuture completed exceptionally, in any way.
+____________
 
+```
 boolean	isDone()
-
+```
 Returns true if completed in any fashion: normally, exceptionally, or via cancellation.
+____________
 
+```
 T	join()
-
+```
 Returns the result value when complete, or throws an (unchecked) exception if completed exceptionally.
+____________
 
+```
 void	obtrudeException(Throwable ex)
-
+```
 Forcibly causes subsequent invocations of method get() and related methods to throw the given exception, whether or not already completed.
+____________
 
+```
 void	obtrudeValue(T value)
-
+```
 Forcibly sets or resets the value subsequently returned by method get() and related methods, whether or not already completed.
+____________
 
+```
 CompletableFuture<Void>	runAfterBoth(CompletionStage<?> other, Runnable action)
-
+```
 Returns a new CompletionStage that, when this and the other given stage both complete normally, executes the given action.
+____________
 
+```
 CompletableFuture<Void>	runAfterBothAsync(CompletionStage<?> other, Runnable action)
-
+```
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
+____________
 
+```
 CompletableFuture<Void>	runAfterBothAsync(CompletionStage<?> other, Runnable action, Executor executor)
-
+```
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using the supplied executor See the CompletionStage documentation for rules covering exceptional completion.
+____________
 
+```
 CompletableFuture<Void>	runAfterEither(CompletionStage<?> other, Runnable action)
-
+```
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action.
+____________
 
+```
 CompletableFuture<Void>	runAfterEitherAsync(CompletionStage<?> other, Runnable action)
-
+```
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
+____________
+
 
 CompletableFuture<Void>	runAfterEitherAsync(CompletionStage<?> other, Runnable action, Executor executor)
 
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using supplied executor.
+____________
+
 
 CompletableFuture<Void>	thenAccept(Consumer<? super T> action)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage's result as the argument to the supplied action.
+____________
+
 
 CompletableFuture<Void>	thenAcceptAsync(Consumer<? super T> action)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage's result as the argument to the supplied action.
+____________
+
 
 CompletableFuture<Void>	thenAcceptAsync(Consumer<? super T> action, Executor executor)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied action.
+____________
+
 
 <U> CompletableFuture<Void>	thenAcceptBoth(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
 
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied action.
+____________
+
 
 <U> CompletableFuture<Void>	thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
 
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied action.
+____________
+
 
 <U> CompletableFuture<Void>	thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action, Executor executor)
 
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
+____________
+
 
 <U> CompletableFuture<U>	thenApply(Function<? super T,? extends U> fn)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage's result as the argument to the supplied function.
+____________
 
 <U> CompletableFuture<U>	thenApplyAsync(Function<? super T,? extends U> fn)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage's result as the argument to the supplied function.
+____________
+
 
 <U> CompletableFuture<U>	thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
+____________
+
 
 <U,V> CompletableFuture<V>	thenCombine(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
 
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied function.
+____________
+
 
 <U,V> CompletableFuture<V>	thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
 
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied function.
+____________
+
 
 <U,V> CompletableFuture<V>	thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn, Executor executor)
 
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
+____________
+
 
 <U> CompletableFuture<U>	thenCompose(Function<? super T,? extends CompletionStage<U>> fn)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage as the argument to the supplied function.
+____________
+
 
 <U> CompletableFuture<U>	thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage as the argument to the supplied function.
+____________
+
 
 <U> CompletableFuture<U>	thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, Executor executor)
 
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
+____________
+
 
 CompletableFuture<Void>	thenRun(Runnable action)
 
 Returns a new CompletionStage that, when this stage completes normally, executes the given action.
+____________
+
 
 CompletableFuture<Void>	thenRunAsync(Runnable action)
 
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using this stage's default asynchronous execution facility.
+____________
+
 
 CompletableFuture<Void>	thenRunAsync(Runnable action, Executor executor)
 
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using the supplied Executor.
+____________
+
 
 CompletableFuture<T>	toCompletableFuture()
 
 Returns this CompletableFuture
+____________
+
 
 String	toString()
 
 Returns a string identifying this CompletableFuture, as well as its completion state.
+____________
+
 
 CompletableFuture<T>	whenComplete(BiConsumer<? super T,? super Throwable> action)
 
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action with the result (or null if none) and the exception (or null if none) of this stage.
+____________
+
 
 CompletableFuture<T>	whenCompleteAsync(BiConsumer<? super T,? super Throwable> action)
 
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action executes the given action using this stage's default asynchronous execution facility, with the result (or null if none) and the exception (or null if none) of this stage as arguments.
+____________
+
 
 CompletableFuture<T>	whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, Executor executor)
 
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes using the supplied Executor, the given action with the result (or null if none) and the exception (or null if none) of this stage as arguments.
+____________
+
 
 
 
