@@ -2,8 +2,7 @@
 
 [Source](http://nurkiewicz.blogspot.fi/2013/02/executorcompletionservice-in-practice.html)
 
-Everyone is talking about the future of Java, we continue our journey explaining Future<T> 
-interface in Java. **ExecutorCompletionService** wrapper class tries to address one of the 
+**ExecutorCompletionService** wrapper class tries to address one of the 
 biggest deficiencies of Future<T> type - no support for callbacks or any event-driven 
 behaviour whatsoever.  Let's go back for a moment to our sample asynchronous task 
 downloading contents of a given URL:
@@ -86,12 +85,14 @@ underlying Future to complete. Here is the submit step with ExecutorCompletionSe
 
 ~~~java
 final ExecutorService pool = Executors.newFixedThreadPool(5);
-final ExecutorCompletionService<String> completionService = new ExecutorCompletionService<>(pool);
+final ExecutorCompletionService<String> completionService 
+                                        = new ExecutorCompletionService<>(pool);
 for (final String site : topSites) {
     completionService.submit(new Callable<String>() {
         @Override
         public String call() throws Exception {
-            return IOUtils.toString(new URL("http://" + site), StandardCharsets.UTF_8);
+            return IOUtils.toString(new URL("http://" + site), 
+                                            StandardCharsets.UTF_8);
         }
     });
 }
