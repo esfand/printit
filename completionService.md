@@ -37,7 +37,8 @@ for (final String site : topSites) {
     final Future<String> contentFuture = pool.submit(new Callable<String>() {
         @Override
         public String call() throws Exception {
-            return IOUtils.toString(new URL("http://" + site), StandardCharsets.UTF_8);
+            return IOUtils.toString(new URL("http://" + site), 
+                                            StandardCharsets.UTF_8);
         }
     });
     contentsFutures.add(contentFuture);
