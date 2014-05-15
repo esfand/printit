@@ -81,12 +81,14 @@ ____
 
     static CompletableFuture<Void>  allOf(CompletableFuture<?>... cfs)
 
-Returns a new CompletableFuture that is completed when all of the given CompletableFutures complete.
+Returns a new CompletableFuture that is completed when all of the given 
+CompletableFutures complete.
 ____
 
     static CompletableFuture<Object>  anyOf(CompletableFuture<?>... cfs)
     
-Returns a new CompletableFuture that is completed when any of the given CompletableFutures complete, with the same result.
+Returns a new CompletableFuture that is completed when any of the given 
+CompletableFutures complete, with the same result.
 ___
 
     static <U> CompletableFuture<U>  completedFuture(U value)
@@ -100,7 +102,8 @@ Returns a new CompletableFuture that is asynchronously completed by a task runni
 ForkJoinPool.commonPool() after it runs the given action.
 ____
 
-    static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor)
+    static CompletableFuture<Void> runAsync(Runnable runnable, 
+                                            Executor executor)
 
 Returns a new CompletableFuture that is asynchronously completed by a task running in the 
 given executor after it runs the given action.
@@ -112,7 +115,8 @@ Returns a new CompletableFuture that is asynchronously completed by a task runni
 ForkJoinPool.commonPool() with the value obtained by calling the given Supplier.
 ____
 
-    static <U> CompletableFuture<U>  supplyAsync(Supplier<U> supplier, Executor executor)
+    static <U> CompletableFuture<U>  supplyAsync(Supplier<U> supplier, 
+                                                 Executor    executor)
 
 Returns a new CompletableFuture that is asynchronously completed by a task running in the 
 given executor with the value obtained by calling the given Supplier.
@@ -255,7 +259,7 @@ ____________
 
 ```
 <U> CompletableFuture<U>  handleAsync(BiFunction<? super T,Throwable,? extends U> fn, 
-                                      Executor                                     executor)
+                                      Executor                                    executor)
 ```
 Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed using the supplied executor, with this stage's result and exception as arguments to the supplied function.
 ____________
@@ -396,7 +400,7 @@ ____________
 
 ```
 <U> CompletableFuture<U>  thenApplyAsync(Function<? super T,? extends U> fn, 
-                                         Executor executor)
+                                         Executor                        executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
 ____________
@@ -416,9 +420,9 @@ Returns a new CompletionStage that, when this and the other given stage complete
 ____________
 
 ```java
-<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U> other, 
+<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U>                other, 
                                              BiFunction<? super T,? super U,? extends V> fn, 
-                                             Executor executor)
+                                             Executor                                    executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
 ____________
@@ -437,7 +441,7 @@ ____________
 
 ```java
 <U> CompletableFuture<U>  thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, 
-                                           Executor executor)
+                                           Executor                                         executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
 ____________
