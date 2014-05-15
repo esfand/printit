@@ -1,8 +1,10 @@
 <h2>Class CompletableFuture<T> Class</h2>
 
-<pre>public class CompletableFuture<> extends `Object`
-implements interface in Future<T>, CompletionStage<></pre>
-
+```java
+public class CompletableFuture<> extends `Object`
+                                                         implements interface in Future<T>,
+                                                         CompletionStage<>
+```
 
 A `Future` that may be explicitly completed (setting its
  value and status), and may be used as a `CompletionStage`,
@@ -17,60 +19,42 @@ In addition to these and related methods for directly
  manipulating status and results, CompletableFuture implements
  interface `CompletionStage` with the following policies: 
 
-<ul>
- <li>
-Actions supplied for dependent completions of
- <em>non-async</em> methods may be performed by the thread that
+* Actions supplied for dependent completions of
+ **non-async** methods may be performed by the thread that
  completes the current CompletableFuture, or by any other caller of
  a completion method.
-</li>
 
- <li>
-All <em>async</em> methods without an explicit Executor
+* All **async** methods without an explicit Executor
  argument are performed using the `ForkJoinPool.commonPool()`
  (unless it does not support a parallelism level of at least two, in
  which case, a new Thread is used). To simplify monitoring,
  debugging, and tracking, all generated asynchronous tasks are
  instances of the marker interface 
 `CompletableFuture.AsynchronousCompletionTask`. 
-</li>
 
- <li>All CompletionStage methods are implemented independently of
+* All CompletionStage methods are implemented independently of
  other public methods, so the behavior of one method is not impacted
  by overrides of others in subclasses.  
-</li> 
-
-</ul>
 
  CompletableFuture also implements `Future` with the following
  policies: 
 
-<ul>
-
-<li>
-Since (unlike `FutureTask`) this class has no direct
+* Since (unlike `FutureTask`) this class has no direct
  control over the computation that causes it to be completed,
  cancellation is treated as just another form of exceptional
- completion.  
-
+ completion.      
+    
 Method `cancel` has the same effect as 
-`completeExceptionally(new CancellationException())`. 
-
+`completeExceptionally(new CancellationException())`.     
+    
 Method `isCompletedExceptionally()` can be used to determine if a
  CompletableFuture completed in any exceptional fashion.
-</li>
 
-<li>
-In case of exceptional completion with a CompletionException, methods `get()`
+* In case of exceptional completion with a CompletionException, methods `get()`
 and `get(long, TimeUnit)` throw an `ExecutionException` with the same cause as held in the
 corresponding CompletionException.  To simplify usage in most
 contexts, this class also defines methods `join()` and getNow(T)` 
 that instead throw the CompletionException directly in these cases.
-</li> 
-
-</ul>
-
-
 
 <h3>Nested Class Summary</h3>
 
