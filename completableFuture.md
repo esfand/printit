@@ -1,9 +1,11 @@
 <h2>Class CompletableFuture<T> Class</h2>
 
+http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+
 ```java
-public class CompletableFuture<> extends `Object`
-                                                         implements interface in Future<T>,
-                                                         CompletionStage<>
+public class CompletableFuture<> extends Object
+                                 implements Future<T>,
+                                 CompletionStage<>
 ```
 
 A `Future` that may be explicitly completed (setting its
@@ -36,7 +38,7 @@ In addition to these and related methods for directly
  other public methods, so the behavior of one method is not impacted
  by overrides of others in subclasses.  
 
- CompletableFuture also implements `Future` with the following
+CompletableFuture also implements `Future` with the following
  policies: 
 
 * Since (unlike `FutureTask`) this class has no direct
@@ -76,6 +78,7 @@ Creates a new incomplete CompletableFuture.
 <h4>Static Methods</h4>
 
 ____
+
     static CompletableFuture<Void>  allOf(CompletableFuture<?>... cfs)
 
 Returns a new CompletableFuture that is completed when all of the given CompletableFutures complete.
@@ -109,7 +112,7 @@ Returns a new CompletableFuture that is asynchronously completed by a task runni
 ForkJoinPool.commonPool() with the value obtained by calling the given Supplier.
 ____
 
-    static <U> CompletableFuture<U>	supplyAsync(Supplier<U> supplier, Executor executor)
+    static <U> CompletableFuture<U>  supplyAsync(Supplier<U> supplier, Executor executor)
 
 Returns a new CompletableFuture that is asynchronously completed by a task running in the 
 given executor with the value obtained by calling the given Supplier.
@@ -156,7 +159,7 @@ ____
 
 ```java
 <U> CompletableFuture<U> applyToEither(CompletionStage<? extends T> other, 
-                                       Function<? super T,U> fn)
+                                       Function<? super T,U>        fn)
 ```
 Returns a new CompletionStage that, when either this or the 
 other given stage complete normally, is executed with the 
@@ -175,8 +178,8 @@ ____
 
 ```java
 <U> CompletableFuture<U> applyToEitherAsync(CompletionStage<? extends T> other, 
-                                            Function<? super T,U> fn, 
-                                            Executor executor)
+                                            Function<? super T,U>        fn, 
+                                            Executor                     executor)
 ```
 Returns a new CompletionStage that, when either this or the other given stage 
 complete normally, is executed using the supplied executor, 
@@ -294,37 +297,46 @@ Forcibly sets or resets the value subsequently returned by method get() and rela
 ____________
 
 ```
-CompletableFuture<Void>  runAfterBoth(CompletionStage<?> other, Runnable action)
+CompletableFuture<Void>  runAfterBoth(CompletionStage<?> other, 
+                                      Runnable           action)
 ```
-Returns a new CompletionStage that, when this and the other given stage both complete normally, executes the given action.
+Returns a new CompletionStage that, when this and the other given stage 
+both complete normally, executes the given action.
 ____________
 
 ```
-CompletableFuture<Void>  runAfterBothAsync(CompletionStage<?> other, Runnable action)
+CompletableFuture<Void>  runAfterBothAsync(CompletionStage<?> other, 
+                                           Runnable           action)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
 ____________
 
 ```
-CompletableFuture<Void>  runAfterBothAsync(CompletionStage<?> other, Runnable action, Executor executor)
+CompletableFuture<Void>  runAfterBothAsync(CompletionStage<?> other, 
+                                           Runnable           action, 
+                                           Executor           executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, executes the given action using the supplied executor See the CompletionStage documentation for rules covering exceptional completion.
 ____________
 
 ```
-CompletableFuture<Void>  runAfterEither(CompletionStage<?> other, Runnable action)
+CompletableFuture<Void>  runAfterEither(CompletionStage<?> other, 
+                                        Runnable           action)
 ```
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action.
 ____________
 
 ```
-CompletableFuture<Void>  runAfterEitherAsync(CompletionStage<?> other, Runnable action)
+CompletableFuture<Void>  runAfterEitherAsync(CompletionStage<?> other, 
+                                             Runnable           action)
 ```
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using this stage's default asynchronous execution facility.
 ____________
 
 ```java
-CompletableFuture<Void>  runAfterEitherAsync(CompletionStage<?> other, Runnable action, Executor executor)
+CompletableFuture<Void>  runAfterEitherAsync(CompletionStage<?> other, 
+                                             Runnable           action, 
+                                             Executor           executor)
 ```
 Returns a new CompletionStage that, when either this or the other given stage complete normally, executes the given action using supplied executor.
 ____________
@@ -342,25 +354,30 @@ Returns a new CompletionStage that, when this stage completes normally, is execu
 ____________
 
 ```
-CompletableFuture<Void>  thenAcceptAsync(Consumer<? super T> action, Executor executor)
+CompletableFuture<Void>  thenAcceptAsync(Consumer<? super T> action, 
+                                         Executor            executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied action.
 ____________
 
 ```
-<U> CompletableFuture<Void>  thenAcceptBoth(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
+<U> CompletableFuture<Void>  thenAcceptBoth(CompletionStage<? extends U>    other, 
+                                            BiConsumer<? super T,? super U> action)
 ```
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied action.
 ____________
 
 ```
-<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action)
+<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U>    other, 
+                                                 BiConsumer<? super T,? super U> action)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied action.
 ____________
 
 ```
-<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action, Executor executor)
+<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U> other, 
+                                                 BiConsumer<? super T,? super U> action, 
+                                                 Executor executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
 ____________
@@ -378,91 +395,99 @@ Returns a new CompletionStage that, when this stage completes normally, is execu
 ____________
 
 ```
-<U> CompletableFuture<U>  thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)
+<U> CompletableFuture<U>  thenApplyAsync(Function<? super T,? extends U> fn, 
+                                         Executor executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
 ____________
 
-```
-<U,V> CompletableFuture<V>  thenCombine(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
+```java
+<U,V> CompletableFuture<V>  thenCombine(CompletionStage<? extends U>                other, 
+                                        BiFunction<? super T,? super U,? extends V> fn)
 ```
 Returns a new CompletionStage that, when this and the other given stage both complete normally, is executed with the two results as arguments to the supplied function.
 ____________
 
-```
-<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)
+```java
+<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U>                other, 
+                                             BiFunction<? super T,? super U,? extends V> fn)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using this stage's default asynchronous execution facility, with the two results as arguments to the supplied function.
 ____________
 
-```
-<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn, Executor executor)
+```java
+<U,V> CompletableFuture<V>  thenCombineAsync(CompletionStage<? extends U> other, 
+                                             BiFunction<? super T,? super U,? extends V> fn, 
+                                             Executor executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
 ____________
 
-```
+```java
 <U> CompletableFuture<U>  thenCompose(Function<? super T,? extends CompletionStage<U>> fn)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed with this stage as the argument to the supplied function.
 ____________
 
-```
+```java
 <U> CompletableFuture<U>  thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using this stage's default asynchronous execution facility, with this stage as the argument to the supplied function.
 ____________
 
-```
-<U> CompletableFuture<U>  thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, Executor executor)
+```java
+<U> CompletableFuture<U>  thenComposeAsync(Function<? super T,? extends CompletionStage<U>> fn, 
+                                           Executor executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, is executed using the supplied Executor, with this stage's result as the argument to the supplied function.
 ____________
 
-```
+```java
 CompletableFuture<Void>  thenRun(Runnable action)
 ```
 Returns a new CompletionStage that, when this stage completes normally, executes the given action.
 ____________
 
-```
+```java
 CompletableFuture<Void>  thenRunAsync(Runnable action)
 ```
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using this stage's default asynchronous execution facility.
 ____________
 
-```
-CompletableFuture<Void>  thenRunAsync(Runnable action, Executor executor)
+```java
+CompletableFuture<Void>  thenRunAsync(Runnable action, 
+                                      Executor executor)
 ```
 Returns a new CompletionStage that, when this stage completes normally, executes the given action using the supplied Executor.
 ____________
 
-```
+```java
 CompletableFuture<T>  toCompletableFuture()
 ```
 Returns this CompletableFuture
 ____________
 
-```
+```java
 String  toString()
 ```
 Returns a string identifying this CompletableFuture, as well as its completion state.
 ____________
 
-```
+```java
 CompletableFuture<T>  whenComplete(BiConsumer<? super T,? super Throwable> action)
 ```
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action with the result (or null if none) and the exception (or null if none) of this stage.
 ____________
 
-```
+```java
 CompletableFuture<T>  whenCompleteAsync(BiConsumer<? super T,? super Throwable> action)
 ```
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes the given action executes the given action using this stage's default asynchronous execution facility, with the result (or null if none) and the exception (or null if none) of this stage as arguments.
 ____________
 
-```
-CompletableFuture<T>  whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, Executor executor)
+```java
+CompletableFuture<T>  whenCompleteAsync(BiConsumer<? super T,? super Throwable> action, 
+                                        Executor                                executor)
 ```
 Returns a new CompletionStage with the same result or exception as this stage, and when this stage completes, executes using the supplied Executor, the given action with the result (or null if none) and the exception (or null if none) of this stage as arguments.
 ____________
