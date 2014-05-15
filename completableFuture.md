@@ -230,27 +230,33 @@ ____
 ```
 T  get(long timeout, TimeUnit unit)
 ```
-Waits if necessary for at most the given time for this future to complete, and then returns its result, if available.
+Waits if necessary for at most the given time for this future to complete, 
+and then returns its result, if available.
 ____
 
 ```
 T  getNow(T valueIfAbsent)
 ```
-Returns the result value (or throws any encountered exception) if completed, else returns the given valueIfAbsent.
+Returns the result value (or throws any encountered exception) if completed, 
+else returns the given valueIfAbsent.
 
 ____
 
 ```
 int  getNumberOfDependents()
 ```
-Returns the estimated number of CompletableFutures whose completions are awaiting completion of this CompletableFuture.
+Returns the estimated number of CompletableFutures whose completions are 
+awaiting completion of this CompletableFuture.
 ____
 
 ```
 <U> CompletableFuture<U>  handle(BiFunction<? super T,Throwable,? extends U> fn)
 ```
-Returns a new CompletionStage that, when this stage completes either normally or exceptionally, is executed with this stage's result and exception as arguments to the supplied function.
+Returns a new CompletionStage that, when this stage completes either normally 
+or exceptionally, is executed with this stage's result and exception as 
+arguments to the supplied function.
 ____________
+
 ```
 <U> CompletableFuture<U>  handleAsync(BiFunction<? super T,Throwable,? extends U> fn)
 ```
@@ -379,9 +385,9 @@ Returns a new CompletionStage that, when this and the other given stage complete
 ____________
 
 ```
-<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U> other, 
+<U> CompletableFuture<Void>  thenAcceptBothAsync(CompletionStage<? extends U>    other, 
                                                  BiConsumer<? super T,? super U> action, 
-                                                 Executor executor)
+                                                 Executor                        executor)
 ```
 Returns a new CompletionStage that, when this and the other given stage complete normally, is executed using the supplied executor, with the two results as arguments to the supplied function.
 ____________
@@ -455,14 +461,16 @@ ____________
 ```java
 CompletableFuture<Void>  thenRunAsync(Runnable action)
 ```
-Returns a new CompletionStage that, when this stage completes normally, executes the given action using this stage's default asynchronous execution facility.
+Returns a new CompletionStage that, when this stage completes normally, 
+executes the given action using this stage's default asynchronous execution facility.
 ____________
 
 ```java
 CompletableFuture<Void>  thenRunAsync(Runnable action, 
                                       Executor executor)
 ```
-Returns a new CompletionStage that, when this stage completes normally, executes the given action using the supplied Executor.
+Returns a new CompletionStage that, when this stage completes normally, 
+executes the given action using the supplied Executor.
 ____________
 
 ```java
