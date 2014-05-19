@@ -18,9 +18,9 @@ Java Code.
 
 The Single Responsibility Principle (SRP) states that:
 
-A class should have only a single responsibility. 
-Only one potential change in the software's specification should be able to affect the 
-specification of the class.
+> A class should have only a single responsibility. 
+> Only one potential change in the software's specification should be able to affect the 
+> specification of the class.
 
 SRP indicates that a class should have one and only one responsibility. 
 Consider an example of a hypothetical class named Customer that is supposed to contain 
