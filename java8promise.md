@@ -1,11 +1,10 @@
 # Java8 Promise #
 
-You can read about the theory of this code from the Twitter Scala School:
-
-http://twitter.github.com/scala_school/finagle.html
+You can read about the theory of this code from the 
+[Twitter Scala School](http://twitter.github.com/scala_school/finagle.html)
 
 This style encourages callbacks rather than blocking and makes it much easier
-to write multi-threaded code without context switching for non-blocking code.  
+to write multi-threaded code without context switching for non-blocking code.
 JDK 8 makes the style readable in Java by introducing lambdas into the language.
 
 At Twitter we use Scala and have our own library of for Futures[1] and
@@ -14,19 +13,18 @@ to be very powerful but it relies heavily on callbacks which makes it
 awkward when calling it from < Java 8.  The current implementation will
 be difficult to port directly to lambda, so I have started
 prototyping a new class called "Promise" that ultimately would
-implement some future Java Future interface. I'd love to get feedback
+implement some future Java Future interface. 
+
+I'd love to get feedback
 on my progress and some feedback on whether this should be included in
 the JDK itself.  The API very much resembles the new Collections API
 and places where the names differ I'd be happy to rename them.
-
-https://github.com/spullara/java-future-jdk8
 
 I've got both a Java 7 (in the jdk7 branch) and Java 8 (master branch)
 version running, just for comparison sake. Here is a quick overview of
 the API:
 
 ##Promise:##
-
 * `void set(T)` - satisfy the promise with a value
 * `void setException(Throwable)` - satisfy the promise with a failure
 * `T get()` - wait until the Promise is set and return the value, comparable to Future.get()
