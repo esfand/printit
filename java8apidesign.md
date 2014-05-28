@@ -1,8 +1,8 @@
 #Java 8 API Design#
 
-Source: http://blog.jooq.org/2014/05/16/java-8-friday-api-designers-be-careful/ 
+Source: blog.jooq.org/2014/05/16/java-8-friday-api-designers-be-careful/ 
 
-#Lean Functional API Design#
+##Lean Functional API Design##
 With Java 8, API design has gotten a whole lot more interesting, but also a bit harder. 
 As a successful API designer, it will no longer suffice to think about all sorts of 
 object-oriented aspects of your API, you will now also need to consider functional 
@@ -59,6 +59,90 @@ One advantage of using Callable is the fact that your lambda expressions
 (or “classic” Callable implementations, or nested / inner classes) are 
 allowed to throw checked exceptions. We’ve blogged about another 
 possibility to circumvent this limitation, here.
+
+##Taming Checked Exception##
+
+
+
+Yes. Unfortunately, those beasts from the past still haunt us, 
+more than ever when we’re using Java 8′s lambda expressions. 
+Already before Java 8′s release, there are a couple of Stack Overflow questions related to the subject.
+
+Mandatory checked exceptions handling in lambda expressions for standard Java 8 functional interfaces
+Lambda function that throws exception?
+Lambda-Streams, Filter by Method with Exception
+
+Let’s remember how the IOExceptions caused issues when traversing 
+the file system. Unless you write your own utility, 
+you’ll have to resort to this beauty:
+
+```java
+Arrays.stream(dir.listFiles()).forEach(file -> {
+    try {
+        System.out.println(file.getCanonicalPath());
+    }
+    catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+ 
+    // Ouch, my fingers hurt! All this typing!
+});
+```
+
+We think it is safe to say:
+
+> Java 8 and checked exceptions don’t match.
+
+A workaround is to write your own CheckedConsumer that wraps 
+the checked exception. Such a consumer will be highly reusable, 
+but… Did you think of all the other FunctionalInterfaces? 
+There are quite a few of them in the java.util.function package.
+
+To solve this issue, we have created jOOλ where we have duplicated 
+pretty much every FunctionalInterface that is available from the JDK 
+to support checked exceptions. 
+Here’s how you would use jOOλ in the above example:
+
+```java
+Arrays.stream(dir.listFiles()).forEach(
+    Unchecked.consumer(file -> {
+        // Throw all sorts of checked exceptions
+        // here, we don't care...
+        System.out.println(file.getCanonicalPath());
+    })
+);
+```
+
+The above example shows how you can simply ignore and pass checked exceptions 
+as RuntimeExceptions. If you actually want to handle them, you can pass an 
+exception handler lambda:
+
+```java
+Arrays.stream(dir.listFiles())
+      .forEach(Unchecked.consumer(file -> {
+                                              System.out.println(file.getCanonicalPath());
+                                          },
+                                  e ->    {
+                                              log.info("Log stuff here", e);
+                                              throw new MyRuntimeException(e);
+                                          }
+);
+```
+
+The second example now seems equally verbose, but don’t worry. 
+You will probably reuse that exception handler and fall back to this:
+
+```java
+Arrays.stream(dir.listFiles())
+      .forEach(Unchecked.consumer(file -> {
+                      System.out.println(file.getCanonicalPath());
+                  },
+               myExceptionHandler
+);
+```
+
+
+
 
 ##Overloading##
 
