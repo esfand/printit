@@ -57,12 +57,10 @@ object.performAction(() -> new Parameter(...));
 
 One advantage of using Callable is the fact that your lambda expressions 
 (or “classic” Callable implementations, or nested / inner classes) are 
-allowed to throw checked exceptions. We’ve blogged about another 
-possibility to circumvent this limitation, here.
+allowed to throw checked exceptions. Following is another 
+possibility to circumvent this limitation.
 
 ##Taming Checked Exception##
-
-
 
 Yes. Unfortunately, those beasts from the past still haunt us, 
 more than ever when we’re using Java 8′s lambda expressions. 
@@ -135,9 +133,9 @@ You will probably reuse that exception handler and fall back to this:
 ```java
 Arrays.stream(dir.listFiles())
       .forEach(Unchecked.consumer(file -> {
-                      System.out.println(file.getCanonicalPath());
-                  },
-               myExceptionHandler
+                                              System.out.println(file.getCanonicalPath());
+                                          },
+                                  myExceptionHandler         
 );
 ```
 
