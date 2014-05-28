@@ -3,6 +3,7 @@
 Source: blog.jooq.org/2014/05/16/java-8-friday-api-designers-be-careful/ 
 
 ##Lean Functional API Design##
+
 With Java 8, API design has gotten a whole lot more interesting, but also a bit harder. 
 As a successful API designer, it will no longer suffice to think about all sorts of 
 object-oriented aspects of your API, you will now also need to consider functional 
@@ -140,8 +141,6 @@ Arrays.stream(dir.listFiles())
 ```
 
 
-
-
 ##Overloading##
 
 While it is (probably) perfectly fine to overload these two methods
@@ -162,7 +161,58 @@ void performAction(Callable<Parameter> parameter);
 If you produce the above API, your API’s client code will not be able to 
 make use of lambda expressions, as there is no way of disambiguating a 
 lambda that is a Supplier from a lambda that is a Callable. 
-We’ve also mentioned this in a previous blog post.
+We’ve also mentioned this in the following.
+
+## Overloading gets worse in Java 8##
+
+Overloading, generics, and varargs aren’t friends. 
+We’ve explained this in a previous article, and also in this Stack Overflow question. 
+These might not be every day problems in your odd application, 
+but they’re very important problems for API designers and maintainers.
+
+With lambda expressions, things get “worse”. So you think you can provide 
+some convenience API, overloading your existing run() method that accepts 
+a Callable to also accept the new Supplier type:
+
+```java
+static <T> T run(Callable<T> c) throws Exception {
+    return c.call();
+}
+ 
+static <T> T run(Supplier<T> s) throws Exception {
+    return s.get();
+}
+```
+
+What looks like perfectly useful Java 7 code is a major pain in Java 8, now. 
+Because you cannot just simply call these methods with a lambda argument:
+
+```java
+public static void main(String[] args)
+throws Exception {
+    run(() -> null);
+    //  ^^^^^^^^^^ ambiguous method call
+}
+```
+
+Tough luck. You’ll have to resort to either of these “classic” solutions:
+
+```java
+run((Callable<Object>) (() -> null));
+
+run(new Callable<Object>() {
+    @Override
+    public Object call() throws Exception {
+        return null;
+    }
+});
+```
+
+So, while there’s always a workaround, these workarounds always “suck”. 
+That’s quite a bummer, even if things don’t break from a 
+backwards-compatibility perspective.
+
+
 
 ## *void-compatible* vs *value-compatible* ##
 
@@ -185,7 +235,7 @@ interface Function<T, R> {
 }
 ```
 
-The terms *void-compatible* and *value-compatible* are defined in the 
+The terms **void-compatible** and **value-compatible** are defined in the 
 JLS §15.27.2 for lambda expressions. According to the JLS, the following 
 two calls are not ambiguous:
 
