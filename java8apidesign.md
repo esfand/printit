@@ -15,7 +15,8 @@ void performAction(Parameter parameter);
 ```java 
 // Call the above:
 object.performAction(new Parameter(...));
-… 
+. . .
+
 ```
 
 you should now think about whether your method arguments are better modelled as 
@@ -66,7 +67,7 @@ While it is (probably) perfectly fine to overload these two methods
 ```java
 void performAction(Parameter parameter);
 void performAction(Supplier<Parameter> parameter);
-… 
+. . .
 ```
 
 you should stay wary when overloading “more similar” methods, like these ones:
@@ -114,9 +115,15 @@ run(i -> {});
 run(i -> 1);
 ```
 
-In other words, it is safe to overload a method to take two “similar” argument types, such as Consumer and Function, as lambda expressions used to express method arguments will not be ambiguous.
+In other words, it is safe to overload a method to take two 
+“similar” argument types, such as Consumer and Function, 
+as lambda expressions used to express method arguments 
+will not be ambiguous.
 
-This is quite useful, because having an optional return value is very elegant when you’re using lambda expressions. Consider the upcoming jOOQ 3.4 transaction API, which is roughly summarised as such:
+This is quite useful, because having an optional return value 
+is very elegant when you’re using lambda expressions. 
+Consider the upcoming jOOQ 3.4 transaction API, which is 
+roughly summarised as such:
 
 ```java
 // This uses a "void-compatible" lambda
