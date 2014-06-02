@@ -1,4 +1,4 @@
-The Marvels of Monads
+# The Marvels of Monads#
 
 If the word "continuation" causes eyes to glaze over, then the word "monad" 
 induces mental paralysis.  Perhaps, this is why some have begun inventing 
@@ -78,27 +78,27 @@ public static T Identity<T>(this T value) {
 }
 ```
 
-1.  Left identity
+1.  **Left identity**
 
      `Identity.Compose(f) = f`
 
-2.  Right identity
+2.  **Right identity**
 
      `f.Compose(Identity) = f`
 
-3.  Associative
+3.  **Associative**
 
      `f.Compose(g.Compose(h)) = (f.Compose(g)).Compose(h)`
 
 Often, values are not enough.  Constructed types amplify values.  
-The type `IEnumerable<T>` represents a lazily computed list of values of type T.  
-The type `Nullable<T>` represents a possibly missing value of type T.  
+The type `IEnumerable<T>` represents a lazily computed list of values of type `T`.  
+The type `Nullable<T>` represents a possibly missing value of type `T`.  
 The type `Func<Func<T, Answer>, Answer>` represents a function, which returns an 
 `Answer` given a continuation, which takes a `T` and returns an `Answer`.  
-Each of these types amplifies the type `T`.
+Each of these types **amplifies** the type `T`.
 
-Suppose that instead of composing functions which return values, we compose functions 
-which take values and return amplified values.  
+Suppose that instead of composing functions which return values, 
+we compose functions which take values and return amplified values.  
 Let `M<T>` denote the type of the **amplified values**.
 
 ```java
@@ -146,15 +146,15 @@ Viola, we have invented monads.
 > Monads are a triple consisting of a type, a Unit function, and a Bind function.  
 > Furthermore, to be a monad, the triple must satisfy three laws:
 
-1.  Left Identity
+1.  **Left Identity**
 
      Bind(Unit(e), k) = k(e)
 
-2.  Right Identity
+2.  **Right Identity**
 
      Bind(m, Unit) = m
 
-3.  Associative
+3.  **Associative**
 
      Bind(m, x => Bind(k(x), y => h(y)) = Bind(Bind(m, x => k(x)), y => h(y))
 
