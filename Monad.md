@@ -22,12 +22,14 @@ and contexts.
 
 ## Introducing Monads##
 
-Monads come from category theory.  
+Monads come from category theory. 
 Moggi introduced them to computer scientists to aid in the analysis of the 
 semantics of computations.
-In an excellent paper, The Essence of Functional Programming, Wadler showed 
+
+In an excellent paper, *The Essence of Functional Programming*, Wadler showed 
 that monads are generally useful in computer programs to compose together 
 functions which operate on **amplified values** rather than **values**.
+
 Monads became an important part of the programming language Haskell where 
 they tackle the awkward squad: IO, concurrency, exceptions, and 
 foreign-function calls.
@@ -39,7 +41,7 @@ This is unfortunate, because monads are more broadly applicable.
 
 ## Controlling Complexity ##
 
-Composition is the key to controlling complexity in software.  
+Composition is the key to controlling complexity in software.
 In The Structure and Interpretation of Computer Programs, Abelson and Sussman 
 argue that composition beautifully expresses complex systems from simple patterns.
 
@@ -148,15 +150,15 @@ Viola, we have invented monads.
 
 1.  **Left Identity**
 
-     Bind(Unit(e), k) = k(e)
+     `Bind(Unit(e), k) = k(e)`
 
 2.  **Right Identity**
 
-     Bind(m, Unit) = m
+     `Bind(m, Unit) = m`
 
 3.  **Associative**
 
-     Bind(m, x => Bind(k(x), y => h(y)) = Bind(Bind(m, x => k(x)), y => h(y))
+     `Bind(m, x => Bind(k(x), y => h(y)) = Bind(Bind(m, x => k(x)), y => h(y))`
 
 The laws are similar to those of function composition.  This is not a coincidence. 
 They guarantee that the monad is well behaved and composition works properly.
@@ -297,7 +299,7 @@ The Identity monad is an example of a monadic container type where the Identity 
 If we change the definition to contain either a value or a missing value then we have the Maybe monad.
 
 Again, we need a type definition. 
-The Maybe type is similar to the Identity type but adds a property denoting whether a value is missing. 
+The `Maybe` type is similar to the Identity type but adds a property denoting whether a value is missing. 
 It also has a predefined instance, Nothing, representing all instances lacking a value.
 
 ```java
@@ -319,7 +321,7 @@ class Maybe<T> {
 }
 ```
 
-The Unit function takes a value and constructs a Maybe instance, which wraps the value.
+The *Unit function* takes a value and constructs a Maybe instance, which wraps the value.
 
 ```java
 public static Maybe<T> ToMaybe<T>(this T value) {
@@ -405,7 +407,7 @@ which takes an argument and returns an answer, will return an answer.
 delegate Answer K<T,Answer>(Func<T,Answer> k);
 ```
 
-The type K fundamentally differs from types `Identity<T>`, `Maybe<T>`, and `IEnumerable<T>`. 
+The type `K` fundamentally differs from types `Identity<T>`, `Maybe<T>`, and `IEnumerable<T>`. 
 All the other monads represent container types and allow computations to be specified 
 in terms of the values rather than the containers, but the continuation monad contains nothing. 
 Rather, it composes together continuations the user writes.
@@ -444,17 +446,17 @@ but how is a result of the correct type formed?
 
 Expand K's definition to gain some insight.
 
-return type
+* *return type*
 
-     Func<Func<U, Answer>, Answer>
+     `Func<Func<U, Answer>, Answer>`
 
-m's type
+* *m's type*
 
-     Func<Func<T, Answer>, Answer>
+     `Func<Func<T, Answer>, Answer>`
 
-k's type
+* *k's type*
 
-     Func<T, Func<Func<U, Answer>, Answer>>
+     `Func<T, Func<Func<U, Answer>, Answer>>`
 
 Applying k to a value of type `T` results in a value of type `K<U,Answer>`, 
 but no value of type `T` is available. 
@@ -467,7 +469,8 @@ return (Func<U,Answer> c) => ...
 ```
 
 The body must be type of `Answer` so that the return type of Bind is `K<U,Answer>`. 
-Perhaps, `m` could be applied to a function from `T` to Answer.  The result is a value of type `Answer`.
+Perhaps, `m` could be applied to a function from `T` to Answer. 
+The result is a value of type `Answer`.
 
 ```java
 return (Func<U,Answer> c) => m(...)
