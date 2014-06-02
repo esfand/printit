@@ -1,22 +1,11 @@
 # The Marvels of Monads#
 
-If the word "continuation" causes eyes to glaze over, then the word "monad" 
-induces mental paralysis.  Perhaps, this is why some have begun inventing 
-more benign names for monads.
-
-These days, monads are the celebrities of programming language theory.  
-They gloss the cover of blogs and have been compared to everything from 
-boxes of fruit to love affairs.  Nerds everywhere are exclaiming that 
-the experience of understanding monads causes a pleasantly painful mental 
-sensation.
-
 Like continuations, monads are simpler than they sound and are very useful 
 in many situations.  In fact, programmers write code in a variety of 
 languages that implicitly use common monads without even breaking a sweat.
 
 With all of the attention that monads get, why am I writing yet another 
-explanation of monads?  Not to compare them to some everyday occurrence or 
-to chronicle my journey to understanding.  I explain monads because I need 
+explanation of monads? I explain monads because I need 
 monads.  They elegantly solve programming problems in a number of languages 
 and contexts.
 
@@ -47,12 +36,12 @@ argue that composition beautifully expresses complex systems from simple pattern
 
 In our study of program design, we have seen that expert programmers control 
 the complexity of their designs with the same general techniques used by 
-designers of all complex systems. They combine primitive elements to form 
-compound objects, they abstract compound objects to form higher-level 
-building blocks, and they preserve modularity by adopting appropriate 
-large-scale views of system structure.
+designers of all complex systems. 
+* They combine primitive elements to form compound objects, 
+* they abstract compound objects to form higher-level building blocks, and
+* they preserve modularity by adopting appropriate large-scale views of system structure.
 
-One form of composition, function composition, succinctly describes the dependencies 
+One form of composition, *function composition*, succinctly describes the dependencies 
 between function calls.
 Function composition takes two functions and plumbs the result from the second 
 function into the input of the first function, thereby forming one function.
@@ -63,13 +52,13 @@ public static Func<T, V> Compose<T, U, V>(this Func<U, V> f, Func<T, U> g) {
 }
 ```
 
-For example, instead of applying g to the value x and then applying f to the result, 
-compose f with g and then apply the result to the value x. 
-The key difference is the abstraction of the dependency between f and g.
-
+For example, instead of applying g to the value `x` and then applying `f` to the result, 
+compose `f` with `g` and then apply the result to the value `x`. 
+The key difference is the abstraction of the dependency between `f` and `g.
+`
 ```java
-var r = f(g(x));         // without function composition
-var r = f.Compose(g)(x); // with function composition
+var r = f(g(x));           // without function composition
+var r = f.Compose(g)(x);   // with function composition
 ```
 
 Given the function Identity, function composition must obey three laws.
@@ -92,19 +81,23 @@ public static T Identity<T>(this T value) {
 
      `f.Compose(g.Compose(h)) = (f.Compose(g)).Compose(h)`
 
-Often, values are not enough.  Constructed types amplify values. 
-The type `IEnumerable<T>` represents a lazily computed list of values of type `T`. 
-The type `Nullable<T>` represents a possibly missing value of type `T`. 
-The type `Func<Func<T, Answer>, Answer>` represents a function, which returns an 
-`Answer` given a continuation, which takes a `T` and returns an `Answer`. 
+Often, values are not enough.  Constructed types **amplify** values. 
+* The type `IEnumerable<T>` represents a lazily computed list of values of type `T`. 
+* The type `Nullable<T>` represents a possibly missing value of type `T`. 
+* The type `Func<Func<T, Answer>, Answer>` represents a function, which returns an 
+  `Answer` given a **continuation**, which takes a `T` and returns an `Answer`. 
 Each of these types **amplifies** the type `T`.
 
-Suppose that instead of composing functions which return values,
-we compose functions which take values and return amplified values. 
+Suppose that instead of composing functions which return **values**,
+we compose functions which take values and return **amplified values**. 
 Let `M<T>` denote the type of the **amplified values**.
 
 ```java
-public static Func<T, M<V>> Compose<T, U, V>(this Func<U, M<V>> f, Func<T, M<U>> g) {
+// C# 'compose' extension method for class Func<U, M<V>>
+
+public static Func<T, M<V>> Compose<T, U, V>(this Func<U, M<V>> f, 
+                                                  Func<T, M<U>> g) {
+                                                  
     return x => f(g(x)); // error, g(x) returns M<U> and f takes U
 }
 ```
@@ -115,7 +108,10 @@ value and feeds it to the next function.  Call that function `Bind` and use it
 to define function composition.
 
 ```java
-public static Func<T, M<V>> Compose<T, U, V>(this Func<U, M<V>> f, Func<T, M<U>> g) {
+// C# 'compose' extension method for class Func<U, M<V>>
+
+public static Func<T, M<V>> Compose<T, U, V>(this Func<U, M<V>> f, 
+                                                  Func<T, M<U>> g) {
     return x => Bind(g(x), f);
 }
 ```
@@ -125,21 +121,29 @@ Therefore, `Bind` takes an **amplified value**, `M<U>`, and a function from `U` 
 and returns an **amplified value**, `M<V>`.
 
 ```java
-public static M<V> Bind<U, V>(this M<U> m, Func<U, M<V>> k)
+// C# 'compose' extension method for class M<V>
+
+public static M<V> Bind<U, V>(this M<U>          m, 
+                                   Func<U, M<V>> k)
 ```
 
-The body of Bind depends on the mechanics of the amplified values, `M<T>`. 
+The body of `Bind` depends on the mechanics of the amplified values, `M<T>`. 
 Each **amplified type** will need a distinct definition of `Bind`.
 
 In addition to `Bind`, define a function which takes an **unamplified value** 
-and amplifies it.  Call this function `Unit`.
+and **amplifies** it.  Call this function `Unit`.
 
 ```java
+// C# 'Unit' extention method for the class 'T'
+
 public static M<T> Unit<T>(this T value)
 ```
 
-Together the amplified type, `M<T>`, the function `Bind`, and the function `Unit` 
-enable function composition with amplified values.
+Together 
+* the **amplified type**, `M<T>`, 
+* the function `Bind`, and 
+* the function `Unit` 
+enable **function composition with amplified values**.
 
 ## Meet the Monads ##
 
