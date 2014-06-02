@@ -376,7 +376,7 @@ a delegate, which takes a `T` and returns an `IEnumerable<U>`, and
 returns an `IEnumerable<U>`.
 
 ```java
-public static IEnumerable<U> SelectMany<T, U>(this IEnumerable<T> m, 
+public static IEnumerable<U> SelectMany<T, U>(this IEnumerable<T>     m, 
                                               Func<T, IEnumerable<U>> k) {
     foreach (var x in m)
         foreach (var y in k(x))
@@ -440,7 +440,8 @@ To be a monad, Bind must take a `K<T,Answer>` and a function from `T` to `K<U, A
 and return a `K<U, Answer>`.
 
 ```java
-public static K<U, Answer> SelectMany<T, U, Answer>(this K<T, Answer> m, Func<T, K<U, Answer>> k)
+public static K<U, Answer> SelectMany<T, U, Answer>(this K<T, Answer>     m, 
+                                                    Func<T, K<U, Answer>> k)
 ```
 
 But what about the body?  The result must be of type `K<U, Answer>`, 
@@ -525,4 +526,3 @@ The continuation monad does the heavy-lifting of constructing the continuations.
 Beautiful composition of amplified values requires monads.
 The Identity, Maybe, and IEnumerable monads demonstrate the power of monads as container types.
 The continuation monad, K, shows how monads can readily express complex computation.
-
