@@ -46,9 +46,22 @@ between function calls.
 Function composition takes two functions and plumbs the result from the second 
 function into the input of the first function, thereby forming one function.
 
-```java
+```C#
+// C# 'Compose<T, V>' extension method for class Func<U, V>
+
 public static Func<T, V> Compose<T, U, V>(this Func<U, V> f, Func<T, U> g) {
     return x => f(g(x));
+}
+```
+
+```java
+public class MyClass<U, V> {
+
+    // . . .
+
+    public <T> Function<T, V> compose(Function<T, U> other) {
+        return x -> this(other(x));
+    }
 }
 ```
 
@@ -61,11 +74,24 @@ var r = f(g(x));           // without function composition
 var r = f.Compose(g)(x);   // with function composition
 ```
 
-Given the function Identity, function composition must obey three laws.
+Given the function `Identity`, function composition must obey three laws.
 
-```java
+```C#
+// C# 'Identity<T>' extension method for class T
+
 public static T Identity<T>(this T value) {
     return value;
+}
+```
+
+```java
+public class MyClass {
+
+   // . . .
+
+    public MyClass identity() {
+        return this;
+    }
 }
 ```
 
