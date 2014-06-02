@@ -165,7 +165,8 @@ They guarantee that the monad is well behaved and composition works properly.
 
 To define a particular monad, the writer supplies the triple, thereby specifying 
 the mechanics of the amplified values.
-<br>
+
+<br/> <br/>
 
 ## The Identity Monad ##
 
