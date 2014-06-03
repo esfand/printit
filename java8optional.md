@@ -62,8 +62,27 @@ Optional is one of the many things that were made wrong in Java 8.
   where we should do nothing if there is no value. Much more useful is the 
   Try monad that holds either a value or an exception, allowing composing 
   function and carrying any exception until the end of the calculation.
-<br/><br/>
+<br/>
   It is very easy to write our own Try monad and use it in our programs. 
   But the big problem is that we can't use it in public APIs because we would end 
   with as many incompatible Try implementations as there are APIs!
+
+
+Optional was meant only as a return type in methods that might return null, and not being Serializable is intentional and as per design:
+
+> The JSR-335 EG felt fairly strongly that Optional should not be on any 
+> more than needed to support the optional-return idiom only.
+
+If used as intended it's still a useful thing to have, just not as powerful as in other languages.
+Maybe the name OptionalReturn would have been a better choice.
+
+You should use Optionals in your data model: to leverage the type system to 
+clearly differentiate 
+* the values that can be missing (the car in the Person class and 
+  the insurance in the Car class in my example), from 
+* the ones that must be there (the name of the insurace company). 
+
+In this way you know, through the type system, that 
+* a person without a car is acceptable in your data model while 
+* an insurance company without a name isn't.
 
