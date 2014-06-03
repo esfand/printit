@@ -68,7 +68,8 @@ Optional is one of the many things that were made wrong in Java 8.
   with as many incompatible Try implementations as there are APIs!
 
 
-Optional was meant only as a return type in methods that might return null, and not being Serializable is intentional and as per design:
+Optional was meant only as a return type in methods that might return null, 
+and not being Serializable is intentional and as per design:
 
 > The JSR-335 EG felt fairly strongly that Optional should not be on any 
 > more than needed to support the optional-return idiom only.
@@ -94,7 +95,7 @@ Just FYI:
 The proposed JDK8 Optional class does satisfy the three Monad laws. 
 https://gist.github.com/esfand/66cda4876cb04c132901 is a gist demonstrating that.
 
-All it takes be a Monad is to provide two functions which conform to three laws.
+All it takes to be a Monad is to provide two functions which conform to three laws.
 
 The two functions:
 
@@ -111,11 +112,11 @@ The two functions:
   * Scala's Option: flatMap
   * Functional Java's Option: flatMap
   * JDK8's Optional: flatMap
-  * 
+
 Please see the above gist for a java demonstration of the three laws.
 
 NOTE: One of the key things to understand is the signature of the function to 
-apply in monadic context: it takes the raw value type, and returns the monadic type.
+apply in monadic context: it takes the **raw value type**, and returns the **monadic type**.
 
 In other words, if you have `Optional<Integer>`, the functions you can pass to 
 `flatMap` will have the signature `(Integer) -> Optional<U>`, where U is a value type 
