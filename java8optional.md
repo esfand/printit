@@ -86,3 +86,68 @@ In this way you know, through the type system, that
 * a person without a car is acceptable in your data model while 
 * an insurance company without a name isn't.
 
+
+http://stackoverflow.com/questions/13454347/monads-with-java-8
+
+Just FYI:
+
+The proposed JDK8 Optional class does satisfy the three Monad laws. 
+https://gist.github.com/esfand/66cda4876cb04c132901 is a gist demonstrating that.
+
+All it takes be a Monad is to provide two functions which conform to three laws.
+
+The two functions:
+
+1. Place a value into monadic context
+
+  * Haskell's Maybe: return / Just
+  * Scala's Option: Some
+  * Functional Java's Option: Option.some
+  * JDK8's Optional: Optional.of
+
+2. Apply a function in monadic context
+
+  * Haskell's Maybe: >>= (aka bind)
+  * Scala's Option: flatMap
+  * Functional Java's Option: flatMap
+  * JDK8's Optional: flatMap
+  * 
+Please see the above gist for a java demonstration of the three laws.
+
+NOTE: One of the key things to understand is the signature of the function to 
+apply in monadic context: it takes the raw value type, and returns the monadic type.
+
+In other words, if you have `Optional<Integer>`, the functions you can pass to 
+`flatMap` will have the signature `(Integer) -> Optional<U>`, where U is a value type 
+which does not have to be Integer, for example String:
+
+```java
+Optional<Integer> maybeInteger = Optional.of(1);
+
+// Function that takes Integer and returns Optional<Integer>
+Optional<Integer> maybePlusOne 
+        = maybeInteger.flatMap(n -> Optional.of(n + 1));
+
+// Function that takes Integer and returns Optional<String>
+Optional<String> maybeString 
+        = maybePlusOne.flatMap(n -> Optional.of(n.toString));
+```
+
+You don't need any sort of Monad Interface to code this way, or to think this way. 
+In Scala, you don't code to a Monad Interface (unless you are using Scalaz library...).
+It appears that JDK8 will empower Java folks to use this style of 
+**chained monadic computations** as well.
+
+Hope this is helpful!
+
+In theory Monad is an abstraction of a computation process in some context. 
+For example, Option Monad is a context for abstracting over some possible 
+computation, i.e you can have a couple of functions which can return either 
+Some value or None and you can build a computation where each step depends 
+on the previously computed value, or there are a Future monad, 
+which describes a context of some defered computations, IO monad, 
+State monad, etc =) – 
+ 
+ 
+
+
