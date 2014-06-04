@@ -4,8 +4,8 @@
 * Use super only when you intend to put values into a structure or Collection.
 
 This also implies: 
-> don’t use any wildcards when you intend to both get and put 
-> values into and out of a structure.
+* don’t use any wildcards when you intend to both get and put 
+  values into and out of a structure.
 
 ```java
 // Copy all elements, subclasses of T, from source to dest 
@@ -32,5 +32,5 @@ List<Number> numbers = new LinkedList<Number>();
 List<? super Integer> integers = numbers;
 numbers.add(3);                                 // Works fine!
 int i = numbers.get(0);                         // Won't' compile!
-Object o = numbers.get(0);        // Works fine since object is the upper bound!
+Object o = numbers.get(0);                      // Works fine since object is the upper bound!
 ```
