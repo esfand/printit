@@ -150,5 +150,139 @@ which describes a context of some defered computations, IO monad,
 State monad, etc =) – 
  
  
+<hr/>
+
+
+This is pretty cool. It's a bit abstract though. I can imagine people who don't know what 
+monads are already get confused due to the lack of real examples.
+
+So let me try to comply, and just to be really clear I'll do an example in C#, even though 
+it will look ugly. I'll add the equivalent Haskell at the end and show you the cool Haskell 
+syntactic sugar which is where, IMO, monads really start getting useful.
+
+Okay, so one of the easiest Monads it called the "Maybe monad" in Haskell. 
+In C# the Maybe type is called Nullable<T>. It's basically a tiny class that just encapsulates 
+the concept of a value that is either valid and has a value, or is "null" and has no value.
+
+A useful thing to stick inside a monad for combining values of this type is the notion of failure. 
+I.e. we want to be able to look at multiple nullable values and return "null" as soon as any one 
+of them is null. This could be useful if you, for example, look up lots of keys in a dictionary 
+or something, and at the end you want to process all of the results and combine them somehow, 
+but if any of the keys are not in the dictionary, you want to return "null" for the whole thing. 
+It would be tedious to manually have to check each lookup for "null" and return, so we can hide 
+this checking inside the bind operator (which is sort of the point of monads, 
+we hide book-keeping in the bind operator which makes the code easier to use since we can forget 
+about the details).
+
+
+Here's the program that motivates the whole thing (I'll define the Bind later, this just to show you why it's nice).
+
+
+```java
+class Program {
+ 
+        static Nullable<int> f(){ return 4; }        
+        static Nullable<int> g(){ return 7; }
+        static Nullable<int> h(){ return 9; }
+        
+
+        static void Main(string[] args) {
+      
+            Nullable<int> z = f().Bind( fval => 
+                              g().Bind( gval => 
+                              h().Bind( hval =>
+                              new Nullable<int>( fval + gval + hval ))));
+
+            Console.WriteLine("z = {0}", z.HasValue ? z.Value.ToString() : "null" );
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
+        }
+}
+
+Now, ignore for a moment that there already is support for doing this for Nullable in C# 
+(you can add nullable ints together and you get null if either is null). Let's pretend 
+t there is no such feature, and it's just a user-defined class with no special magic. 
+The point is that we can use the Bind function to bind a variable to the contents of 
+our Nullable value and then pretend that there's nothing strange going on, and use them 
+like normal ints and just add them together. We wrap the result in a nullable at the end, 
+and that nullable will either be null (if any of f, g or h returns null) or it will be 
+the result of summing f, g, and h together. (this is analogous of how we can bind a row 
+in a database to a variable in LINQ, and do stuff with it, safe in the knowledge that 
+the Bind operator will make sure that the variable will only ever be passed valid row values).
+
+You can play with this and change any of f, g, and h to return null and you will see that
+the whole thing will return null.
+
+So clearly the bind operator has to do this checking for us, and bail out returning null 
+if it encounters a null value, and otherwise pass along the value inside 
+the Nullable structure into the lambda.
+
+Here's the Bind operator:
+
+```java
+        public static Nullable<B> Bind<A,B>( this Nullable<A> a, Func<A,Nullable<B>> f ) 
+            where B : struct 
+            where A : struct
+        {
+            return a.HasValue ? f(a.Value) : null;
+        }
+```
+
+The types here are just like in the video. It takes an `M a` (`Nullable<A>` in C# syntax for this case), 
+and a function from `a` to `M b` (`Func<A, Nullable<B>>` in C# syntax), and it returns an `M b` (`Nullable<B>`).
+The code simply checks if the nullable contains a value and if so extracts it and passes it onto the function, 
+else it just returns `null`. This means that the Bind operator will handle all the null-checking logic for us.
+If and only if the value that we call Bind on is non-null then that value will be **passed along** to 
+the lambda function, else we bail out early and the whole expression is null.
+This allows the code that we write using the monad to be entirely free of this null-checking behaviour, 
+we just use Bind and get a variable bound to the value inside the **monadic value**  
+(fval, gval and hval in the example code) and we can use them safe in the knowledge that 
+Bind will take care of checking them for null before passing them along.
+
+
+There are other examples of things you can do with a monad. For example you can make the Bind operator 
+take care of an input stream of characters, and use it to write parser combinators. Each parser combinator 
+can then be completely oblivious to things like back-tracking, parser failures etc., and just combine 
+smaller parsers together as if things would never go wrong, safe in the knowledge that a clever 
+implmenetation of Bind sorts out all the logic behind the difficult bits. 
+Then later on maybe someone adds logging to the monad, but the code using the monad doesn't change, 
+because all the magic happens in the definition of the Bind operator, the rest of the code is unchanged.
+
+Finally, here's the implemenation of the same code in Haskell (-- begins a comment line).
+
+```haskell
+-- Here's the data type, it's either nothing, or "Just" a value
+-- this is in the standard library
+data Maybe a = Nothing | Just a
+
+-- The bind operator for Nothing
+Nothing >>= f = Nothing
+-- The bind operator for Just x
+Just x >>= f = f x
+
+-- the "unit", called "return"
+return = Just
+
+-- The sample code using the lambda syntax
+-- that Brian showed
+z = f >>= ( \fval ->
+     g >>= ( \gval ->  
+     h >>= ( \hval -> return (fval+gval+hval ) ) ) )
+
+-- The following is exactly the same as the three lines above
+z2 = do 
+   fval <- f
+   gval <- g
+   hval <- h
+   return (fval+gval+hval)
+```
+
+As you can see the nice "do" notation at the end makes it look like straight imperative code. 
+And indeed this is by design. Monads can be used to encapsulate all the useful stuff 
+in imperative programming (mutable state, IO etc.) and used using this nice imperative-like syntax, 
+but behind the curtains, it's all just monads and a clever implementation of the bind operator!
+The cool thing is that you can implement your own monads by implemnting >>= and return. 
+And if you do so those monads will also be able to use the do notation, 
+which means you can basically write your own little languages by just defining two functions!
 
 
