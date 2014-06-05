@@ -198,6 +198,7 @@ class Program {
             Console.ReadKey();
         }
 }
+```
 
 Now, ignore for a moment that there already is support for doing this for Nullable in C# 
 (you can add nullable ints together and you get null if either is null). Let's pretend 
@@ -284,5 +285,26 @@ but behind the curtains, it's all just monads and a clever implementation of the
 The cool thing is that you can implement your own monads by implemnting >>= and return. 
 And if you do so those monads will also be able to use the do notation, 
 which means you can basically write your own little languages by just defining two functions!
+
+
+<hr/>
+
+##Catsters, monads, functional programming#
+
+http://golem.ph.utexas.edu/category/2007/09/the_catsters_on_youtube.html
+
+The paper that started it all (meaning the introduction of monads into functional programming and computing science) is this one: Notions of computations and monads by Eugenio Moggi. This paper may be easily understandable for many people here, since it is quite difficult to follow for many computing scientist due to its somewhat heavy use of categories :)
+I can also try to add some more explanations (but beware of my explanations, since they’re in no way approved by any official and legitimate authority whatsoever, and I have a pretty serious history of being proved wrong). 
+Monads enter in programming language theory when you want to deal with “effects” (or “side-effects”). Most functional programming semantics are a glorified (and typed) version of lambda-calculus, which is in turn a nice syntaxic representation for cartesian closed categories. The problem with this model, is that you can only implements algorithms in it: functions that produces a specific and deterministic value of your codomain for each value of your domain. In computing science, we want to manipulate more than that: we want to have various types of non-determinism, the more obvious being the presence of state, that is the possibility that some functions share together some “world” (for example a set of values), which they can depend on (that is, picking up some values in it and use them) or transform (that is, replacing some values in the world by some others). This idea is traditionally difficult to model in pure lambda-calculus, because of the mutability of the “world” (ie. of the shared state), mutability that implies an ordering in which access and modification of the world takes place, something that doesn’t fit very well with the lambda-calculus, whose semantics are independant of the evaluation order (up to non-termination issues). So, more broadly than the example of state, you sometimes wants to have effects, meaning that you get “something more” from the function than its result. This is where monads comes into play, via the pretty awesome idea of Moggi. 
+The basic idea is to associate to each type in your language a computation, which “produce” (more appropriate than “map”, in this case) a value of this type with some possible side-effects, who are specific to the kind of computation you want/need. Each kind of computation can corresponds to a functor, thus mapping objects and arrows (ie. functions, when talking about a programming language) with all the nice functor properties that makes it a real, legitimate, categoric, functor. Most of the times, it will be an endofunctor, because you are going to express your side-effect (hence define your kind of computation) in terms of the original language you’ve got (the Moggi paper give lots of examples). Then, your functor, together with two natural transformations (you can see which ones in the wikibook linked earlier), form a Kleisli triple, which is another way to formulate that you have a monad (this is also explained in Moggi paper). With your Kleisli triple, you can form a Kleisli category corresponding to it, so you’ve got a semantic space to express your computations in, and this space has got nice algebraic properties since it is “generated” by a monad (I use “generated” here because monads have got pretty interesting links with algebras), so you can now reason about computations with all the categorical/algebraic tools you need.
+In short, what Moggi found is that monad are a way to express various kinds of effects while maintaining your ability to reason categorically or algebraically about the semantics of your programs. Nowadays, the functional programming community (mainly the Haskell one, more precisely) has produced many monads for many kind of effects (parsing, concurrency, … even a quantum mechanics monad :)). Also, a development of the original idea is the idea of “monad transformers” that are used to combine various effects in one big giant monad; alas, this idea has not been put on a solid theoretical ground yet (or maybe ?) , so it’s done in a ad-hoc way in Haskell right now.
+So, have I obscured the issue enough that you now think you should read the Moggi paper ? Mission accomplished then, since Moggi talk about it much better than I do.
+Also, you maybe will enjoy the sigfpe blog posts about monads (and as well enjoy the sigfpe blog in general).
+PS: Oh my god, I’ve got the tremendous fear of the lurker posting here the first time. Completely terrifying :)
+
+
+<hr/>
+
+http://www.atrevido.net/blog/2007/08/12/Practical+Functional+C+Part+I.aspx
 
 
