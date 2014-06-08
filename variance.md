@@ -1536,49 +1536,53 @@ public MyArrayList(Class<E> elementType, int size){
 ## The Dangers of Correlating Subtype Polymorphism with Generic Polymorphism ##
 
 Java 5 has introduced generic polymorphism to the Java ecosystem. 
-his has been a great addition to the Java language, even if we’re all aware of 
-the numerous caveats due to generic type erasure and the consequences thereof. 
-Generic polymorphism (also known as parametric polymorphism) is usually maintained 
-orthogonally to possibly pre-existing subtype polymorphism. A simple example for 
+this has been a great addition to the Java language, even if we’re all aware of 
+the numerous caveats due to generic type erasure and the consequences thereof.
+
+**Generic polymorphism** (also known as **parametric polymorphism**) is usually maintained 
+orthogonally to possibly pre-existing **subtype polymorphism**. A simple example for 
 this is the collections API
 
 ```java
 List<? extends Number> c = new ArrayList<Integer>();
 ```
 
-In the above example, the subtype ArrayList is assigned to a variable of the super type List. 
-At the same time ArrayList is parameterised with the type Integer, which can be assigned to 
-the compatible parameter supertype ? extends Number. This usage of subtype polymorphism in 
-the context of generic polymorphism is also called covariance, although covariance can also 
+In the above example, the subtype `ArrayList` is assigned to a variable of the super type `List`. 
+At the same time `ArrayList` is parameterised with the type `Integer`, which can be assigned to 
+the compatible parameter supertype `? extends Number`.  This usage of subtype polymorphism in 
+the context of generic polymorphism is also called **covariance**, although covariance can also 
 be achieved in non-generic contexts, of course.
+
 
 ### Covariance with Generic Polymorphism ###
 
-Covariance is important with generics. It allows for creating complex type systems. 
+Covariance is important with generics.  It allows for creating complex type systems. 
 Easy examples involve using covariance with generic methods:
 
 ```java
 <E extends Serializable> void serialize(Collection<E> collection) {}
 ```
 
-The above example accepts any Collection type, which can be subtyped at the call-site 
-with types such as List, ArrayList, Set, and many more. At the same time, 
-the generic type argument at the call site is only required to be a subtype of Serializable. 
-I.e. it could be a `List<Integer>` or an `ArrayList<String>`, etc.
+The above example accepts any Collection type, which can be subtyped at the **call-site** 
+with types such as List, ArrayList, Set, and many more.  
+At the same time, the generic type argument at the call site is only required to be 
+a subtype of Serializable.  I.e. it could be a `List<Integer>` or an `ArrayList<String>`, etc.
+
 
 ### Correlating Subtype Polymorphism with Generic Polymorphism ###
 
-People are then often lured into correlating the two orthogonal types of polymorphism. 
-A simple example of such a correlation would be to specialise an IntegerList or StringSet as such:
+People are then often lured into correlating **the two orthogonal types of polymorphism**. 
+A simple example of such a correlation would be to specialise an `IntegerList` or `StringSet` as such:
 
 ```java
 class IntegerList extends ArrayList<Integer> {}
-class StringSet extends HashSet<String> {}
+class StringSet   extends HashSet<String>    {}
 ```
 
 It is easy to see that the number of explicit types will explode, if you start to span 
-the cartesian product of the subtype and generic type hierarchies, wanting to specialise 
+the cartesian product of the **subtype** and **generic type** hierarchies, wanting to specialise 
 more precisely by creating things like `IntegerArrayList`, `IntegerAbstractList`, `IntegerLinkedList` etc.
+
 
 ### Making the Correlation Generic ###
 
@@ -1591,39 +1595,35 @@ class AnyContainer<E extends AnyObject> {}
 class AnyObject {}
  
 // PhysicalContainer contains only PhysicalObjects
-class PhysicalContainer<E extends PhysicalObject>
-  extends AnyContainer<E> {}
-class PhysicalObject extends AnyObject {}
+class PhysicalContainer<E extends PhysicalObject> extends AnyContainer<E> {}
+class PhysicalObject                              extends AnyObject       {}
  
 // FruitContainer contains only Fruit,
 // which in turn are PhysicalObjects
-class FruitContainer<E extends Fruit>
-  extends PhysicalContainer<E> {}
-class Fruit extends PhysicalObject {}
+class FruitContainer<E extends Fruit> extends PhysicalContainer<E> {}
+class Fruit                           extends PhysicalObject       {}
 ```
 
 The above example is a typical one, where the API designer was lured into 
-correlating subtype polymorphism (`Fruit extends PhysicalObject extends AnyObject`) 
-with generic polymorphism (`<E>`), while keeping it generic, allowing to add further 
-subtypes below FruitContainer. This gets more interesting when AnyObject should 
-know its own subtype, generically. This can be achieved with a recursive generic 
-parameter. Let’s fix the previous example
+correlating **subtype polymorphism** (`Fruit extends PhysicalObject extends AnyObject`) 
+with **generic polymorphism** (`<E>`), while keeping it generic, allowing to add further 
+subtypes below FruitContainer. This gets more interesting when `AnyObject` should 
+know its own subtype, generically. This can be achieved with a recursive generic parameter. 
+Let’s fix the previous example
 
 ```java
 // AnyContainer can contain AnyObject
 class AnyContainer<E extends AnyObject<E>> {}
-class AnyObject<O extends AnyObject<O>> {}
+class AnyObject   <O extends AnyObject<O>> {}
  
 // PhysicalContainer contains only PhysicalObjects
-class PhysicalContainer<E extends PhysicalObject<E>>
-  extends AnyContainer<E> {}
-class PhysicalObject<O extends PhysicalObject<O>>
-  extends AnyObject<O> {}
+class PhysicalContainer<E extends PhysicalObject<E>> extends AnyContainer<E> {}
+class PhysicalObject   <O extends PhysicalObject<O>> extends AnyObject<O>    {}
  
 // FruitContainer contains only Fruit,
 // which in turn are PhysicalObjects
 class FruitContainer<E extends Fruit<E>> extends PhysicalContainer<E> {}
-class Fruit<O extends Fruit<O>> extends PhysicalObject<O> {}
+class Fruit         <O extends Fruit<O>> extends PhysicalObject<O>    {}
 ```
 
 The interesting part here are no longer the containers, but the AnyObject type hierarchy, 
@@ -1642,13 +1642,15 @@ enum MyEnum {}
 final class MyEnum extends Enum<MyEnum> {}
 ```
 
+
 ### Where Lies the Danger? ###
 
-The subtle difference between enums and our custom AnyObject hierarchy is 
-the fact that MyEnum terminates recursive self-correlation of the 
-two orthogonal typing techniques by being final! AnyObject subtypes, 
-on the other hand should not be allowed to remove the generic type parameter, 
-unless they are made final as well. An example:
+The subtle difference between `enums` and our custom `AnyObject` hierarchy is the fact that 
+`MyEnum` terminates **recursive self-correlation** of the 
+**two orthogonal typing techniques** by being final! 
+`AnyObject` subtypes, on the other hand, should not be allowed to remove 
+the generic type parameter, unless they are made final as well. 
+An example:
 
 ```java
 // "Dangerous"
@@ -1658,26 +1660,26 @@ class Apple extends Fruit<Apple> {}
 final class Apple extends Fruit<Apple> {}
 ```
 
-Why is final so important, or in other words, why must AnyObject subtypes be careful 
+Why is final so important, or in other words, why must `AnyObject` subtypes be careful 
 when terminating recursive self-correlation, such as Apple did, before? 
 It’s simple. Let’s assume the following addition:
 
 ```java
-class AnyObject<O extends AnyObject<O>>
-  implements Comparable<O> {
+class AnyObject<O extends AnyObject<O>> implements Comparable<O> {
  
-  @Override
-  public int compareTo(O other) { ... }
-  public AnyContainer<O> container() { ... }
+    @Override
+    public int compareTo(O other) { ... }
+    
+    public AnyContainer<O> container() { ... }
 }
 ```
 
-The above contract on AnyObject.compareTo() implies that any subtype of 
-AnyObject can only ever be compared to the the same subtype. 
+The above contract on `AnyObject.compareTo()` implies that any subtype of 
+`AnyObject` can only ever be compared to the the same subtype. 
 The following is not possible:
 
 ```java
-Fruit<?> fruit = // ...
+Fruit<?>     fruit     = // ...
 Vegetable<?> vegetable = // ...
  
 // Compilation error!
@@ -1693,60 +1695,62 @@ Apple a2 = new Apple();
 a1.compareTo(a2);
 ```
 
-But what if we wanted to add GoldenDelicious and Gala apples?
+But what if we wanted to add `GoldenDelicious` and `Gala` apples?
 
 ```java
 class GoldenDelicious extends Apple {}
-class Gala extends Apple {}
+class Gala            extends Apple {}
 ```
 
 We can now compare them!
 
 ```java
 GoldenDelicious g1 = new GoldenDelicious();
-Gala g2 = new Gala();
+Gala            g2 = new Gala();
  
 g1.compareTo(g2);
 ```
 
-This was not the intention of the author of AnyObject!
+This was not the intention of the author of `AnyObject`!
 
-The same applies to the container() method. Subtypes are allowed to 
-covariantly specialise the AnyContainer type, which is fine:
+The same applies to the `container()` method. Subtypes are allowed to 
+**covariantly specialise** the `AnyContainer` type, which is fine:
 
 ```java
-class Fruit<O extends Fruit<O>>
-  extends PhysicalObject<O> {
+class Fruit<O extends Fruit<O>> extends PhysicalObject<O> {
  
-  @Override
-  public FruitContainer<O> container() { ... }
+    @Override
+    public FruitContainer<O> container() { ... }
 }
 ```
 
 But what happens to the container() method in GoldenDelicious and Gala?
 
 ```java
-GoldenDelicious g = new GoldenDelicious();
+GoldenDelicious       g = new GoldenDelicious();
 FruitContainer<Apple> c = g.container();
 ```
 
 Yes, it will return an Apple container, not a GoldenDelicious container 
 as intended by the AnyObject designer.
 
+
 ### Conclusion ###
 
-Subtype polymorphism and generic polymorphism span orthogonal type axes. 
+**Subtype polymorphism** and **generic polymorphism** span orthogonal type axes. 
 Making them correlate can be a design smell in your type system. 
 Making them correlate on the same type is dangerous, as it is hard to get right. 
-Users will try to terminate the recursive generic type definition on a subtype 
+Users will try to terminate the **recursive generic type** definition on a subtype 
 of your base type. The reason for this termination is the fact that base types 
 with recursive self-bounds are hard to use. But the termination often goes wrong, 
 as it should only be done on final classes, not regular classes or interfaces.
 
-In other words, if you think you need a recursive generic type definition on 
-a common base type, think again very carefully, if you really need it and 
-if your type users can correctly terminate the recursive generic type definition 
-in a final class.
+In other words:
+> if you think you need a recursive generic type definition on 
+> a common base type, think again very carefully, if you really need it and 
+> if your type users can correctly terminate the recursive generic type definition 
+> in a final class.
+
 
 <hr/>
 
@@ -1755,21 +1759,18 @@ in a final class.
 
 Generics/Parametrization is something that has always kept me on the hook 
 even after good amount of experience in it. 
-Thanks to Scala and lectures by Martin Odersky, I am much better now. 
 There have been some realizations on the go, but to explain that I will first have to explain some basics. 
-Though theoretical and boring at many places, I promise this will improve your architect skills if understood well :)
 
-I have planned the post in 4 parts:
 
 Before starting, there is one very important theorem called 
 **Liskov Substitution principle** in object oriented world. 
 This should always be behind your mind while designing API’s. 
-It states-
+It states:
 
 > Let q(x) be a property provable about objects x of type T. 
 > Then q(y) should be provable for objects y of type S where S is a subtype of T.
 
-The above means- 
+The above means:
 
 > If “A” extends “B” (A <: B), then 
 > all the things that one can do with “B” should also be legal with “A”.
@@ -1778,30 +1779,29 @@ The above means-
 
 Wiki will give you a formal definition. Crudely:
 
-* Co-variance ( <: ) is converting type from wider type to narrow. In Java terms  **? extends E**
-* Contra-variance (>: ) is converting type from narrow to wider. In Java terms: **? super E**
-* In-variant cannot be converted
+* **Co-variance** ( **<:** ) is converting type from wider type to narrow. In Java terms  **? extends E**
+* **Contra-variance** ( **>:** ) is converting type from narrow to wider. In Java terms: **? super E**
+* **In-variant** cannot be converted
 
-Where E is generic type declared and “?” is a wild card which crudely means “Anytype”
+Where E is generic type declared and **?** is a wild card which crudely means **Anytype**
 
 So for example:
 
 ```java
 class Animal { }
  
-class Dog extends Animal{ }
+class Dog extends Animal { }
  
 class Example{
  
-void run(){
- Dog dog = new Dog();
- getAnimal(dog);
- }
+    void run() {
+        Dog dog = new Dog();
+        getAnimal(dog);
+    }
  
-void getAnimal(Animal animal){
-     .....
- }
- 
+    void getAnimal(Animal animal){
+        .....
+    }
 }
 ```
 
@@ -1858,8 +1858,10 @@ for which Generics (type erasure) will be discussed.
 
 ### Arrays in Java ###
 
-Arrays in Java are Co-variant. Which basically means if “String” extends “Object” then “String[]” also extends “Object[]“.
-Do you see  any pitfall’s above??
+Arrays in Java are Co-variant. Which basically means if `String` extends `Object`
+then `String[]` also extends `Object[]`.
+
+Do you see  any pitfall’s above?
 
 Lets look at the following example
 
@@ -1872,26 +1874,28 @@ a[0]       = ???
 ```
 
 Now because arrays in Java are co-variant, you can do the above. 
-a[0] now will refer to an Integer which is illegal. 
+`a[0]` now will refer to an Integer which is illegal. 
 To prevent this, line3 will throw an **ArrayStoreException** at runtime. 
 Truly this should actually be caught at compile time. Thanks to co-variance of arrays for behavior. 
 Because for some reason arrays were decided to be **co-variant** and 
 they are **reifiable**, i.e. they retain the type information at runtime. 
 Which allowed us to do line-2 but also gave us line-3. 
 To prevent this, they manually had to check the type info for every access of array 
-which again is bad and extra overhead. 
-But why were arrays made co-variant? Java founders wanted to have Generics right 
-from day 0 (Generics were introduced in Java 5). 
+which again is bad and extra overhead.
+
+But why were arrays made co-variant? 
+
+Java founders wanted to have Generics right from day 0 (Generics were introduced in Java 5).
 Generics follow **type erasure**, i.e. the type is checked for compatibility and erased at compile time. 
-More on it here. Due to lack of time, they had to postpone it. 
-Now without generics a method like this would had been impossible. 
+But due to lack of time, they had to postpone implementing Generics. 
+Now without generics a method like the following would had been impossible. 
 Unless Arrays were made co-variant.
 
 ```java
 Arrays.sort(Object[] ob)
 ```
 
-The above method takes an object array and sorts them based on the Comparables. 
+The above method takes an array of objects and sorts them based on the Comparables. 
 Hence a single method will suffice. Without covariance of arrays, they will be a 
 need to write a separate method for each of the Data Type. Hence the decision.
 
@@ -1900,18 +1904,19 @@ Nothing special for generics.
 
 Example - 2
 ```java
-List<String>[] l = new ArrayList<String>[10]();//line 1
-Object[] a = l;
-List<Integer> l2 = new ArrayList<Integer>();
+List<String>[] l  = new ArrayList<String>[10]();     //line 1
+Object[]       a  = l;
+List<Integer>  l2 = new ArrayList<Integer>();
 a[0] = l2;
-l[0] = ??? //list of string or integer?
+l[0] = ???   //list of string or integer?
 ```
 
-Hence line-1 is illegal. Though arrays with wild-cards are allowed i.e. List<?>. 
-Why is left for user to analyse. Similarly, 
+Hence line-1 is illegal. Though arrays with wild-cards are allowed i.e. `List<?>`. 
+Why is left for user to analyse. 
+Similarly, 
 why Generics were decided to be invariant is again left to the user 
-(Hint: Similar to the above example, try adding any animal (pig) to list of dogs) 
-So now we have seen that writing onto co-variant mutable types always throws one or some other trouble. 
+(Hint: Similar to the above example, try adding any animal `pig` to list of `dogs`) 
+So now we have seen that writing onto **co-variant mutable types** always throws one or some other trouble. 
 This gives gives rise to 2 questions:
 
 * If Arrays were invariant, would it solve the purpose?
@@ -1919,7 +1924,8 @@ This gives gives rise to 2 questions:
   Has mutability has got anything to do with it?
 
 Suppose Arrays were invariant, then the bugs would be detected right at compile time 
-as raised in Example -1. Thus Invariance of Arrays looks to be the right way forward. Scala gets this right. 
+as raised in Example -1. Thus Invariance of Arrays looks to be the right way forward. 
+Scala gets this right. 
 
 Lets look at the second question. Suppose Generics below were co-variant. 
 Lets consider immutable List for example. (By ImmutableList I mean, any addition to 
@@ -1928,20 +1934,22 @@ Similar to CopyOnWriteArrayList just that addition returns a new List every time
 
 ```java
 ImmutableList<String> a = new ImmutableList<String>();
-ImmutableList<String> b = a.add("Hey");//line2
-ImmutableList<Object> x = a;//line 3
-ImmuabltList<Object> y = b.add(new Object);
+ImmutableList<String> b = a.add("Hey");                 //line2
+ImmutableList<Object> x = a;                            //line 3
+ImmutableList<Object> y = b.add(new Object);
 ```
 
-In Line-2, adding a string returned immutable list containing only “Hey”. ImmutableList “a” still is empty. 
-Now on adding Object in Line-4 gave a new List containing (“Hey” and an “Object”) to become “y”. 
-The return type of list is “Object”. Hence it is safe at all the stages. 
-As now “y” is a list of Objects containing a “Hey” and an “Object.
+In Line-2, adding a string returned immutable list containing only `Hey`. 
+ImmutableList `a` still is empty. 
+Now on adding Object in Line-4 gave a new List containing (`Hey` and an `Object`) to become `y`. 
+The return type of list is `Object`. Hence it is safe at all the stages. 
+As now `y` is a list of Objects containing a `Hey` and an `Object`.
 
-So it turns out that with immutability, co-variance can be used safely. Com’on Co-variance is such a lovely tool. 
-It lets you do stuff like if A <:  B then it is handy to have `C[A] <: C[B]`. Isn’t it?
+So it turns out that with immutability, co-variance can be used safely. 
+Com’on Co-variance is such a lovely tool. 
+It lets you do stuff like  if `A <:  B` then it is handy to have `C[A] <: C[B]`. Isn’t it?
 
 So remember [P2] (from last post). Preferably with rights co-variance can be trouble-some. 
 Perfect for Reads just like returns in functions.
 
-Interestingly Contra-variance is made for writes. More on it in the next post.
+Interestingly **Contra-variance** is made for writes. More on it in the next post.
