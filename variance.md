@@ -1,4 +1,4 @@
-# Java Generics #
+# Covariance, Invariance, and Contravariance in Java #
 
 www.thejavageek.com/2013/08/28/generics-the-wildcard-operator/
 
@@ -8,27 +8,22 @@ http://thegreyblog.blogspot.fi/2011/03/java-generics-tutorial-part-ii.html
 
 ### Question: Explain Covariance, Invariance and Contravariance ###
 
-Today, I read some articles about Covariance, Contravariance (and Invariance) in Java. 
-I read the English and German wikipedia article, and some other blog posts and articles from IBM.
-
-But I'm still a little bit confused on what these exactly are about? Some say it's about relationship 
-between types and subtypes, some says it's about type conversion and some says it's used to decide
-whether a method is overridden or overloaded.
-
-So I'm looking for an easy explanation in plain English, that shows a beginner what Covariance 
-and Contravariance (and Invariance) is. Plus point for an easy example.
 
 ### Answer: ###
 
-> Some say it is about relationshop between types and subtypes, 
-> other say it is about type conversion and 
-> others say it is used to decide whether a method is overwritten or overloaded.
+> * Some say it is about relationshop between types and subtypes, 
+> * others say it is about type conversion, and 
+> * others say it is used to decide whether a method is overwritten or overloaded.
 
 All of the above.
 
-At heart, these terms describe how the subtype relation is affected by type transformations. 
-That is, if A and B are types, f a type transformation, and ≤ the 
-subtype relation (i.e. A ≤ B means that A is a subtype of B), we have
+At heart, these terms describe how the **subtype relation** is affected by 88type transformations**. 
+That is, if 
+* **A** and **B** are types, 
+* **f** a type transformation, and 
+* **≤** the subtype relation (i.e. `A ≤ B` means that A is a subtype of B),
+
+we have
 
 * f is **covariant** if `A ≤ B` implies that `f(A) ≤ f(B)`
 * f is **contravariant** if `A ≤ B` implies that `f(B) ≤ f(A)`
@@ -41,10 +36,10 @@ class List<T> { ... }
 ```
 
 Is f covariant, contravariant, or invariant? 
-* **Covariant** would mean that a List<String> is a subtype of List<Object>, 
-* **contravariant** that a List<Object> is a subtype of List<String>, and 
+* **Covariant** would mean that a `List<String>` is a subtype of `List<Object>`, 
+* **contravariant** that a `List<Object>` is a subtype of `List<String>`, and 
 ***invariant** that neither is a subtype of the other, 
-i.e. List<String> and List<Object> are **inconvertible** types.
+i.e. `List<String>` and `List<Object>` are **inconvertible** types.
 
 In Java, the latter is true, we say (somewhat informally) that **generics are invariant**.
 
