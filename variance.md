@@ -16,7 +16,7 @@ thegreyblog.blogspot.fi/2011/03/java-generics-tutorial-part-ii.html
 
 All of the above.
 
-At heart, these terms describe how the **subtype relation** is affected by 88type transformations**. 
+At heart, these terms describe how the **subtype relation** is affected by **type transformations**. 
 That is, if 
 * **A** and **B** are types, 
 * **f** a type transformation, and 
