@@ -73,7 +73,7 @@ make it easier to type than a whole bunch of
 
 The `TransactionException` implementation could look something like this:
 
-````java
+```java
 public class TransactionException extends Exception {
 
     public TransactionException(Throwable cause) {
