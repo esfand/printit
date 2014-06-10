@@ -82,8 +82,9 @@ public class TransactionException extends Exception {
 
     public <T extends Throwable> TransactionException throwIf(Class<T> type) 
                                                               throws T {
-        if(type.isInstance(getCause())) throw type.cast(getCause());
-            return this;
+        if(type.isInstance(getCause())) 
+            throw type.cast(getCause());
+        return this;
     }
 
     public <T extends Throwable> TransactionException or(Class<T> type) 
@@ -92,6 +93,7 @@ public class TransactionException extends Exception {
     }
 
     public void elseRuntimeException() {
+    
         throw new RuntimeException(getCause());
     }
 }
@@ -120,13 +122,14 @@ To support this flow, the optional class has a method that takes a
 supplier of exceptions of a certain type:
 
 ```java
-public <E extends Throwable> T orElseThrow(Supplier<? extends E> supplier) throws E {
+public <E extends Throwable> T orElseThrow(Supplier<? extends E> supplier) 
+                                           throws E {
 
     // effective impl:
     if(get() != null) 
         return get();
     else 
-        throw supplier.get();
+        throw supplier.get();  // <-- 
 }
 ```
 
