@@ -22,15 +22,17 @@ You should be able to do this using the **recursive generic definition**
 style that Java uses for `enum`s:
 
 ```java
-class A<T extends A<T>> {
-    T foo();
+abstract class A<SELF extends A<SELF>> {
+
+    abstract SELF self();
 }
 ```
 
 ```java
 class B extends A<B> {
+
     @Override
-    B foo();
+    B self();
 }
 ```
 
@@ -62,12 +64,11 @@ All intermediate extending classes must be abstract and maintain the **recursive
 ```java
 public abstract class MyBaseClass<SELF extends MyBaseClass<SELF>>
                                        extends SelfTyped<SELF> {
-
     MyBaseClass() { }
 
     public SELF baseMethod() {
 
-        //logic
+        // . . . logic
 
         return self();
     }
@@ -129,7 +130,7 @@ while keeping the same specific return type.
 
 ## DISCLAIMER ##
 
-The above is an implementation of the curiously recurring template pattern in Java. 
+The above is an implementation of the **curiously recurring template pattern** in Java. 
 This pattern is not inherently safe and should be reserved for the inner workings 
 of one's internal API only. The reason is that there is no guarantee the 
 type parameter `SELF` in the above examples will actually be resolved to the correct 
