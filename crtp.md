@@ -1,8 +1,8 @@
 # Using Generics To Build Fluent API's In Java #
 
-Normally when creating a fluent interface we want the ability to chain method calls 
-together in a variety of different orders. And often in object oriented programming 
-we put shared functionality in a base class and extend from that. Well unfortunately, 
+Normally when creating a fluent interface we want the ability to **chain method calls 
+together in a variety of different orders**. And often in object oriented programming 
+we **put shared functionality in a base class and extend from that**. Well unfortunately, 
 in strongly typed languages such as Java these two desires are often at odds with 
 each other. 
 
@@ -34,7 +34,10 @@ public class Cookie extends StandardBakedGood {
 }
 ```
 
-The base class is only guaranteeing that a StandardBakedGood type will be returned. This means that when chaining calls together, you are effectively blocked from calling a derived class’s methods after a base class method. In the example, we can’t call any Cookie class methods after the first call to prepare().
+The base class is only guaranteeing that a StandardBakedGood type will be returned. 
+This means that when chaining calls together, you are effectively blocked from 
+calling a derived class’s methods after a base class method. 
+In the example, we can’t call any Cookie class methods after the first call to prepare().
 
 ```java
 Cookie = new Cookie()
@@ -45,7 +48,8 @@ Cookie = new Cookie()
 
 How can we get around this while working within the type system? 
 
-Well one option is to have the child classes override the base class methods to return instances of their own type. In our example, we would have this:
+Well one option is to have the child classes override the base class methods to return 
+instances of their own type. In our example, we would have this:
 
 ```java
 @Override
@@ -59,11 +63,19 @@ public Cookie bake() {
 }
 ```
 
-This has some obvious downsides. First, you are relinquishing control of the method invocation since the child can do whatever it wants, and you cannot make these methods final. Second, if you want to add functionality to the base class then all of the derived classes need to be updated. All of this can be avoided if we can somehow make the base class aware of the child class’s type, and fortunately generics make that possible.
+This has some obvious downsides. 
+* First, you are relinquishing control of the method invocation since the 
+  child can do whatever it wants, and you cannot make these methods final. 
+* Second, if you want to add functionality to the base class then all of 
+  the derived classes need to be updated. 
+
+All of this can be avoided if we can somehow make the base class aware of 
+the child class’s type, and fortunately generics make that possible.
 
 ## Generics to the rescue. ##
 
-Consider this typical example of a derived class passing information about itself to its superclass through a constructor:
+Consider this typical example of a derived class passing information about itself 
+to its superclass through a constructor:
 
 ```java
 public class ChildClass extends BaseClass {
@@ -78,8 +90,9 @@ The basic idea is that the superclass requests information about the child, and 
 However this does little for typing, and in fact creates a bad sort of dependency 
 where we need to update the base class every time we make a new derived class. 
 Not good! Fortunately, we can accomplish the same idea using generics. 
-By having the base require information about the child we are able to capture the child class’s type 
-and use that as the return type of our chained API methods.
+By having the base require information about the child we are able to 
+* capture the **child class’s type**, and
+* use that as the **return type** of our chained API methods.
 
 ```java
 public abstract class BakedGood<CHILD extends BakedGood<CHILD>> {
@@ -93,7 +106,8 @@ public abstract class BakedGood<CHILD extends BakedGood<CHILD>> {
     @SuppressWarnings("unchecked")
     public CHILD eat() {
         String string = new StringBuilder()
-            .append("Mmm, this ").append(this.getClass().getSimpleName())
+            .append("Mmm, this ")
+            .append( this.getClass().getSimpleName() )
             .append(" is so tasty!")
             .toString();
 
@@ -153,11 +167,11 @@ public class Pizza extends BakedGood<Pizza> {
 
 The type parameter is saying **the Child class must extend Base<Child>**, 
 forcing the Child class to provide its own type to the type system. 
-Now that we can return the derived class in our chained method calls we 
+Now that we can **return the derived class** in our chained method calls we 
 are free to alternately call methods from the base class and the derived class. 
 The IDE will happily autocomplete for us because it knows that the objects being returned are 
-Pizza and Cake, not just BakedGood. All of the normal polymorphic abilities are retained 
-(you can see that we’ve implemented the abstract bake() method required by BakedGood).
+`Pizza` and `Cake`, not just `BakedGood`. All of the normal polymorphic abilities are retained 
+(you can see that we’ve implemented the abstract`bake()` method required by `BakedGood`).
 
 ```java
 Cake  cake;
@@ -214,7 +228,6 @@ The BakedGood class has also been extended to be generic.
 ```java
 public abstract class GenericBakedGood<CHILD extends GenericBakedGood<CHILD, T>, T> 
                                              extends BakedGood<CHILD> {
-
     @SuppressWarnings("unchecked")
     public CHILD addSecretIngredient(T ingredient) {
         System.out.println("adding some " + ingredient);
@@ -425,7 +438,7 @@ The example code detailed in this post is written in Java, is free to use, and c
 **UPDATE:** It has a name! First pointed out in C++, it is often called the 
 **Curiously Recurring Template Pattern**, or **CRTP**.
 
-## Flapi, the Fluent API Builder for Java |##
+## Flapi, the Fluent API Builder for Java ##
 
 In a previous post, Using Generics To Build Fluent API’s In Java, I detailed a way 
 to create type-safe fluent API’s using generics. Handy, but unfortunately the process 
