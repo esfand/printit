@@ -1,8 +1,7 @@
-# Covariance, Invariance, and Contravariance in Java #
+# Covariance, Invariance, and Contravariance #
 
-www.thejavageek.com/2013/08/28/generics-the-wildcard-operator/
-
-http://thegreyblog.blogspot.fi/2011/03/java-generics-tutorial-part-ii.html
+www.thejavageek.com/2013/08/28/generics-the-wildcard-operator/   
+thegreyblog.blogspot.fi/2011/03/java-generics-tutorial-part-ii.html
 
 ## Q & A ##
 
