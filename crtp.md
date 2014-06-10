@@ -219,11 +219,13 @@ Mmm, this Pizza is so tasty!
 ## Turning up the heat ###
 
 Hopefully you see the power of this application of generics now. 
-We’ve managed to create a fluent API while keeping shared code in the base class 
-of our object hierarchy. However, it gets even better. We are free to implement 
-generic classes using this technique as well. In the following example, 
-Pizza and Cake have been implemented as generic classes which take a type parameter. 
-The BakedGood class has also been extended to be generic.
+We’ve managed to create a fluent API while **keeping shared code in the base class** 
+of our object hierarchy. However, it gets even better. We are free to 
+**implement generic classes** using this technique as well. 
+
+In the following example, 
+`Pizza` and `Cake` have been implemented as generic classes which take a type parameter. 
+The `BakedGood` class has also been extended to be generic.
 
 ```java
 public abstract class GenericBakedGood<CHILD extends GenericBakedGood<CHILD, T>, T> 
@@ -411,42 +413,39 @@ Mmm, this Muffin is so tasty!
 
 ## Conclusion ##
 
-Developing a highly useable API is one of the more interesting challenges of 
-software architecting. In a strongly typed language such as Java, we must be 
+For developing a highly useable API, we must be 
 especially clever about how we declare our methods so that we can ensure the 
 greatest possible compatibility. 
 
-Some other solutions to this particular problem 
-* would require modifying the base class whenever a new derived class is created, or 
-* forcing the derived classes to override the base class methods themselves. 
-
+Other solutions to this particular problem would  
+(1) require modifying the base class whenever a new derived class is created, or  
+(2) force the derived classes to override the base class methods themselves.  
 Both of these fly in the face of good design, where 
 shared functionality is defined only once in the object hierarchy (the DRY principal), and 
 the dependencies only flow in one direction (that is, a parent should not depend on its children).
 
-Java generics have a bad reputation, being added on late in the game, and indeed 
-there are many times that I want to pull my hair out when something doesn’t work as 
-expected at runtime. However the principals described here should be applicable to any 
-strongly typed language with generics as a feature. I think you’ll agree that the gains in readability of your API are worth the little hassles and the extra bulk of the class signatures. So try it out; go forth and create something of your own. Show those programmers working with dynamic languages that you can be beautiful too!
+I think you’ll agree that the gains in readability of your API are worth 
+the little hassles and the extra bulk of the class signatures.
 
 ## Notes ##
-
-The best article I was able to find on the topic was this one. 
-Some practical applications of fluent API’s can be found here and here. 
-The example code detailed in this post is written in Java, is free to use, and can be downloaded here. 
 
 **UPDATE:** It has a name! First pointed out in C++, it is often called the 
 **Curiously Recurring Template Pattern**, or **CRTP**.
 
 ## Flapi, the Fluent API Builder for Java ##
 
-In a previous post, Using Generics To Build Fluent API’s In Java, I detailed a way 
-to create type-safe fluent API’s using generics. Handy, but unfortunately the process 
-can be somewhat tedious. Any project wishing to utilize a builder must carefully 
-hand-code the various classes and interfaces. 
+Above, I detailed a way to create type-safe fluent API’s using generics. 
+Handy, but unfortunately the process can be somewhat tedious. 
+Any project wishing to utilize a **builder** must carefully hand-code the 
+various classes and interfaces. 
 Modifications made later are oftentimes painful to implement.
 
-Looking at the simplistic examples from the previous article, it is easy to see patterns in the way the classes are constructed. The type parameters act as a sort of stack, storing the memory of where a method came from, while simultaneously providing insight into where it can go. A sort of…state machine, where classes can transition between each other based on the methods invoked. That’s all a program really is in the end anyway, right?
+Looking at the simplistic examples from the previous article, it is easy to see 
+patterns in the way the classes are constructed. 
+The type parameters act as a sort of stack, storing the memory of where a method came from, 
+while simultaneously providing insight into where it can go. 
+A sort of state machine, where classes can transition between each other based on the methods invoked. 
+That’s all a program really is in the end anyway, right?
 
 I took that concept and started writing a code generation tool which would build fluent API’s in Java, wrapping the complex maneuvering around the many types required. Flapi is the result of that work. Using a fluent builder itself, it is easy to create a set of classes which form a builder of your design. Lots of great features like nested blocks of methods, chaining methods together, and invocation tracking make writing and using a builder easy and fun. See the Getting Started page on the wiki to start creating your own fluent API’s.
 
