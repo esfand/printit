@@ -3,11 +3,12 @@
 In the Java language, generics are not **covariant** (a `List<Integer>` is not a `List<Number>`.) 
 
 **Bounded wildcards** ( `? extends T` and `? super T` generic type specifiers ) 
-are  provided for dealing with the lack of covariance — 
+are  provided for dealing with the lack of **covariance** and **contravariance** — 
 they let classes declare when method arguments or return values are covariant or contravariant.
 
 While knowing **when to use bounded wildcards** is one of the more complicated aspects of generics, 
-the burden of using them falls mostly on library writers, rather than library users. 
+the burden of using them falls mostly on **library writers**, rather than **library users**. 
+
 The most common mistake with bounded wildcards is forgetting to use them at all, 
 restricting the utility of a class or forcing users to jump through hoops to reuse an existing class.
 
@@ -206,29 +207,28 @@ without having to wrap it with an `EqualityComparator<Number>`.
 
 ## The get-put principle ##
 
-There's an old joke that says 
-> A man with one watch always knows what time it is; 
-> a man with two watches is never sure."
-
-Because the language supports both upper-bound and lower-bounded wildcards, 
+There's an old joke that says:  
+a man with one watch always knows what time it is;  
+a man with two watches is never sure.  
+Because the language supports both **upper-bound wildcards** and **lower-bounded wildcards**, 
 how do we know which one to use, and when?
 
 There's a simple rule, called the **get-put principle**, which tells us which kind of wildcard to use.
-
 The get-put principle, as stated in Naftalin and Wadler's book on generics, says:
-* use an extends wildcard when you only get values out of a structure, 
-* use a super wildcard when you only put values into a structure, and 
-* don't use a wildcard when you do both.
+* **use an extends wildcard** when you only get values out of a structure, 
+* **use a super wildcard** when you only put values into a structure, and 
+* **don't use a wildcard** when you do both.
 
 The get-put principle is easiest to understand when applied to 
 **container classes** like Box, or 
 **Collections classes**, 
 because the notion of getting or putting connects naturally with what these classes do: 
 **store things**.
+
 So, if we wanted to apply the get-put principle to create a 
-method that copies from one Box to another, the most general form would be as shown in Listing 8, where 
-an **upper-bounded wildcard** is used for the source and 
-a **lower-bounded wildcard** is used for the destination:
+method that copies from one Box to another, the most general form would be as shown in Listing 8, where  
+an **upper-bounded wildcard** is used for the source, and  
+a  **lower-bounded wildcard** is used for the destination:
 
 ```java
 // Listing 8. Copy method for Box using both 
@@ -242,17 +242,15 @@ public static<T> void copy(Box<? extends T> from, Box<? super T> to) {
 How do we apply the get-put principle in the case of the `containsSame()` method shown earlier, 
 where we used an upper-bounded wildcard for the box but a lower-bounded wildcard for the comparator?
 
-The first part is easy: 
+The **first part** is easy: 
 we are getting a value from the other box, so we need to use an extends wildcard.
+But the **second part** is not as clear — because the comparator isn't a container, 
+so it doesn't feel like we're either getting from or putting to a data structure.
 
-But the second part is not as clear — because the comparator isn't a container, 
-so it doesn't feel like we're either getting or putting from a data structure.
-
-The way to think about the get-put principle when the data type is not obviously a container class 
-like a collection is that, 
-even though an EqualityComparator is not a data structure, 
-it is still something you can "put" a value into — 
-in the sense of passing the value to one of its methods. 
+The way to think about the get-put principle 
+when the **data type** is not obviously a container class like a collection is that, 
+even though an `EqualityComparator` is not a data structure, 
+it is still something you can **put** a value into — in the sense of passing the value to one of its methods. 
 In the `containsSame()` method, you are using the Box as 
 **a producer of values** (retrieving values from the Box) and using the comparator as 
 **a consumer of values** (passing values to the comparator). 
@@ -260,7 +258,7 @@ So it makes sense to use
 an extends wildcard for the Box, but 
 a super wildcard for the comparator.
 
-We can see the get-put principle at work in the declaration for Collections.sort(), 
+We can see the get-put principle at work in the declaration for `Collections.sort()`, 
 shown in Listing 9:
 
 ```java
