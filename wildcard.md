@@ -73,7 +73,9 @@ public interface Box<T> {
 }
 ```
 
-The problem with this extended Box is that we can only put the contents in a Box whose type parameter is exactly the same as the receiving box. So, for example, the code in Listing 3 won't compile:
+The problem with this extended Box is that we can only put the contents in a Box 
+whose type parameter is exactly the same as the receiving box. 
+So, for example, the code in Listing 3 won't compile:
 
 ```java
 // Listing 3. Generics are not covariant
@@ -84,7 +86,19 @@ Box<Integer> iBox = new BoxImpl<Integer>();
 nBox.put(iBox);     // ERROR
 ```
 
-We get an error message that tells us it cannot find the method put(Box<Integer>) on a Box<Number>. This error makes sense when we consider that generics are not covariant; a Box<Integer> is not a Box<Number>, even though an Integer is a Number, but this makes the Box class feel less "generic" than we'd hoped it would be. To increase the usefulness of our generic code, instead of specifying the exact type of a generic type parameter, we can specify an upper (or lower) bound instead. To do so, we use a bounded wildcard, which takes the form "? extends T" or "? super T". (Bounded wildcards can only be used as type parameters; they cannot appear as types themselves — for that, a bounded named type variable is required.) In Listing 4, we change the signature of put() to use an upper-bounded wildcard —Box<? extends T>, which means that the type parameter of the Box can be T or any subclass of T.
+We get an error message that tells us it cannot find the method `put(Box<Integer>)` on a `Box<Number>`. 
+This error makes sense when we consider that generics are not covariant; 
+a `Box<Integer>` is not a `Box<Number>`, even though an Integer is a Number, 
+but this makes the Box class feel less **generic** than we'd hoped it would be.
+
+To increase the usefulness of our generic code, instead of specifying the **exact** type of a generic type parameter,
+we can specify an **upper-bound** or **a lower-bound** instead. 
+To do so, we use a **bounded wildcard**, which takes the form **? extends T** or **? super T**. 
+(Bounded wildcards can only be used **as type parameters**; they cannot appear **as types themselves** — 
+for that, a **bounded named type variable** is required.) 
+
+In Listing 4, we change the signature of `put()` to use an upper-bounded wildcard — `Box<? extends T>`, 
+which means that the type parameter of the Box can be T or any subclass of T.
 
 ```java
 // Listing 4. Improved version of Box class from Listing 3, which accounts for covariance
@@ -208,8 +222,7 @@ without having to wrap it with an `EqualityComparator<Number>`.
 
 ## The get-put principle ##
 
-There's an old joke that says:  
-a man with one watch always knows what time it is;  
+There's an old joke that says: a man with one watch always knows what time it is;
 a man with two watches is never sure.  
 Because the language supports both **upper-bound wildcards** and **lower-bounded wildcards**, 
 how do we know which one to use, and when?
