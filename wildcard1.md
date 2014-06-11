@@ -14,9 +14,9 @@ far and away the trickiest part of generics is **wildcards**.
 
 Generics are a means of expressing **type constraints** on the behavior of 
 a **class** or **method** in terms of **unknown types**, such as:
-* whatever the types of parameters x and y of this method are, they must be the same type,
+* whatever the types of parameters `x` and `y` of this method are, they must be the same type,
 * you must provide a parameter of the same type to both of these methods, or 
-* the return value of foo() is the same type as the parameter of bar().
+* the return value of `foo()` is the same type as the parameter of `bar()`.
 
 **Wildcards** — the funky question marks where a **type parameter** should go — are 
 a means of expressing a type constraint in terms of an **unknown type**. 
@@ -63,7 +63,7 @@ the different behavior of generics vs. arrays does cause a great deal of confusi
 
 Listing 1 shows a simple container type, Box, which supports put and get operations. 
 Box is parameterized by a type parameter T, which signifies the type of the contents of the box; 
-a Box<String> can contain only elements of type String.
+a `Box<String>` can contain only elements of type String.
 
 ```java
 // Listing 1. Simple generic Box type
@@ -182,8 +182,8 @@ it allows the compiler (through type inference) to give a name to the type param
 The **capture helper trick** allows us to work around the compiler's limitations in 
 dealing with wildcards. 
 When `rebox()` calls `reboxHelper()`, it knows that doing so is safe because its own box parameter 
-must be a `Box<T>` for some unknown T. 
-Because the type parameter V 
+must be a `Box<T>` for some unknown `T`. 
+Because the type parameter `V` 
 is introduced in the method signature and 
 not tied to any other type parameter, 
 it can stand for any unknown type as well, so 
@@ -283,7 +283,7 @@ has other advantages over constructors:
 * you can give them more descriptive names, 
 * they can return subtypes of the named return type, and 
 * they are not necessarily required to create a new instance for each invocation, 
-enabling sharing of immutable instances. 
+  enabling sharing of immutable instances. 
 
 See Effective Java, Item #1 in the Resources for more on the benefits of **static factories**.
 
