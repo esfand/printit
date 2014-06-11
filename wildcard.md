@@ -177,8 +177,9 @@ boolean b = nBox.containsSame(iBox, sameObject);
 
 Using an `EqualityComparator<Object>` here seems a perfectly reasonable thing to want to do. 
 Why should clients have to create a separate comparator for every possible type of Box 
-when they can specify it generically? 
-The solution is to use a **lower-bounded wildcard** — represented by `? super T`. 
+when they can specify it generically?  
+The solution is to use a **lower-bounded wildcard** — represented by `? super T`.
+
 The correct version of the Box class, as extended with a `compareTo()` method, is shown in Listing 7:
 
 ```java
