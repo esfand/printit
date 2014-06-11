@@ -1,37 +1,37 @@
 # Java Generic Wildcard #
 
-## Part 1 **
+## Part 1 ##
 
 Generics have been a controversial topic ever since they were added to the language in JDK 5. 
 Some say they simplify programming by extending the reach of the type system and therefore 
 the compiler's ability to verify type safety; 
 others say that they add more complexity than they're worth. 
 We've all had a few head-scratching moments with generics, but
-far and away the trickiest part of generics is wildcards.
+far and away the trickiest part of generics is **wildcards**.
 
 
 ### Wildcard basics ###
 
-Generics are a means of expressing type constraints on the behavior of a class or method 
-in terms of unknown types, such as 
-"whatever the types of parameters x and y of this method are, they must be the same type," 
-"you must provide a parameter of the same type to both of these methods," or 
-"the return value of foo() is the same type as the parameter of bar()."
+Generics are a means of expressing **type constraints** on the behavior of 
+a **class** or **method** in terms of **unknown types**, such as:
+* whatever the types of parameters x and y of this method are, they must be the same type,
+* you must provide a parameter of the same type to both of these methods, or 
+* the return value of foo() is the same type as the parameter of bar().
 
-Wildcards — the funky question marks where a type parameter should go — are 
-a means of expressing a type constraint in terms of an unknown type. 
+**Wildcards** — the funky question marks where a **type parameter** should go — are 
+a means of expressing a type constraint in terms of an **unknown type**. 
 They were not part of the original design for generics; 
 they were added as the design process played out over the five years between 
 the formation of JSR 14 and its final release.
 
 Wildcards play an important role in the type system; 
-they provide a useful type bound for the family of types specified by a generic class. 
+they provide a useful **type bound** for the family of types specified by a generic class. 
 For the generic class `ArrayList`, the type `ArrayList<?>` is a supertype of `ArrayList<T>` 
-for any reference type T (as are the raw type `ArrayList` and the root type `Object`, 
+for any reference type `T` (as are the raw type `ArrayList` and the root type `Object`, 
 but these supertypes are far less useful for performing type inference).
 
-The **wildcard type** `List<?>` is different from both 
-the **raw type** `List`, and 
+The **wildcard type** `List<?>` is different from both  
+the **raw type** `List`, and  
 the **concrete type** `List<Object>`. 
 
 To say a variable `x` has type `List<?>` means that 
@@ -222,7 +222,7 @@ So the only way this trick could work is if the compiler infers the type for you
 **Capture conversion** is what allows the compiler to manufacture a placeholder type name 
 for the captured wildcard, so that type inference can infer it to be that type.
 
-The compiler will try and infer the most specific type it can for the type parameters 
+The compiler will try and infer the **most specific type** it can for the type parameters 
 when resolving a call to a generic method. 
 For example, with this generic method:  
 `public static<T> T identity(T arg) { return arg };`  
@@ -278,13 +278,14 @@ You still have the option of manually specifying the value of V as follows:
 Box<String> myBox = BoxImpl.<String>make();
 ```
 
-In addition to saving some keystrokes, the factory method technique illustrated here 
+In addition to saving some keystrokes, the **factory method technique** illustrated here 
 has other advantages over constructors: 
-you can give them more descriptive names, 
-they can return subtypes of the named return type, and 
-they are not necessarily required to create a new instance for each invocation, 
+* you can give them more descriptive names, 
+* they can return subtypes of the named return type, and 
+* they are not necessarily required to create a new instance for each invocation, 
 enabling sharing of immutable instances. 
-(See Effective Java, Item #1 in the Resources for more on the benefits of static factories.)
+
+See Effective Java, Item #1 in the Resources for more on the benefits of **static factories**.
 
 ### Conclusion ###
 
@@ -293,7 +294,7 @@ some of the most confusing error messages that come out of the Java compiler hav
 some of the most complex sections of the Java Language Specification have to do with wildcards. 
 However, when used properly, they can be extremely powerful. 
 
-The two tricks shown here — the **capture helper trick** and the **generic factory trick&& — 
+The two tricks shown here — the **capture helper trick** and the **generic factory trick** — 
 both take advantage of generic methods and type inference, which, when used properly, 
 can hide much of the complexity.
 
