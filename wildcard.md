@@ -2,7 +2,7 @@
 
 In the Java language, generics are not **covariant** (a `List<Integer>` is not a `List<Number>`.) 
 
-**Bounded wildcards** ( `? extends T` and `? super T' generic type specifiers ) 
+**Bounded wildcards** ( `? extends T` and `? super T` generic type specifiers ) 
 are  provided for dealing with the lack of covariance — 
 they let classes declare when method arguments or return values are covariant or contravariant.
 
