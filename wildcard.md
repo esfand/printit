@@ -53,8 +53,8 @@ because in the places where we expect polymorphism, the data is already in a for
 the compiler is able to apply the appropriate **subtyping rules**.
 
 Things get more complicated, however, when we want the API to deal not only   
-o in **variables of type T**, but also  
-o in **types generified over T**.
+**o** in **variables of type T**, but also  
+**o** in **types generified over T**.
 
 Let's say we want to add a new method to Box that allows us to 
 fetch the contents from another Box, and 
@@ -126,7 +126,7 @@ It is also possible, though less common, to place a **lower bound** on the type 
 the notation `? super T`, meaning **T or any superclass of T**. 
 **Lower-bounded wildcards** show up when you want to specify  
 o  a **callback object**, such as a comparator, or  
-o  a data structure into which you are going to place a value.
+o  a **data structure** into which you are going to place a value.
 
 Let's say we want to enhance our Box with the ability to compare the contents 
 with that of another box. 
@@ -227,8 +227,8 @@ because the notion of getting or putting connects naturally with what these clas
 **store things**.
 So, if we wanted to apply the get-put principle to create a 
 method that copies from one Box to another, the most general form would be as shown in Listing 8, where 
-an upper-bounded wildcard is used for the source and 
-a lower-bounded wildcard is used for the destination:
+an **upper-bounded wildcard** is used for the source and 
+a **lower-bounded wildcard** is used for the destination:
 
 ```java
 // Listing 8. Copy method for Box using both 
@@ -253,7 +253,7 @@ like a collection is that,
 even though an EqualityComparator is not a data structure, 
 it is still something you can "put" a value into — 
 in the sense of passing the value to one of its methods. 
-In the containsSame() method, you are using the Box as 
+In the `containsSame()` method, you are using the Box as 
 **a producer of values** (retrieving values from the Box) and using the comparator as 
 **a consumer of values** (passing values to the comparator). 
 So it makes sense to use 
@@ -263,16 +263,37 @@ a super wildcard for the comparator.
 We can see the get-put principle at work in the declaration for Collections.sort(), 
 shown in Listing 9:
 
-Listing 9. Another example of using lower-bounded wildcards
 ```java
+// Listing 9. Another example of using lower-bounded wildcards
+
 public static <T extends Comparable<? super T>> void sort(List<T>list) { ... }
 ```
 
-Here, we are saying we can sort a List that is parameterized by any type that implements Comparable. But rather than restricting the domain of sort() to lists whose elements are comparable to themselves, we can go further — we can sort lists of elements that know how to compare themselves to their supertypes, too. Because we are putting values into the comparator to determine the relative ordering of two elements, the get-put principle tells us we want to use a super wildcard here.
-The seeming circular reference — where T extends something parameterized by T— is not really circular at all. It is simply expressing the constraint that to be able to sort a List<T>, T has to implement the interface Comparable<X>, where X is T or one of its supertypes.
-The last part of the rule — don't use a wildcard when you are both getting and putting — follows from the first two parts. If you can put a T or any of its subtypes, and you can get a T or any of its supertypes, then the only thing you can both get and put is a T itself.
-Keep bounded wildcards out of return values
-It is sometimes tempting to use a bounded wildcard in the return type of a method. But this temptation is best avoided because returning bounded wildcards tends to "pollute" client code. If a method were to return a Box<? extends T>, then the type of the variable receiving the return value would have to be Box<? extends T>, which pushes the burden of dealing with bounded wildcards on your callers. Bounded wildcards work best when they are used in APIs, not in client code.
+Here, we are saying we can sort a List that is parameterized by any type that implements Comparable. 
+But rather than restricting the domain of `sort()` to lists whose elements are comparable to themselves, 
+we can go further — we can sort lists of elements that know how to compare themselves to their supertypes, too. 
+Because we are putting values into the comparator to determine the relative ordering of two elements, 
+the get-put principle tells us we want to use a **super wildcard** here.
+
+The seeming circular reference — where T extends something parameterized by T — is not really circular at all. 
+It is simply expressing the constraint that 
+to be able to sort a `List<T>`, 
+T has to implement the interface `Comparable<X>`, where X is T or one of its supertypes.
+
+The last part of the rule — don't use a wildcard when you are both getting and putting — 
+follows from the first two parts. 
+If you can put a T or any of its subtypes, and 
+you can get a T or any of its supertypes, then 
+the only thing you can both get and put is a T itself.
+
+## Keep bounded wildcards out of return values ##
+
+It is sometimes tempting to use a bounded wildcard in the return type of a method. 
+But this temptation is best avoided because returning bounded wildcards tends to **pollute** client code. 
+If a method were to return a `Box<? extends T>`, 
+then the type of the variable receiving the return value would have to be `Box<? extends T>`, 
+which pushes the burden of dealing with bounded wildcards on your callers. 
+Bounded wildcards work best when they are used **in APIs**, not **in client code**.
 
 ## Summary ##
 Bounded wildcards are extremely useful in making generic APIs more flexible. 
