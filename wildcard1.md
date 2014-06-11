@@ -34,12 +34,12 @@ The **wildcard type** `List<?>` is different from both
 the **raw type** `List`, and  
 the **concrete type** `List<Object>`. 
 
-To say a variable `x` has type `List<?>` means that 
-there exists some type `T` for which `x` is of type `List<T>`, 
-that `x` is **homogeneous** even though we don't know what particular type its elements have. 
+To say a **variable** `x` has **type** `List<?>` means that 
+there exists some type `T` for which `x` is of type `List<T>`.  
+That `x` is **homogeneous** even though we don't know what particular type its elements have. 
+It's not that the contents can be anything, 
+it's that we don't know what the **type constraints** on the contents are — but we know that there is a **constraint**. 
 
-It's not that the contents can be anything, it's that we don't know what the **type constraints**
-on the contents are — but we know that there is a constraint. 
 On the other hand, the **raw type** `List` is **heterogeneous**; 
 we are not able to place any type constraints on its elements, 
 and the **concrete type** `List<Object>` means that 
