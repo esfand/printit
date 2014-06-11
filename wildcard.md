@@ -37,8 +37,9 @@ Listing 1 shows two examples of this sort of polymorphism:
 retrieving the contents of a `Box<Integer>` as a `Number`, and 
 putting an `Integer` into a `Box<Number>`:
 
-Listing 1. Exploiting **inherent polymorphism** with **generic classes**
 ```java
+// Listing 1. Exploiting **inherent polymorphism** with **generic classes**
+
 Box<Integer> iBox = new BoxImpl<Integer>(3);
 Number       num  = iBox.get();
 
@@ -60,8 +61,9 @@ fetch the contents from another Box, and
 put it in this one, 
 as shown in Listing 2:
 
-Listing 2. An extended Box interface, which is not as flexible as it looks
 ```java
+// Listing 2. An extended Box interface, which is not as flexible as it looks
+
 public interface Box<T> {
 
     public T    get();
@@ -72,8 +74,9 @@ public interface Box<T> {
 
 The problem with this extended Box is that we can only put the contents in a Box whose type parameter is exactly the same as the receiving box. So, for example, the code in Listing 3 won't compile:
 
-Listing 3. Generics are not covariant
 ```java
+// Listing 3. Generics are not covariant
+
 Box<Number>  nBox = new BoxImpl<Number> ();
 Box<Integer> iBox = new BoxImpl<Integer>();
 
@@ -82,8 +85,9 @@ nBox.put(iBox);     // ERROR
 
 We get an error message that tells us it cannot find the method put(Box<Integer>) on a Box<Number>. This error makes sense when we consider that generics are not covariant; a Box<Integer> is not a Box<Number>, even though an Integer is a Number, but this makes the Box class feel less "generic" than we'd hoped it would be. To increase the usefulness of our generic code, instead of specifying the exact type of a generic type parameter, we can specify an upper (or lower) bound instead. To do so, we use a bounded wildcard, which takes the form "? extends T" or "? super T". (Bounded wildcards can only be used as type parameters; they cannot appear as types themselves — for that, a bounded named type variable is required.) In Listing 4, we change the signature of put() to use an upper-bounded wildcard —Box<? extends T>, which means that the type parameter of the Box can be T or any subclass of T.
 
-Listing 4. Improved version of Box class from Listing 3, which accounts for covariance
 ```java
+// Listing 4. Improved version of Box class from Listing 3, which accounts for covariance
+
 public interface Box<T> {
 
     public T    get();
@@ -129,8 +133,9 @@ with that of another box.
 We can extend Box with a `containsSame()` method, 
 and the definition of a Comparator **callback object**, as shown in Listing 5:
 
-Listing 5. Too-restrictive an attempt at adding a comparison method to Box
 ```java
+//Listing 5. Too-restrictive an attempt at adding a comparison method to Box
+
 public interface Box<T> {
 
     public T    get();
@@ -151,8 +156,9 @@ which avoids the problems we've seen before. But we've still got a similar probl
 the comparator parameter must be exactly an `EqualityComparator<T>`. 
 This means we couldn't write the code in Listing 6:
 
-Listing 6. Failure when attempting to use the comparison method from Listing 5
 ```java
+// Listing 6. Failure when attempting to use the comparison method from Listing 5
+
 public static EqualityComparator<Object> sameObject 
               = new EqualityComparator<Object>() {
                         public boolean compare(Object o1, Object o2) {
@@ -160,7 +166,7 @@ public static EqualityComparator<Object> sameObject
                     }
                 };
 
-...
+. . .
 
 BoxImpl<Integer> iBox = ...;
 BoxImpl<Number>  nBox = ...;
@@ -174,8 +180,10 @@ when they can specify it generically?
 The solution is to use a **lower-bounded wildcard** — represented by `? super T`. 
 The correct version of the Box class, as extended with a `compareTo()` method, is shown in Listing 7:
 
-Listing 7. More flexible version of the comparison operation from Listing 5, using bounded wildcards
 ```java
+// Listing 7. More flexible version of the comparison operation from Listing 5, 
+//            using bounded wildcards
+
 public interface Box<T> {
 
     public T    get();
@@ -216,14 +224,16 @@ The get-put principle is easiest to understand when applied to
 **container classes** like Box, or 
 **Collections classes**, 
 because the notion of getting or putting connects naturally with what these classes do: 
-store things. 
+**store things**.
 So, if we wanted to apply the get-put principle to create a 
 method that copies from one Box to another, the most general form would be as shown in Listing 8, where 
 an upper-bounded wildcard is used for the source and 
 a lower-bounded wildcard is used for the destination:
 
-Listing 8. Copy method for Box using both upper-bounded and lower-bounded wildcards
 ```java
+// Listing 8. Copy method for Box using both 
+//            upper-bounded and lower-bounded wildcards
+
 public static<T> void copy(Box<? extends T> from, Box<? super T> to) {
     to.put(from.get());
 }
