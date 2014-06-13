@@ -15,7 +15,7 @@ The conversion rules define which types are assignment compatible.  Using the ex
 The rules for assignment compatibility also define which objects can be passed to which method.  An argument can be passed to a method if its type is assignment compatible to the declared type of the method parameter. For instance, we cannot pass an Integer   to a method that asks for String , but we can pass an Integer to a method that asks for a Number .  The same rules apply to the return value of a method.  
  
 
-Super-subtype relationships of parameterized types.
+### Super-subtype relationships of parameterized types. ###
 
 In order to understand how objects of parameterized types can be used in assignments, method invocations and casts, we need an understanding of the relationship that parameterized types have among each other and with non-parameterized types. And we need to know the related conversion rules. 
 
