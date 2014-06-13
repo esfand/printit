@@ -9,18 +9,41 @@ relevant for method invocation, assignment and casts.
 ### Relevance of type relationships and type converstion rules in practice. ###
 
 The type system of a programming language determines which types are convertible to which other types.  
-These conversion rules have an impact on various areas of a programming language.  
-One area where conversion rules and type relationships play role is casts and instanceof expressions.  
-Other area is assignment compatibility and method invocation, where argument and 
-return value passing relies on convertibility of the involved types. 
+These **conversion rules** have an impact on various areas of a programming language. 
+
+One area where conversion rules and type relationships play role is **casts** and **instanceof expressions**.  
+Other area is **assignment compatibility** and **method invocation**, where 
+argument and return value passing relies on convertibility of the involved types. 
 
 The type conversion rules determine which casts are accepted and which ones are rejected.  
-For example, the types String and Integer have no relationship and for this reason the compiler rejects the attempt of a cast from String to Integer , or vice versa.  In contrast, the types Number and Integer have a super-subtype relationship; Integer is a subtype of Number and Number is a supertype of Integer . Thanks to this relationship, the compiler accepts the cast from Number to Integer , or vice versa.  The cast from Integer to Number is not even necessary, because the conversion from a subtype to a supertype is considered an implicit type conversion, which need not be expressed explicitly in terms of a cast; this conversion is automatically performed by the compiler whenever necessary.  The same rules apply to  instanceof expressions. 
+For example, the types `String` and `Integer` have no relationship and for this reason 
+the compiler rejects the attempt of a cast from `String` to `Integer`, or vice versa.  
+In contrast, the types `Number` and `Integer` have a super-subtype relationship; 
+Integer is a subtype of Number and Number is a supertype of Integer . 
+Thanks to this relationship, the compiler accepts the cast from `Number` to `Integer` , or vice versa.  
+The cast from `Integer` to `Number` is not even necessary, because the conversion 
+from a subtype to a supertype is considered an implicit type conversion, 
+which need not be expressed explicitly in terms of a cast; 
+this conversion is automatically performed by the compiler whenever necessary.  
+The same rules apply to **instanceof expressions**. 
 
-The conversion rules define which types are assignment compatible.  Using the examples from above, we see that a String cannot be assigned to an Integer variable, or vice versa, due to the lack of a type relationship.  In contrast, an Integer can be assigned to a Number variable, but not vice versa.  A side effect of the super-subtype relationship is that we can assign a subtype object to a supertype variable, without an explicit cast anywhere.  This is the so-called widening reference conversion ; it is an implicit conversion that the compiler performs automatically whenever it is needed.  The converse, namely assignment of a supertype object to a subtype variable, is not permitted.  This is because the so-called narrowing reference conversion is not an implicit conversion.  It can only be triggered by an explicit cast. 
+The conversion rules define which types are assignment compatible.  
+Using the examples from above, we see that a `String` cannot be assigned to an `Integer` variable, or vice versa, 
+due to the lack of a type relationship.  
+In contrast, an `Integer` can be assigned to a `Number` variable, but not vice versa.  
+A side effect of the super-subtype relationship is that 
+we can assign a subtype object to a supertype variable, without an explicit cast anywhere.  
+This is the so-called **widening reference conversion**; 
+it is an implicit conversion that the compiler performs automatically whenever it is needed.  
+The converse, namely assignment of a supertype object to a subtype variable, is not permitted.  
+This is because the so-called **narrowing reference conversion** is not an implicit conversion.  
+It can only be triggered by an explicit cast. 
 
-The rules for assignment compatibility also define which objects can be passed to which method.  An argument can be passed to a method if its type is assignment compatible to the declared type of the method parameter. For instance, we cannot pass an Integer   to a method that asks for String , but we can pass an Integer to a method that asks for a Number .  The same rules apply to the return value of a method.  
- 
+The rules for assignment compatibility also define which objects can be passed to which method.  
+An argument can be passed to a method if its type is assignment compatible to the declared type of the method parameter.
+For instance, we cannot pass an `Integer` to a method that asks for `String`, 
+but we can pass an `Integer` to a method that asks for a `Number`.  
+The same rules apply to the return value of a method.
 
 ### Super-subtype relationships of parameterized types. ###
 
@@ -32,11 +55,12 @@ we need an understanding of the relationship that parameterized types have
 among each other and with non-parameterized types. 
 And we need to know the related conversion rules. 
 
-We already mentioned super-subtype relationships and the related narrowing and  widening reference conversions .  
+We already mentioned **super-subtype relationships** and the related **narrowing and widening reference conversions** .  
 They exist since Java was invented, that is, among non-generic types.  
 The super-subtype relationship has been extended to include parameterized types.  
 In the Java 5.0 type system super-subtype relationships and the related 
-narrowing/widening reference conversions exist among parameterized types, too.  
+narrowing/widening reference conversions exist among parameterized types, too.
+
 We will explain the details in separate FAQ entries.  
 Here are some initial examples to get a first impression of the impact that 
 type relationships and conversion rules have on method invocation. 
@@ -57,9 +81,9 @@ printAll(l);  // widening reference conversion
 We can pass a `List<Long>` as an argument to the printAll method that asks for a `LinkedList<? extends Number>`.  
 This is permitted thanks to the super-subtype relationship between a wildcard instantiation and a concrete instantiation.
 `LinkedList<Long>` is a member of the type family denoted by `LinkedList<? extends Number>` , and as such a
-`LinkedList<Long>` is a subtype of `LinkedList<? extends Number>` .  
+`LinkedList<Long>` is a subtype of `LinkedList<? extends Number>`.  
 The compiler automatically performs a widening conversion from subtype to supertype and thus allows that a
-`LinkedList<Long>` can be supplied as argument to the printAll method that asks for a `LinkedList<? extends Number>`.
+`LinkedList<Long>` be supplied as argument to the printAll method that asks for a `LinkedList<? extends Number>`.
 
 Note that this super-subtype relationship between a wildcard instantiation and a member of the type family 
 that the wildcard denotes is different from inheritance. Inheritance implies a super-subtype relationship as well,
