@@ -168,7 +168,7 @@ The ParameterValidator is simple enough that client can supply any validation ne
 A good interface is simple, with few methods, as you can see this interface is one method 
 more than a marker interface. Next, define the backing code for the Parameter implementation:
 
-
+```java
 /**
  * Provides support for the heterogeneous container {@code Parameter}.
  *
@@ -185,7 +185,6 @@ public final class ParameterSupport implements Parameter {
     ps.setParameterValidator(parameterValidator);
     return ps;
   }
-
 
   /**
    * Gets the name that was specified for this parameter. This is an arbitrary name.
@@ -207,7 +206,6 @@ public final class ParameterSupport implements Parameter {
     return type.cast(parameterMap.get(type));
   }
 
-
   /**
    * Sets the value of this parameter. If {@code type} is null, this
    * method throws a {@code NullPointerException}.
@@ -223,9 +221,7 @@ public final class ParameterSupport implements Parameter {
     parameterMap.put(type,value);
   }
 
-
   private Map<Class<?>,Object> parameterMap = Util.newHashMap();
-
 
   /**
    * Return the {@code ParameterValidator} for this parameter. The
@@ -273,8 +269,8 @@ Here is a method that validates a list of ParameterSupport parameter objects:
    *
    * @param parameters a list of parameters to validate
    */
-  public Boolean validateParameters(List<Parameter> parameters)
-  {
+  public Boolean validateParameters(List<Parameter> parameters) {
+  
     Boolean result;
     for(Parameter parameter : parameters)
     {
@@ -333,7 +329,6 @@ The newList and newHashMap methods are static convenience methods:
   public static <K,V> Map<K,V> newHashMap() {
     return new HashMap<K,V>();
   }
-
 
   /**
    * Convenience method that creates a {@code List} object. One
