@@ -55,4 +55,3 @@ String msg = new String("Hello");
 // explicit casting 
 Object obj = msg;
 ```
-
