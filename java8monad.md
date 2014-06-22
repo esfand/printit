@@ -38,16 +38,16 @@ yet extremely powerful thing.
 
 A monad a set of three things:
 * a **parameterized type** M<T>
-* a **unit** function T -> M<T>
-* a **bind** operation: M<T> bind T -> M<U> = M<U>
+* a **unit** function `T -> M<T>`
+* a **bind** operation: `M<T> bind T -> M<U> = M<U>`
 
 These may seems over-complicated, but it is really simple considering an example, 
 such as the Optional monad:
-* **Parameterized type**: Optional<T>
-* **unit**: Optional.ofNullable()
-* **bind**: Optional.flatMap()
+* **Parameterized type**: `Optional<T>`
+* **unit**: `Optional.ofNullable()`
+* **bind**: `Optional.flatMap()`
 
-# How to use the Optional monad #
+## How to use the Optional monad ##
 
 The Optional monad is meant to allow composing functions that may or may not return a value, 
 when the absence of value is not an error. 
@@ -423,7 +423,7 @@ We really need value types!
 
 ## Comments ##
  
-David Gates replied on Wed, 2014/05/21 - 9:00am  
+### David Gates replied on Wed, 2014/05/21  
 The lack of a way to code to monads in general stood out as a problem 
 since I first learned about Java 8's implementation of Stream.  
 I should be able to write code once and have it work unmodified with 
@@ -449,8 +449,8 @@ for (Integer i : list1) {
 // Java 8
 list1.stream()
 	   .flatMap(i -> list2.stream().flatMap(
-				   j -> list3.stream().map(
-				   k -> i + j + k)))
+                    j -> list3.stream().map(
+                    k -> i + j + k)))
 	   .collect(Collectors.toList());
 ```
 
@@ -463,7 +463,7 @@ for { i <- list1
 ```
 
 
-Lukas Eder replied on Thu, 2014/05/22 - 8:46am in response to: David Gates  
+### Lukas Eder replied on Thu, 2014/05/22 - 8:46am in response to: David Gates
 Agh. I just find all of these idioms quite hard to read and write 
 (except for the imperative one, in fact, which is about OK).
 
@@ -474,7 +474,7 @@ SELECT i.value + j.value + k.value
        FROM i, j, k
 ```
  
-David Gates replied on Thu, 2014/05/22 - 10:51am in response to: Lukas Eder   
+### David Gates replied on Thu, 2014/05/22 - 10:51am in response to: Lukas Eder   
  The Java 8 version IS hard to understand, which is why I wish they had specialized syntax.  
 If the Scala comprehension is hard for you to read, it's because it's unfamiliar.  
 C# based its syntax on SQL rather than for loops:
@@ -489,13 +489,13 @@ select i + j + k;
 This compiles to the Linq equivalents of `map` and `flatMap`: `Select` and `SelectMany`.
 
  
-Pierre-yves Saumont replied on Thu, 2014/05/22 - 11:34am in response to: David Gates  
+### Pierre-yves Saumont replied on Thu, 2014/05/22 in response to: David Gates  
 I agree, but I would say that if the Java 8 version is hard to understand, it is also because it is unfamiliar. 
 
 I personally find the Scala for comprehension syntax more difficult to read, and 
 this is probably BECAUSE I do not use it,  and not WHY I do not use it; -)
  
-Lukas Eder replied on Thu, 2014/05/22 - 12:44pm in response to: David Gates
+### Lukas Eder replied on Thu, 2014/05/22 in response to: David Gates
 If the Scala comprehension is hard for you to read, it's because it's unfamiliar. 
 
 You're right, but Scala syntax is a device whose mystery is only exceeded by its power. 
@@ -503,9 +503,9 @@ I'm not sure if a single developer can ever master all idioms :-)
 Although, I frequently say the same about SQL, considering things like 
 ordered aggregate functions (WITHIN GROUP (ORDER BY ...)) or Oracle's MODEL clause
 
-reply
+
  
-David Gates replied on Thu, 2014/05/22 - 12:46pm in response to: Pierre-yves Saumont  
+### David Gates replied on Thu, 2014/05/22 - 12:46pm in response to: Pierre-yves Saumont  
 I'm guessing the yield throws people with the Scala syntax; it just means we're building 
 a new list instead of calling foreach.  The above example translates to:
 
@@ -527,14 +527,14 @@ do i <- list1
    return (i + j + k)
 ```
  
-David Gates replied on Thu, 2014/05/22 - 1:12pm in response to: Lukas Eder  
+### David Gates replied on Thu, 2014/05/22 - 1:12pm in response to: Lukas Eder  
 There's a paper titled A Co-Relational Model of Data for Large Shared Data Banks 
 that demonstrates how relational algebra is mathematically equivalent to monadic computations.  
 If you love the power of SQL, then you already have a picture of why functional programmers gush about monads.  
 We're used to having that power all the time in normal code.
 
  
-Lukas Eder replied on Thu, 2014/05/22 - 2:11pm in response to: David Gates  
+### Lukas Eder replied on Thu, 2014/05/22 - 2:11pm in response to: David Gates  
 Yes, I've read that paper by Erik Meijer and Gavin Bierman, although I somewhat doubt that 
 there was "proof" in the paper rather than "evidence", if somewhat esoteric at times - 
 specifically when trying to coerce the whole theory upon the hype-term "NoSQL". 
@@ -552,7 +552,7 @@ in SQL using common table expressions or derived tables, than with monads.
 Other expressions, of course, are easier to express in a functional way, e.g. recursion.
 
  
-David Gates replied on Thu, 2014/05/22 - 4:37pm in response to: Lukas Eder  
+### David Gates replied on Thu, 2014/05/22 - 4:37pm in response to: Lukas Eder  
 The mathematical portion of the paper shows how the monadic primitive operations map to relational algebra concepts.  The primitive operations let you work with a single value (map), work with single values from multiple monads (flatMap), and operate conditionally on a value (filter).  Individual monad types (such as lists) can of course have additional functionality, just as SQL isn't limited to basic set theory operations.
 
 Here's some sample SQL code I found with ordered aggregation:
@@ -573,7 +573,7 @@ products.sortBy(p => p.cost)
 C#'s query syntax has dedicated keywords for grouping and ordering, which might be more comfortable coming from SQL.
 
  
-Lukas Eder replied on Fri, 2014/05/23 - 12:51am in response to: David Gates  
+### Lukas Eder replied on Fri, 2014/05/23 - 12:51am in response to: David Gates  
 I'm not a SQL guru, so I might be misinterpreting the code or your question, but here's my Scala version
 
 That's probably a correct translation, but have you considered what it means to project tuples in a similar way with monads.? Your mkString method seems to consume the entire Stream (or collection in Scala?). You cannot have more than one aggregation in this case
@@ -582,9 +582,8 @@ What if every column of a tuple has different PARTITION BY, ORDER BY, and frame 
 
 And what if you express complex tuple-sources (i.e. tables), e.g. with LEFT OUTER JOIN or more complex joins. I know that LINQ provides quite a bit of abstraction, but this is because of LINQ providers implementing a lot of functionality. But Scala's Slick seems to be struggling a lot with this kind of mapping of actual SQL features to Scala collection querying.
 
-reply
- 
-David Gates replied on Fri, 2014/05/23 - 6:18am
+
+### David Gates replied on Fri, 2014/05/23 - 6:18am
 Scala's stock tuples are flawed, as they don't provide a way to abstract over arity.  For example, here's Wikipedia's LEFT OUTER JOIN sample:
 
 ```sql
@@ -633,7 +632,7 @@ it applies to the other use cases you mentioned, but a lot of the limitations of
 Scala's tuples don't apply to heterogeneous lists.
 
 
-Riccardo Muzzì replied on Tue, 2014/06/10 - 7:19am  
+### Riccardo Muzzì replied on Tue, 2014/06/10 - 7:19am  
 Nice article, just a few points:
 
 At the beginning you say: 
@@ -651,15 +650,14 @@ Anyway, I don't see this as a real problem because you can always do something l
 Optional.of( oldMethodOfJavaNotRetrofittedForUsingMonads())
         .flatMap(...)
         .orElse(...)
+```
 
 In the end: Can you please expand a bit the point of using Optional for primitive type? 
 The point of using optional is mostly to avoid null check in that object or in a nested object (with flatMap), but 
 in primitive types you have no null values nor nested values/objects... what am I missing?
 
  
-Pierre-yves Saumont replied on Tue, 2014/06/10 - 8:36am in response to: Riccardo Muzzì  
- Hi Riccardo,
-
+### Pierre-yves Saumont replied in response to: Riccardo Muzzì  
 You are perfectly right that cyclomatic complexity in the exposed code is lower. 
 In fact, Using Optional is abstracting the (cyclomatic) complexity. 
 We get the same result when using a terminal operation on a stream. 
