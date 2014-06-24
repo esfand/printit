@@ -164,7 +164,7 @@ maybeOrder flatMap {
 **flatMap again!**
 
 Once again we have the magic of `flatMap` **binding the thread of computation**. 
-And similar to the earlier example of the List monad, 
+And similar to the earlier example of the List monad,   
 every `flatMap` in the entire thread is **homogenously typed** -  
 the **input type** being `(T => Option[U])` and  
 the **output type** being `Option[U]`.  
