@@ -161,8 +161,6 @@ maybeOrder flatMap {
 }
 ```
 
-**flatMap again!**
-
 Once again we have the magic of `flatMap` **binding the thread of computation**. 
 And similar to the earlier example of the List monad,   
 every `flatMap` in the entire thread is **homogenously typed** -  
@@ -175,13 +173,13 @@ What is **the commonality** of the above two examples? It is:
 > **the sequencing of operations**, that leads to the evolution of higher order functional abstractions.
 
 
-And what is **the variability** part? It is:
+What is **the variability** part? It is:
 > **the types that actually take part in the operations**. 
 In the first case, it is the operations on List type that gets chained. 
 While in the second case, it is the Option type.
 
 
-And what is the **secret sauce**?
+What is **the secret sauce**?
 > **the flatMap operation** (aka **bind operation** in Haskell), which 
 works orthogonally across types and 
 serves as the generic **binder** of the **sequence of actions**.
@@ -212,10 +210,10 @@ for {
 yield(j)
 ```
 
-The first **operation of the sequence** is one on a List monad, while the next one is on a Maybe monad. 
+The first **operation of the sequence** is on a List monad, while the next one is on a Maybe monad. 
 The syntactic sugar of the for-comprehensions abstracts the details nicely enough for the user, 
 who is completely oblivious of the underlying machinery of binding monads. 
-Here is what comes up after the code transformation :
+Here is what comes up after the code transformation:
 
 ```scala
 list flatMap {
