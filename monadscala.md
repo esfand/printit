@@ -42,7 +42,7 @@ with programming in a high level language :
 
 ```scala
 for {
-  x <- List(1, 2)
+    x <- List(1, 2)
 }
 yield(x + 2)
 ```
@@ -108,15 +108,15 @@ first flatMap {
 }
 ```
 
-The key abstraction is the`flatMap`, which **binds the computation through chaining**. 
-Each invocation of flatMap returns the same data structure **type** (but of different **value**), 
-that serves as the input to the next command in chain.
+The key abstraction is the `flatMap`, which **binds the computation through chaining**. 
+Each invocation of `flatMap` returns the same data structure **type** (but of different **value**), 
+that **serves as the input to the next command in chain**.
 In the above snippet, `flatMap` takes as input a **closure** `(SomeType) => List[AnotherType]` and 
 returns a `List[AnotherType]`. 
 The important point to note is that all `flatMap`s take the same **closure type** as input and 
 return the same **type** as output. 
-This is what **binds** the computation thread - 
-every item of the sequence in the **for-comprehension** 
+This is what **binds** the **computation thread** - 
+every item of the **sequence** in the **for-comprehension** 
 has to honor this same **type constraint**.
 
 The above is an example of the **List monad** in Scala. 
@@ -132,7 +132,7 @@ for {
 yield (i, j)
 ```
 
-Consider another different computation involving sequencing of operations (not of the List type though) 
+Consider another different computation involving **sequencing of operations** (not of the List type though) 
 from an example which I mentioned in my previous Scala post :
 
 ```scala
@@ -149,7 +149,7 @@ yield product.name
 ```
 
 This gets me the product name from the **chain** of order, lineItem and product. 
-One more sequencing of operations, and the for-comprehension gets converted to :
+One more sequencing of operations, and the for-comprehension gets converted to:
 
 ```scala
 maybeOrder flatMap {
@@ -165,29 +165,25 @@ maybeOrder flatMap {
 
 Once again we have the magic of `flatMap` **binding the thread of computation**. 
 And similar to the earlier example of the List monad, 
-every `flatMap` in the entire thread is **homogenously typed** - 
-input type being `(T => Option[U])` and 
-the output type being `Option[U]`. 
+every `flatMap` in the entire thread is **homogenously typed** -  
+the **input type** being `(T => Option[U])` and  
+the **output type** being `Option[U]`.  
 The types participating in this sequence of computation is the **Maybe monad** type, 
 modeled as `Option[T]` in Scala.
 
-What is the commonality of the above two examples ? 
-
-It is the 
-> **sequencing of operations**, that leads to the evolution of higher order functional abstractions.
+What is **the commonality** of the above two examples? It is:
+> **the sequencing of operations**, that leads to the evolution of higher order functional abstractions.
 
 
-And what is the variability part ?
-
-It is 
+And what is **the variability** part? It is:
 > **the types that actually take part in the operations**. 
 In the first case, it is the operations on List type that gets chained. 
 While in the second case, it is the Option type.
 
 
-And what is the secret sauce ?
-
-The `flatMap` (aka bind in Haskell) operation, which works orthogonally across types and 
+And what is the **secret sauce**?
+> **the flatMap operation** (aka **bind operation** in Haskell), which 
+works orthogonally across types and 
 serves as the generic **binder** of the **sequence of actions**.
 
 In the above examples, the two monad types discussed, `List[T]` and `Option[T]` are **container types**, 
@@ -207,7 +203,7 @@ within the same for-comprehension block :
 
 ```scala
 val list     = List("India", "Japan", "France", "Russia")
-val capitals = Map("India" -> "New Delhi", "Japan" -> "Tokyo", "France" -> "Paris")
+val capitals = Map ("India" -> "New Delhi", "Japan" -> "Tokyo", "France" -> "Paris")
 
 for {
     i <- list
@@ -216,7 +212,7 @@ for {
 yield(j)
 ```
 
-The first operation of the sequence is one on a List monad, while the next one is on a Maybe monad. 
+The first **operation of the sequence** is one on a List monad, while the next one is on a Maybe monad. 
 The syntactic sugar of the for-comprehensions abstracts the details nicely enough for the user, 
 who is completely oblivious of the underlying machinery of binding monads. 
 Here is what comes up after the code transformation :
@@ -230,7 +226,7 @@ list flatMap {
 ```
 
 Developing modular software is all about working at the right level of abstraction. 
-And monads offer yet another machinery to mix and match the right abstractions within your codebase. 
+And monads offer yet another **machinery to mix and match the right abstractions** within your codebase. 
 Consider adding the power of monads to your toolbox - 
 they certainly are one of the potent design patterns that you will ever need.
 
