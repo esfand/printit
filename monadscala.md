@@ -1,4 +1,4 @@
-# Monads - Another way to abstract computations in Scala #
+# Monads - to abstract computations #
 
 You can view **monads** as **containers** or as **computations**. Isn't this confusing enough ?
 
