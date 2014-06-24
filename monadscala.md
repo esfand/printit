@@ -20,7 +20,7 @@ And on the other, you can write pure clean functional code without any side-effe
 Coming from a Java / C++ background and seeing enough of OO over the last decade, my interest is in 
 exploring the functional features that the language has to offer. 
 Ok, I know you will refer me to the backyards of Haskell or OCamL as more pure functional languages. 
-But hey, I need to have my appplication deployed on the JVM, and don't ask me why .. 
+But hey, I need to have my appplication deployed on the JVM. 
 
 This post is all about my exposure to monads in Scala. 
 This is not meant to be a tutorial on monads, considered by some, to be the stairway to the heaven of Haskell. 
