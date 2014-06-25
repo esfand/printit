@@ -1,7 +1,11 @@
 # Monads in Plain English #
 
+http://stackoverflow.com/questions/2704652/monad-in-plain-english-for-the-oop-programmer-with-no-fp-background  
+http://ericlippert.com/category/monads/
 
-> In terms that an OOP programmer would understand (without any functional programming background), what is a monad?
+> **Question: In terms that an OOP programmer would understand 
+> (without any functional programming background), 
+> what is a monad?
 
 A monad is an *amplifier* of types that obeys certain rules and which has certain operations provided.
 
@@ -28,7 +32,7 @@ calls in there work together "in the same way" that they did before.
 (That is incredibly vague and imprecise; you asked for an explanation that didn't 
 assume anything about knowledge of **functional composition**.)
 
-## What are the "operations"? ##
+What are the "operations"?
 
 * That there is a way to take a value of an unamplified type and turn it into a value of the amplified type.
 * That there is a way to transform operations on the unamplified type into operations on the amplified type 
@@ -112,17 +116,16 @@ bind operations on sequences.
 Those operations are:
 
 ```
-IEnumerable<T> MakeSequence<T>(T item)
-{
+IEnumerable<T> MakeSequence<T>(T item) {
     yield return item;
 }
-T Single<T>(IEnumerable<T> sequence)
-{
+
+T Single<T>(IEnumerable<T> sequence) {
     // let's just take the first one
     foreach(T item in sequence) return item; 
 }
-IEnumerable<T> SelectMany<T>(IEnumerable<T> seq, Func<T, IEnumerable<T>> func)
-{
+
+IEnumerable<T> SelectMany<T>(IEnumerable<T> seq, Func<T, IEnumerable<T>> func) {
     foreach(T item in seq)
         foreach(T result in func(item))
             yield return result;            
@@ -145,8 +148,8 @@ take and return different amplified types, so long as the inputs of one match
 the outputs of the other:
 
 ```
-IEnumerable<U> SelectMany<T,U>(IEnumerable<T> seq, Func<T, IEnumerable<U>> func)
-{
+IEnumerable<U> SelectMany<T,U>(IEnumerable<T>          seq, 
+                               Func<T, IEnumerable<U>> func) {
     foreach(T item in seq)
         foreach(U result in func(item))
             yield return result;            
@@ -158,7 +161,7 @@ Transform this particular integer into a bunch of strings, amplified to a sequen
 Now put both operations together: amplify this bunch of integers into the concatenation of 
 all the sequences of strings." Monads allow you to compose your amplifications.
 
-> What problem does it solve and what are the most common places it's used?
+> **Question** What problem does it solve and what are the most common places it's used?
 
 That's rather like asking "what problems does the singleton pattern solve?", 
 but I'll give it a shot.
@@ -175,10 +178,10 @@ C# uses monads in its design. As already mentioned, the nullable pattern is high
 LINQ is entirely built out of monads; 
 the "SelectMany" method is what does the semantic work of composition of operations. 
 (Erik Meijer is fond of pointing out that 
-every LINQ function could actually be implemented by SelectMany; 
+every LINQ function could actually be implemented by `SelectMany`; 
 everything else is just a convenience.)
 
-> To clarify the kind of understanding I was looking for, 
+> **Question** To clarify the kind of understanding I was looking for, 
 > let's say you were converting an FP application that had monads into an OOP application. 
 > What would you do to port the responsibilities of the monads into the OOP app?
 
