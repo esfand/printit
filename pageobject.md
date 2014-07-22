@@ -82,7 +82,8 @@ public class LoginPage {
         By passwordLocator = By.id("passwd");
         By loginButtonLocator = By.id("login");
 
-    // The login page allows the user to type their username into the username field
+    // The login page allows the user to type their username into 
+    // the username field
     public LoginPage typeUsername(String username) {
         // This is the only place that "knows" how to enter a username
         driver.findElement(usernameLocator).sendKeys(username);
@@ -92,7 +93,8 @@ public class LoginPage {
         return this;    
     }
 
-    // The login page allows the user to type their password into the password field
+    // The login page allows the user to type their password 
+    // into the password field
     public LoginPage typePassword(String password) {
         // This is the only place that "knows" how to enter a password
         driver.findElement(passwordLocator).sendKeys(password);
@@ -110,9 +112,10 @@ public class LoginPage {
         // login whilst expecting a login failure. 
         driver.findElement(loginButtonLocator).submit();
 
-        // Return a new page object representing the destination. Should the login page ever
-        // go somewhere else (for example, a legal disclaimer) then changing the method signature
-        // for this method will mean that all tests that rely on this behaviour won't compile.
+        // Return a new page object representing the destination. Should the 
+        // login page ever go somewhere else (for example, a legal disclaimer) 
+        // then changing the method signature for this method will mean that 
+        // all tests that rely on this behaviour won't compile.
         return new HomePage(driver);    
     }
 
@@ -130,8 +133,8 @@ public class LoginPage {
         return new LoginPage(driver);   
     }
 
-    // Conceptually, the login page offers the user the service of being able to "log into"
-    // the application using a user name and password. 
+    // Conceptually, the login page offers the user the service of being able
+    // to "log into" the application using a user name and password. 
     public HomePage loginAs(String username, String password) {
         // The PageObject methods that enter username, password & submit 
         // login have already defined and should not be repeated here.
@@ -149,7 +152,8 @@ In order to support the PageObject pattern, WebDriver's support library contains
 
 ###A Simple Example###
 
-In order to use the PageFactory, first declare some fields on a PageObject that are WebElements or List<WebElement>, for example:
+In order to use the PageFactory, first declare some fields on a PageObject that are `WebElements` or 
+`List<WebElement>`, for example:
 
 ```java
 package org.openqa.selenium.example;
