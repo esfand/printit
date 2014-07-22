@@ -207,7 +207,8 @@ public class UsingGoogleSearchPage {
 
         // Create a new instance of the search page class
         // and initialise any WebElement fields in it.
-        GoogleSearchPage page = PageFactory.initElements(driver, GoogleSearchPage.class);
+        GoogleSearchPage page = PageFactory.initElements(driver, 
+                                                         GoogleSearchPage.class);
 
         // And now do the search.
         page.searchFor("Cheese");
@@ -217,7 +218,9 @@ public class UsingGoogleSearchPage {
 
 ### Explanation ###
 
-The PageFactory relies on using sensible defaults: the name of the field in the Java class is assumed to be the "id" or "name" of the element on the HTML page. That is, in the example above, the line:
+The PageFactory relies on using sensible defaults: the name of the field in the Java class 
+is assumed to be the "id" or "name" of the element on the HTML page. That is, 
+in the example above, the line:
 
 ```java
     q.sendKeys(text);
