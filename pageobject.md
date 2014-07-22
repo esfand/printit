@@ -7,8 +7,7 @@ Over time, projects tend to accumulate large numbers of tests. As the total numb
 * **DomainDrivenDesign:** Express your tests in the language of the end-user of the app.
 * **PageObjects:** A simple abstraction of the UI of your web app.
 * **LoadableComponent:** Modeling PageObjects as components.
-* **BotStyleTests:** Using a command-based approach to automating tests, rather than the object-based 
-approach that PageObjects encourage
+* **BotStyleTests:** Using a command-based approach to automating tests, rather than the object-based approach that PageObjects encourage.
 * **AcceptanceTests:** Use coarse-grained UI tests to help structure development work.
 * **RegressionTests:** Collect the actions of multiple AcceptanceTests into one place for ease of maintenance.
 
