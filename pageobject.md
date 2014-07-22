@@ -49,7 +49,7 @@ Of course, as with every guideline there are exceptions, and one that is commonl
 
 Finally, a PageObject need not represent an entire page. It may represent a section that appears many times within a site or page, such as site navigation. The essential principle is that there is only one place in your test suite with knowledge of the structure of the HTML of a particular (part of a) page.
 
-### Summary ### 
+### Summary ###
 
 * The public methods represent the services that the page offers
 * Try not to expose the internals of the page
@@ -215,7 +215,10 @@ PageFactory.initElements(driver, page);
 
 When we run the example, the PageFactory will search for an element on the page that matches the field name of the WebElement in the class. It does this by first looking for an element with a matching ID attribute. If this fails, the PageFactory falls back to searching for an element by the value of its "name" attribute.
 
-Although the code works, someone who's not familiar with the source of the Google home page may not know that the name of the field is "q". Fortunately, we can pick a meaningful name and change the strategy used to look the element up using an annotation:
+Although the code works, someone who's not familiar with the source of the Google 
+home page may not know that the name of the field is "q". Fortunately, we can pick 
+a meaningful name and change the strategy used to look the element up using an 
+annotation:
 
 ```java
 package org.openqa.selenium.example;
@@ -264,7 +267,7 @@ public class GoogleSearchPage {
 }
 ```
 
-###Reducing Verbosity ###
+### Reducing Verbosity ###
 
 The example above is still a little verbose. A slightly cleaner way of annotating the field would be:
 
@@ -277,7 +280,7 @@ public class GoogleSearchPage {
 }
 ```
 
-###Notes ###
+### Notes ###
 
 * If you use the PageFactory, you can assume that the fields are initialised. If you don't use the PageFactory, then NullPointerExceptions will be thrown if you make the assumption that the fields are already initialised.
 * List<WebElement> fields are decorated if and only if they have @FindBy or @FindBys annotation. Default search strategy "by id or name" that works for WebElement fields is hardly suitable for lists because it is rare to have several elements with the same id or name on a page.
