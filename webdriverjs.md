@@ -1,5 +1,10 @@
+# Web Driver JS #
 
-tarted with WebDriverJS for Node, you will need to download a copy of the ChromeDriver and 
+## JS ##
+
+###Getting Started###
+
+To get started with WebDriverJS for Node, you will need to download a copy of the ChromeDriver and 
 ensure it can be found on your system PATH. All other browsers can be tested using the 
 stand-alone Selenium server. Once you've obtained the ChromeDriver and placed it on your 
 PATH, you can run your first test:
@@ -34,7 +39,7 @@ Building from Source
 The commands above will clone the Selenium repository and build the selenium-webdriver module. 
 This module will be placed in the ./build/javascript/node directory of your Selenium client.
 
-Using the Stand-alone Selenium Server
+###Using the Stand-alone Selenium Server###
 
 You can manage the life and death of the Selenium server using the selenium-webdriver/remote module:
 
@@ -55,7 +60,7 @@ var driver = new webdriver.Builder().
 // ...
 ```
 
-Writing Tests
+###Writing Tests###
 
 The selenium-webdriver/testing module may be used to write tests that may be run with Mocha:
 
@@ -87,7 +92,7 @@ selenium-webdriver's self-tests informative:
 % mocha -R list --recursive node_modules/selenium-webdriver/test
 ```
 
-Understanding the API
+###Understanding the API###
 
 Unlike the other language bindings, which all provide blocking APIs, WebDriverJS is purely asynchronous. This document describes the libraries used to simplify working with WebDriver and JavaScript's asynchronous event loop.
 
@@ -126,7 +131,7 @@ driver.getTitle().then(function(title) {
 });
 ```
 
-Promises
+###Promises###
 
 A promise is an object that represents a value, or the eventual computation of a value. Every promise starts in a pending state and may either be successfully resolved with a value or it may be rejected to designate an error. Once a promise transitions from the pending state, it becomes immutable and cannot change state again.
 
@@ -147,7 +152,7 @@ promise.then(function(title) {
 // title still is: foo
 ```
 
-Value Propagation and Chaining
+###Value Propagation and Chaining###
 
 Each call to then() will return a new promise that represents the observer's result. If the callback (or errback) returns a value (no return is treated as returning undefined), the promise will be resolved. Conversely, if the handler function throws an error, the promise will be rejected. If you omit one of the handler functions from a call to then(), the corresponding value/error will simply propagate to the resulting promise. With these properties, you can construct processing pipelines:
 
@@ -183,18 +188,22 @@ try {
     });
  ```
  
-Error Handling
+### Error Handling ###
 
 A rejected promise is considered handled if an observer with an errback function has been registered. Chained promises are implicitly handled by the next promise in the chain.
 
+```js
 webdriver.promise.rejected(new Error('boom')).  // (1)
    then(callback1).                             // (2)
    then(callback2).                             // (3)
    then(null, onError);                         // (4)
+```
+   
 The example above defines a chain on a rejected promise. The first three promises in the chain (lines 1-3) are all implicitly handled by the next. The final promise, on line 4, is explicitly handled by the onError function.
 
 If a rejected promise is left unhandled, the offending error will be passed to the active control flow in the next turn of the JavaScript event loop. You can receive notifications of unhandled rejections by listening for an "uncaughtException" event on the ControlFlow object:
 
+```js
 webdriver.promise.controlFlow().on('uncaughtException', function(e) {
  console.error('Unhandled error: ' + e);
 });
@@ -204,6 +213,8 @@ console.log('Leaving rejection unhandled');
 
 // Leaving rejection unhandled
 // Unhandled error: Error: boom
+```
+
 If no event listeners have been registered, the ControlFlow will rethrow the error to the global error handler. In Node.js, this will trigger an "uncaughtException" event on the global process object; in a browser, window.onerror will be notified.
 
 Deferred Objects
@@ -211,6 +222,7 @@ There are two halves to WebDriver's promise API: a promise, and a deferred. The 
 
 A deferred object is a special version of a promise that provides two additional functions for setting a promise's value: fulfill() and reject(). Calling fulfill() will set the promise value and invoke the callback chain. Likewise, call reject() to set an error and trigger any error-handlers. The example below demonstrates how to create a promise that will resolve after a set amount of time:
 
+```js
 function timeout(ms) {
  var d = webdriver.promise.defer();
  var start = Date.now();
@@ -229,10 +241,15 @@ timeout(500).then(printElapsed);
 
 // time: 500 ms
 // time: 750 ms
-In the example above, the timeout() function returns the deferred object's promise property. This property provides consumers access to the then() function while reserving reject() and fulfill() for timeout().
+```
+
+In the example above, the timeout() function returns the deferred object's promise property. 
+This property provides consumers access to the then() function while reserving 
+reject() and fulfill() for timeout().
 
 Two functions are provided for quickly creating promises from known values:
 
+```js
 // This...
 var p1 = webdriver.promise.fulfilled(123);
 var p2 = webdriver.promise.rejected(new Error('boom'));
@@ -245,11 +262,15 @@ var p1 = d1.promise;
 var d2 = webdriver.promise.defer();
 d2.reject(new Error('boom'));
 var p2 = d2.promise;
-Cancelling a Promise
+```
+
+###Cancelling a Promise###
+
 Occasionally, the need arises to cancel the computation of a promised value. This can be accomplished using the cancel() function. Calling cancel() will cause the promise to be rejected. A cancellation handler may be provided when creating a Deferred object; upon calling cancel(), this handler will be invoked before rejecting the promise.
 
 The example below demonstrates using cancel() to abort a repeating timer:
 
+```js
 function logForever() {
  var key = setInterval(function() {
    console.log('hello');
@@ -274,8 +295,11 @@ setTimeout(function() {
 // hello
 // hello
 // goodbye
+```
+
 Cancellation handlers are inherited by chained promises. When you call cancel(), the root promise will cancelled, allowing the resulting rejection to propagate through the chain:
 
+```js
 function onCancel() {
  console.log('The promise was cancelled');
 }
@@ -291,6 +315,8 @@ webdriver.promise.defer(onCancel).
 
 // The promise was cancelled
 // There was an error: Error boom
+```
+
 Note the cancel() operation is available on both the Promise and Deferred objects. To prevent a promise consumer from cancelling an operation, simply define a custom handler that throws.
 
 function foo() {
@@ -303,7 +329,9 @@ function foo() {
 foo().cancel();
 
 // Error: nice try!
+
 Control Flows
+
 Recall the Google search example:
 
 // In Java
@@ -311,6 +339,7 @@ driver.get("http://www.google.com");
 driver.findElement(By.name("q")).sendKeys("webdriver");
 driver.findElement(By.name("btnG")).click();
 assertEquals("webdriver - Google Search", driver.getTitle());
+
 This can be rewritten using the promise library as:
 
 driver.get("http://www.google.com").
@@ -332,9 +361,12 @@ driver.get("http://www.google.com").
    then(function(title) {
      assertEquals("webdriver - Google Search", title);
     });
+    
+    
 Unfortunately, this is really verbose, even for such a simple example - longer scripts could easily get out of hand. In order to provide an API that cleanly handles asynchronous actions without impeding readability, WebDriverJS uses a promise "manager" to coordinate the scheduling and execution of all commands.
 
 The promise manager maintains a queue of scheduled tasks, executing each once the one before it in the queue is finished. The WebDriver API is layered on top of the promise manager, allowing us to simplify the search example:
+
 
 driver.get("http://www.google.com");
 driver.findElement(webdriver.By.name("q")).sendKeys("webdriver");
@@ -342,6 +374,8 @@ driver.findElement(webdriver.By.name("btnG")).click();
 driver.getTitle().then(function(title) {
  assertEquals("webdriver - Google Search", title);
 });
+
+
 At the heart of the promise manager is the ControlFlow class. You can obtain an instance of this class using webdriver.promise.controlFlow(). Tasks are enqueued using the execute() function. Tasks always execute in a future turn of the event loop, once those before it in the queue (if there are any) have completed.
 
 var flow = webdriver.promise.controlFlow(),
