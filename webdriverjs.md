@@ -178,6 +178,9 @@ try {
   console.error(
       "An error was thrown! " + err);
  }
+ ```
+ 
+ ```js
  loadWebApp().
     then(login).
     then(openUserPreferences).
