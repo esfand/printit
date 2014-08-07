@@ -59,7 +59,7 @@ There are TWO kinds of rewrites – **URL redirects** (HTTP301/HTTP302), or an *
 URL Redirects are the simplest to understand:
 
 ```
-location /admin {<br>
+location /admin {
     rewrite ^/admin/(.*)$ http://admin.example.com/$1 permanent;
 }
 ```
@@ -75,7 +75,7 @@ just change the word **permanent** to **redirect**.
 Internal rewrites are a little more complicated:
 
 ```
-location /admin {<br>
+location /admin {
     rewrite ^/admin/(.*)$ /$1 break;
 }
 ```
