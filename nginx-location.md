@@ -12,15 +12,15 @@ I state the rule in my own way.
 
 Syntax: `location [ = | ~ | ~* | ^~ ] uri { ... }`
 
-Between `location` and `uri` there can be one of these four operators =, ~, ~*, ^~, or there can 
-be no operator at all. For brevity I'll say the operator is "none" in the case where there is no 
+Between **location** and **uri** there can be one of these four **operators** `=`, `~`, `~*`, `^~`, or there can 
+be `no operator` at all. For brevity I'll say the operator is `none` in the case where there is no 
 operator at all.
 
-NOTE The "operator", as I call it, is actually called "prefix" in nginx documentation. I intentionally 
-avoid "prefix" and use "operator" instead, to make it sound more natural and less confusing.
+NOTE The *operator*, as I call it, is actually called *prefix* in nginx documentation. I intentionally 
+avoid *prefix* and use *operator* instead, to make it sound more natural and less confusing.
 
-If the operator is =, ^~ or none, the `uri` part in the directive is a string literal and is matched 
-against request uri or the beginning part of request uri (i.e. its prefix). Operator = indicates an 
+If the operator is **=**, **^~** or **none**, the **uri** part in the directive is a string literal and is matched 
+against request uri or the beginning part of request uri (i.e. its prefix). Operator **=** indicates an 
 exact match, which means the `uri` part in the directive should be exactly the same as request uri. 
 Operator ^~ or none indicates a prefix match, which means the `uri` part in the directive can be the 
 whole request uri or only the beginning part of it. 
@@ -43,16 +43,20 @@ Considering all string literal `uri`s, find the longest matching one against req
 2. If the longest matching one has the operator none, nginx will continue to test all 
    regular expression `uri`s one by one (following the order they appear in the config file)
 
-   2a. If nginx find one regular expression `uri` that matches request uri, the whole matching phase is finished and this regular expression `uri` is the final result.
+   2a. If nginx find one regular expression `uri` that matches request uri,
+       the whole matching phase is finished and this regular expression `uri` is the final result.
 
-   2b. If no regular expression `uri` matches request uri, the whole matching phase is finished and the original longest matching string literal `uri` is the final result.
+   2b. If no regular expression `uri` matches request uri, the whole matching phase is finished and
+       the original longest matching string literal `uri` is the final result.
 
 3. If no string literal `uri` matches request uri, nginx will continue to test all regular 
    expression `uri`s one by one (following the order they appear in the config file)
 
-   3a. If nginx find one regular expression `uri` that matches request uri, the whole matching phase is finished and this regular expression `uri` is the final result.
+   3a. If nginx find one regular expression `uri` that matches request uri, the whole matching
+       phase is finished and this regular expression `uri` is the final result.
 
-   3b. If no regular expression `uri` matches request uri, we conclude that not a single `location` directive matches request uri and 404 Not Found should be returned.
+   3b. If no regular expression `uri` matches request uri, we conclude that not a
+       single `location` directive matches request uri and 404 Not Found should be returned.
 
 ## Test Case
 
