@@ -43,11 +43,9 @@ Considering all string literal `uri`s, find the longest matching one against req
 2. If the longest matching one has the operator none, nginx will continue to test all 
    regular expression `uri`s one by one (following the order they appear in the config file)
 
-   2a. If nginx find one regular expression `uri` that matches request uri,
-       the whole matching phase is finished and this regular expression `uri` is the final result.
+   2a. If nginx find one regular expression `uri` that matches request uri, the whole matching phase is finished and this regular expression `uri` is the final result.
 
-   2b. If no regular expression `uri` matches request uri, the whole matching phase is finished and
-       the original longest matching string literal `uri` is the final result.
+   2b. If no regular expression `uri` matches request uri, the whole matching phase is finished and the original longest matching string literal `uri` is the final result.
 
 3. If no string literal `uri` matches request uri, nginx will continue to test all regular 
    expression `uri`s one by one (following the order they appear in the config file)
