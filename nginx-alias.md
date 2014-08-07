@@ -52,7 +52,7 @@ location /static/ {
 }
 ```        
 
-On the other hand, with alias, the location part gets dropped. So for the config
+On the other hand, with alias, the **location part** gets dropped. So for the config
 
 ```
 location /static/ {
@@ -63,7 +63,7 @@ location /static/ {
         
 the final path will correctly be formed as `/var/www/app/static`
 
-Following is the documentation of root and alias from http://wiki.nginx.org/HttpCoreModule#alias
+Below is the documentation of root and alias.
 
 ### root ###
 Syntax:	  root path;   
@@ -78,24 +78,24 @@ location /i/ {
 }
 ```
 
-The /data/w3/i/top.gif file will be sent in response to the “/i/top.gif” request.
+The `/data/w3/i/top.gif` file will be sent in response to the `/i/top.gif` request.
 
-The path value can contain variables, except $document_root and $realpath_root.
+The path value can contain variables, except $document\_root and $realpath_root.
 
 A path to the file is constructed by merely adding a URI to the value of the root directive. 
 If a URI has to be modified, the alias directive should be used.
 
 note: Keep in mind that the root will still append the directory to the request so that a request 
-for "/i/top.gif" will not look in "/spool/w3/top.gif" like might happen in an Apache-like alias 
-configuration where the location match itself is dropped. Use the alias directive 
+for `/i/top.gif` will not look in `/spool/w3/top.gif` like might happen in an Apache-like alias 
+configuration where the location match itself is dropped.  Use the alias directive 
 to achieve the Apache-like functionality.
 
 
 ### alias ###
 Syntax:	alias path;   
-Default:	—   
 Context:	location   
-Defines a replacement for the specified location. For example, with the following configuration
+Defines a replacement for the specified location.
+For example, with the following configuration
 
 ```
 location /i/ {
@@ -103,7 +103,7 @@ location /i/ {
 }
 ```
 
-on request of “/i/top.gif”, the file /data/w3/images/top.gif will be sent.
+on request of `/i/top.gif`, the file `/data/w3/images/top.gif` will be sent.
 
 The path value can contain variables, except $document_root and $realpath_root.
 
@@ -146,11 +146,10 @@ location / {
     index index.$geo.html index.html;
 }
 ```
-
-Syntax:	index file ...;   
-Default:	
-index index.html;   
-Context:	http, server, location
+### index syntax ####
+index file ...;   
+Default: index index.html;   
+Context: http, server, location
 
 Defines files that will be used as an index. The file name can contain variables. 
 Files are checked in the specified order. The last element of the list can be a file 
@@ -160,7 +159,7 @@ with an absolute path. Example:
 index index.$geo.html index.0.html /index.html;
 ```
 
-It should be noted that using an index file causes an internal redirect, and 
+It should be noted that using an index file causes an **internal redirect**, and 
 the request can be processed in a different location. 
 For example, with the following configuration:
 
@@ -184,7 +183,12 @@ try_files file ... =code;
 Default:	—   
 Context:	server, location
 
-Checks the existence of files in the specified order and uses the first found file for request processing; the processing is performed in the current context. The path to a file is constructed from the file parameter according to the root and alias directives. It is possible to check directory’s existence by specifying a slash at the end of a name, e.g. “$uri/”. If none of the files were found, an internal redirect to the uri specified in the last parameter is made. For example:
+Checks the existence of files in the specified order and uses the first found file for
+request processing; the processing is performed in the current context.
+The path to a file is constructed from the file parameter according to the root and alias directives. 
+It is possible to check directory’s existence by specifying a slash at the end of a name, e.g. “$uri/”. 
+If none of the files were found, an **internal redirect** to the uri specified in the last parameter is made. 
+For example:
 
 ```
 location /images/ {
@@ -196,7 +200,8 @@ location = /images/default.gif {
 }
 ```
 
-The last parameter can also point to a named location, as shown in examples below. Starting from version 0.7.51, the last parameter can also be a code:
+The last parameter can also point to a **named location**, as shown in examples below. 
+The last parameter can also be a code:
 
 ```
 location / {
