@@ -65,11 +65,11 @@ location /admin {
 ```
 
 This example will redirect any request matching the location rule (see earlier)
-as a HTTP 301 permanent redirection to `http://admin.example.com/`.
+as a HTTP 301 **permanent redirection** to `http://admin.example.com/`.
 e.g. `http://www.example.com/admin/index.html` now gets HTTP redirected 
 to `http://admin.example.com/index.html`.
 Note the regular expression and the **$1** replacement in the URL.
-If you want the redirect to be a HTTP 302 (temporary redirection),
+If you want the redirect to be a HTTP 302 (**temporary redirection**),
 just change the word **permanent** to **redirect**.
 
 Internal rewrites are a little more complicated:
