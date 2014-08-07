@@ -26,7 +26,7 @@ server {
 }
 ```
 
-nginx first searches for the most specific prefix location given by **literal strings** 
+nginx first searches for the *most specific prefix location* given by **literal strings** 
 regardless of the listed order.  In the configuration above the only **prefix location**
 is “/” and since it matches any request it will be used as a last resort. 
 Then nginx checks locations given by regular expression in the order listed in the configuration file. 
@@ -53,13 +53,25 @@ Now let’s look at how requests would be processed in the configuration above:
 
 * A request **/logo.gif** is matched by the prefix location `/` first and then 
   by the regular expression `\.(gif|jpg|png)$`, therefore, it is handled by the latter location. 
-  Using the directive `root /data/www` the request is mapped to the file `/data/www/logo.gif`, 
+  Using the directive `root /data/www` the request is mapped to the file **/data/www/logo.gif**, 
   and the file is sent to the client.
 
-* A request **/index.php** is also matched by the prefix location “/” first and then by the regular expression “\.(php)$”. Therefore, it is handled by the latter location and the request is passed to a FastCGI server listening on localhost:9000. The fastcgi_param directive sets the FastCGI parameter SCRIPT_FILENAME to “/data/www/index.php”, and the FastCGI server executes the file. The variable $document_root is equal to the value of the root directive and the variable $fastcgi_script_name is equal to the request URI, i.e. “/index.php”.
+* A request **/index.php** is also matched by the prefix location `/` first and 
+  then by the regular expression `\.(php)$`. Therefore, it is handled by the latter location and 
+  the request is passed to a FastCGI server listening on localhost:9000. 
+  The fastcgi\_param directive sets the FastCGI parameter SCRIPT\_FILENAME 
+  to **/data/www/index.php**, and the FastCGI server executes the file. 
+  The variable $document\_root is equal to the value of the root directive and the 
+  variable $fastcgi\_script\_name is equal to the request URI, i.e. “/index.php”.
 
-* A request **/about.html** is matched by the prefix location “/” only, therefore, it is handled in this location. Using the directive “root /data/www” the request is mapped to the file /data/www/about.html, and the file is sent to the client.
+* A request **/about.html** is matched by the prefix location “/” only, therefore, 
+  it is handled in this location. Using the directive `root /data/www` the request 
+  is mapped to the file **/data/www/about.html**, and the file is sent to the client.
 
-* Handling a request “/” is more complex.
+* Handling a request **/** is more complex.
   It is matched by the prefix location “/” only, therefore, it is handled by this location. 
-  Then the index directive tests for the existence of index files according to its parameters and the “root /data/www” directive. If the file /data/www/index.html does not exist, and the file /data/www/index.php exists, then the directive does an internal redirect to “/index.php”, and nginx searches the locations again as if the request had been sent by a client. As we saw before, the redirected request will eventually be handled by the FastCGI server.
+  Then the index directive tests for the existence of index files according to its parameters and 
+  the `root /data/www` directive. If the file /data/www/index.html does not exist, and the 
+  file /data/www/index.php exists, then the directive does an **internal redirect** to 
+  “/index.php”, and nginx searches the locations again as if the request had been sent by a client. 
+  As we saw before, the **redirected request** will eventually be handled by the FastCGI server.
