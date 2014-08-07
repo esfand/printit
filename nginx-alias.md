@@ -1,4 +1,4 @@
-### Difference between patha and alia ###
+### Difference between patha and alias ###
 
 There's a subtle difference.
 
@@ -63,7 +63,7 @@ location /static/ {
         
 the final path will correctly be formed as `/var/www/app/static`
 
-See the documentation here: http://wiki.nginx.org/HttpCoreModule#alias
+Following is the documentation of root and alias from http://wiki.nginx.org/HttpCoreModule#alias
 
 ### root ###
 Syntax:	  root path;   
