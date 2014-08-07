@@ -1,5 +1,5 @@
 
-## Nginx location and rewrite configuration made easy ##
+### Nginx location and rewrite configuration made easy ###
 
 As a request comes in, Nginx will scan
 through the configuration to find a `location` line that matches the request.
@@ -25,7 +25,7 @@ location ^~ /images {}   (Note: does not work for regular expressions)
 ```
     
 The **^~** results in a case sensitive match for the beginning of a request.
-This means /images, /images/logo.gif, etc will all be matched.
+This means `/images`, `/images/logo.gif`, etc will all be matched.
 This also halts the location scanning as soon as a match is met.
 
 ```
@@ -50,10 +50,10 @@ An examples of a regular expression match is:
 
     location ~ \.(gif|jpg|jpeg)$ { }
 
-This will match any request that ends in .gif, .jpg, or .jpeg.</p></blockquote>
+This will match any request that ends in `.gif`, `.jpg`, or `.jpeg`.
 
 So now that we’ve discussed the foundations of the location rules, we can move into rewrites.
-There are TWO kinds of rewrites – URL redirects (HTTP301/HTTP302), or an internal rewrite
+There are TWO kinds of rewrites – **URL redirects** (HTTP301/HTTP302), or an **internal rewrite**
 (mangles the request before it is processed).
 
 URL Redirects are the simplest to understand:
@@ -65,9 +65,10 @@ location /admin {<br>
 ```
 
 This example will redirect any request matching the location rule (see earlier)
-as a HTTP 301 permanent redirection to http://admin.example.com/.
-e.g. http://www.example.com/admin/index.html now gets HTTP redirected to http://admin.example.com/index.html.
-Note the regular expression and the $1 replacement in the URL.
+as a HTTP 301 permanent redirection to `http://admin.example.com/`.
+e.g. `http://www.example.com/admin/index.html` now gets HTTP redirected 
+to `http://admin.example.com/index.html`.
+Note the regular expression and the **$1** replacement in the URL.
 If you want the redirect to be a HTTP 302 (temporary redirection),
 just change the word **permanent** to **redirect**.
 
@@ -75,7 +76,7 @@ Internal rewrites are a little more complicated:
 
 ```
 location /admin {<br>
-    rewrite ^/admin/(.*)$ /$1 break;<br>
+    rewrite ^/admin/(.*)$ /$1 break;
 }
 ```
 
