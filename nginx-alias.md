@@ -1,4 +1,4 @@
-### Difference between patha and alias ###
+### difference between root and alias directives ###
 
 There's a subtle difference.
 
