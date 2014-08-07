@@ -19,16 +19,16 @@ operator at all.
 NOTE The *operator*, as I call it, is actually called *prefix* in nginx documentation. I intentionally 
 avoid *prefix* and use *operator* instead, to make it sound more natural and less confusing.
 
-If the operator is **=**, **^~** or **none**, the **uri** part in the directive is a string literal and is matched 
+If the operator is **=**, **^~** or **none**, the `uri` part in the directive is a **string literal** and is matched 
 against request uri or the beginning part of request uri (i.e. its prefix). Operator **=** indicates an 
 exact match, which means the `uri` part in the directive should be exactly the same as request uri. 
 Operator ^~ or none indicates a prefix match, which means the `uri` part in the directive can be the 
 whole request uri or only the beginning part of it. 
 
-NOTE When referring to request uri, I only talk about the part after hostname and before 
+NOTE When referring to **request uri**, I only talk about the part after hostname and before 
 query string (looks like an absolute file path).
 
-If the operator is ~ or ~\*, the `uri` part in the directive is a regular expression, 
+If the operator is **~** or **~\***, the `uri` part in the directive is a **regular expression**, 
 with operator ~ for case sensitive match and operator ~\* for case insensitive match.
 
 ## The Matching Rule
