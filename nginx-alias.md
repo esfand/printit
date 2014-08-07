@@ -132,3 +132,172 @@ location /images/ {
 }
 ```
 
+### index Directive ###
+
+The ngx_http_index_module module processes requests ending with the slash character (‘/’).
+Such requests can also be processed by the ngx_http_autoindex_module and 
+ngx_http_random_index_module modules.
+
+#### Example Configuration ####
+
+location / {
+    index index.$geo.html index.html;
+}
+
+
+Syntax:	index file ...;   
+Default:	
+index index.html;   
+Context:	http, server, location
+
+Defines files that will be used as an index. The file name can contain variables. Files are checked in the specified order. The last element of the list can be a file with an absolute path. Example:
+
+```
+index index.$geo.html index.0.html /index.html;
+```
+
+It should be noted that using an index file causes an internal redirect, and 
+the request can be processed in a different location. 
+For example, with the following configuration:
+
+```
+location = / {
+    index index.html;
+}
+
+location / {
+    ...
+}
+```
+
+a “/” request will actually be processed in the second location as “/index.html”.
+
+
+### try-files directive ###
+
+Syntax:	try_files file ... uri;   
+try_files file ... =code;   
+Default:	—   
+Context:	server, location
+
+Checks the existence of files in the specified order and uses the first found file for request processing; the processing is performed in the current context. The path to a file is constructed from the file parameter according to the root and alias directives. It is possible to check directory’s existence by specifying a slash at the end of a name, e.g. “$uri/”. If none of the files were found, an internal redirect to the uri specified in the last parameter is made. For example:
+
+```
+location /images/ {
+    try_files $uri /images/default.gif;
+}
+
+location = /images/default.gif {
+    expires 30s;
+}
+```
+
+The last parameter can also point to a named location, as shown in examples below. Starting from version 0.7.51, the last parameter can also be a code:
+
+```
+location / {
+    try_files $uri $uri/index.html $uri.html =404;
+}
+```
+
+Example in proxying Mongrel:
+
+```
+location / {
+    try_files /system/maintenance.html
+              $uri $uri/index.html $uri.html
+              @mongrel;
+}
+
+location @mongrel {
+    proxy_pass http://mongrel;
+}
+```
+
+Example for Drupal/FastCGI:
+
+```
+location / {
+    try_files $uri $uri/ @drupal;
+}
+
+location ~ \.php$ {
+    try_files $uri @drupal;
+
+    fastcgi_pass ...;
+
+    fastcgi_param SCRIPT_FILENAME /path/to$fastcgi_script_name;
+    fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
+    fastcgi_param QUERY_STRING    $args;
+
+    ... other fastcgi_param's
+}
+
+location @drupal {
+    fastcgi_pass ...;
+
+    fastcgi_param SCRIPT_FILENAME /path/to/index.php;
+    fastcgi_param SCRIPT_NAME     /index.php;
+    fastcgi_param QUERY_STRING    q=$uri&$args;
+
+    ... other fastcgi_param's
+}
+```
+
+In the following example,
+
+```
+location / {
+    try_files $uri $uri/ @drupal;
+}
+```
+
+the try_files directive is equivalent to
+
+```
+location / {
+    error_page 404 = @drupal;
+    log_not_found off;
+}
+```
+
+And here,
+
+```
+location ~ \.php$ {
+    try_files $uri @drupal;
+
+    fastcgi_pass ...;
+
+    fastcgi_param SCRIPT_FILENAME /path/to$fastcgi_script_name;
+
+    ...
+}
+```
+
+try_files checks the existence of the PHP file before passing the request to the FastCGI server.
+
+
+Example for Wordpress and Joomla:
+
+```
+location / {
+    try_files $uri $uri/ @wordpress;
+}
+
+location ~ \.php$ {
+    try_files $uri @wordpress;
+
+    fastcgi_pass ...;
+
+    fastcgi_param SCRIPT_FILENAME /path/to$fastcgi_script_name;
+    ... other fastcgi_param's
+}
+
+location @wordpress {
+    fastcgi_pass ...;
+
+    fastcgi_param SCRIPT_FILENAME /path/to/index.php;
+    ... other fastcgi_param's
+}
+```
