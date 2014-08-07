@@ -111,6 +111,7 @@ If alias is used inside a location defined with a regular expression then such
 regular expression should contain captures and alias should refer to these captures,
 for example:
 
+```
 location ~ ^/users/(.+\.(?:gif|jpe?g|png))$ {
     alias /data/w3/images/$1;
 }
@@ -140,17 +141,20 @@ ngx_http_random_index_module modules.
 
 #### Example Configuration ####
 
+```
 location / {
     index index.$geo.html index.html;
 }
-
+```
 
 Syntax:	index file ...;   
 Default:	
 index index.html;   
 Context:	http, server, location
 
-Defines files that will be used as an index. The file name can contain variables. Files are checked in the specified order. The last element of the list can be a file with an absolute path. Example:
+Defines files that will be used as an index. The file name can contain variables. 
+Files are checked in the specified order. The last element of the list can be a file 
+with an absolute path. Example:
 
 ```
 index index.$geo.html index.0.html /index.html;
