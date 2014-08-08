@@ -18,7 +18,6 @@ location /bar {
 location /bar {
     alias /foo/bar;
 }
-[/code]
 ```
 
 
@@ -146,7 +145,7 @@ location / {
     index index.$geo.html index.html;
 }
 ```
-### index syntax ####
+### syntax ####
 index file ...;   
 Default: index index.html;   
 Context: http, server, location
