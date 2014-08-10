@@ -238,7 +238,7 @@ location ~ \.php$ {
     fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
     fastcgi_param QUERY_STRING    $args;
 
-    ... other fastcgi_param's
+    ... other fastcgi_params
 }
 
 location @drupal {
@@ -299,13 +299,13 @@ location ~ \.php$ {
     fastcgi_pass ...;
 
     fastcgi_param SCRIPT_FILENAME /path/to$fastcgi_script_name;
-    ... other fastcgi_param's
+    ... other fastcgi_params
 }
 
 location @wordpress {
     fastcgi_pass ...;
 
     fastcgi_param SCRIPT_FILENAME /path/to/index.php;
-    ... other fastcgi_param's
+    ... other fastcgi_params
 }
 ```
