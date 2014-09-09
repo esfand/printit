@@ -51,7 +51,8 @@ public class Example  {
         // Enter something to search for
         element.sendKeys("Cheese!");
 
-        // Now submit the form. WebDriver will find the form for us from the element
+        // Now submit the form. 
+        // WebDriver will find the form for us from the element
         element.submit();
 
         // Check the title of the page
@@ -98,7 +99,8 @@ public class GoogleSuggest {
         while (System.currentTimeMillis() < end) {
             WebElement resultsDiv = driver.findElement(By.className("gssb_e"));
 
-            // If results have been returned, the results are displayed in a drop down.
+            // If results have been returned, the results are displayed 
+            // in a drop down.
             if (resultsDiv.isDisplayed()) {
               break;
             }
