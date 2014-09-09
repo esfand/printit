@@ -105,7 +105,8 @@ public class GoogleSuggest {
         }
 
         // And now list the suggestions
-        List<WebElement> allSuggestions = driver.findElements(By.xpath("//td[@class='gssb_a gbqfsf']"));
+        List<WebElement> allSuggestions = driver.findElements(
+                                                 By.xpath("//td[@class='gssb_a gbqfsf']"));
         
         for (WebElement suggestion : allSuggestions) {
             System.out.println(suggestion.getText());
@@ -325,7 +326,9 @@ driver.manage().addCookie(cookie);
 // And now output all the available cookies for the current URL
 Set<Cookie> allCookies = driver.manage().getCookies();
 for (Cookie loadedCookie : allCookies) {
-    System.out.println(String.format("%s -> %s", loadedCookie.getName(), loadedCookie.getValue()));
+    System.out.println(String.format("%s -> %s", 
+                                     loadedCookie.getName(), 
+                                     loadedCookie.getValue()));
 }
 ```
 
