@@ -814,7 +814,10 @@ public class FooTest {
     WebDriver driver = new FirefoxDriver();
 
     ProjectPage project = new ProjectPage(driver, "selenium");
-    SecuredPage securedPage = new SecuredPage(driver, project, "example", "top secret");
+    SecuredPage securedPage = new SecuredPage(driver, 
+                                              project, 
+                                              "example", 
+                                              "top secret");
     editIssue = new EditIssue(driver, securedPage);
   }
 
