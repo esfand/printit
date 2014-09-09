@@ -106,7 +106,7 @@ public class GoogleSuggest {
 
         // And now list the suggestions
         List<WebElement> allSuggestions = driver.findElements(
-                                                 By.xpath("//td[@class='gssb_a gbqfsf']"));
+                               By.xpath("//td[@class='gssb_a gbqfsf']"));
         
         for (WebElement suggestion : allSuggestions) {
             System.out.println(suggestion.getText());
@@ -148,7 +148,8 @@ Often, this idea is referred to as "safety", and it falls into two parts.
 Firstly, there's "actual safety", which refers to whether or not the tests works 
 as they should. This can be measured and quantified. Secondly, there's "perceived safety", 
 which refers to whether or not an observer believes the tests work as they should. 
-This varies from person to person, and will depend on their familiarity with the application under test, WebDriver and your testing framework.
+This varies from person to person, and will depend on their familiarity with the 
+application under test, WebDriver and your testing framework.
 
 To support higher "perceived safety", you may wish to choose a driver such as the FirefoxDriver. This has the added advantage that this driver actually renders content to a screen, and so can be used to detect information such as the position of an element on a page, or the CSS properties that apply to it. However, this additional flexibility comes at the cost of slower overall speed. By writing your tests against the WebDriver interface, it is possible to pick the most appropriate driver for a given test.
 
@@ -212,7 +213,8 @@ We've already seen how to enter text into a textarea or text field, but what abo
 WebElement select = driver.findElement(By.xpath("//select"));
 List<WebElement> allOptions = select.findElements(By.tagName("option"));
 for (WebElement option : allOptions) {
-    System.out.println(String.format("Value is: %s", option.getAttribute("value")));
+    System.out.println(String.format("Value is: %s", 
+                                     option.getAttribute("value")));
     option.click();
 }
 ```
@@ -222,7 +224,8 @@ This will find the first "SELECT" element on the page, and cycle through each of
 Once you've finished filling out the form, you probably want to submit it. One way to do this would be to find the "submit" button and click it:
 
 ```java
-driver.findElement(By.id("submit")).click();  // Assume the button has the ID "submit" :)
+// Assume the button has the ID "submit" :)
+driver.findElement(By.id("submit")).click();
 ```
 
 Alternatively, WebDriver has the convenience method "submit" on every element. If you call this on an element within a form, WebDriver will walk up the DOM until it finds the enclosing form and then calls submit on that. If the element isn't in a form, then the "NoSuchElementException" will be thrown:
