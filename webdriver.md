@@ -395,7 +395,8 @@ public class LoginPage {
     }
     
     public LoginPage loginAsExpectingError(String username, String password) {
-        //  ... failed login here, maybe because one or both of the username and password are wrong
+        //  ... failed login here, maybe because one or both of the username 
+        //      and password are wrong
     }
     
     public String getErrorMessage() {
@@ -507,17 +508,17 @@ public class LoginPage {
         driver.findElement(loginButtonLocator).submit();
 
         // Return a new page object representing the destination. Should the user 
-        // ever be navigated to the home page after submiting a login with credentials 
-        // expected to fail login, the script will fail when it attempts to instantiate 
-        // the LoginPage PageObject.
+        // ever be navigated to the home page after submiting a login with 
+        // credentials expected to fail login, the script will fail when it 
+        // attempts to instantiate the LoginPage PageObject.
         return new LoginPage(driver);   
     }
 
-    // Conceptually, the login page offers the user the service of being able to "log into"
-    // the application using a user name and password. 
+    // Conceptually, the login page offers the user the service of being able to 
+    // "log into" the application using a user name and password. 
     public HomePage loginAs(String username, String password) {
-        // The PageObject methods that enter username, password & submit login have 
-        // already defined and should not be repeated here.
+        // The PageObject methods that enter username, password & submit login 
+        // have already defined and should not be repeated here.
         typeUsername(username);
         typePassword(password);
         return submitLogin();
@@ -587,7 +588,8 @@ public class EditIssue extends LoadableComponent<EditIssue> {
 }
 ```
 
-This signature looks a little unusual, but it all it means is that this class represents a LoadableComponent that loads the EditIssue page.
+This signature looks a little unusual, but it all it means is that this class represents 
+a LoadableComponent that loads the EditIssue page.
 
 By extending this base class, we need to implement two new methods:
 
