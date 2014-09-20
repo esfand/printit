@@ -76,8 +76,8 @@ public final class ExplicitWaitTest {
 
     @BeforeTest
     public void initialize() {
-        driver = new ChromeDriver(); // requires system property: 
-                                     //-Dwebdriver.chrome.driver=<path to chromedriver.exe>
+        // requires system property: -Dwebdriver.chrome.driver=<path to chromedriver.exe>
+        driver = new ChromeDriver(); 
         driver.get("http://docs.seleniumhq.org/");
     }
 
@@ -115,10 +115,12 @@ public final class ExplicitWaitTest {
 
         // not - defined in ExpectedConditions
         new WebDriverWait(driver, EXPLICIT_WAIT_PRESENT_TIMEOUT)
-                .until(not(presenceOfElementLocated(By.xpath("//div[@id='popup']"))));
+                .until(not(presenceOfElementLocated(
+                    By.xpath("//div[@id='popup']"))));
     }
 
-    @Test(groups = {"exceptions"}, expectedExceptions = {TimeoutException.class})
+    @Test(groups = {"exceptions"}, expectedExceptions = 
+                        {TimeoutException.class})
     public void exceptionHandlingTest() {
         // withMessage - customMessage
         // ignoring - exception we don't care about
@@ -137,15 +139,18 @@ public final class ExplicitWaitTest {
 
     @Test(groups = {"reliability"})
     public void visibilityTest() {
-        // ignoring ElementNotVisibleException that will be thrown if we click() on invisible element
+        // ignoring ElementNotVisibleException that will be thrown 
+        // if we click() on invisible element
         new FluentWait<WebDriver>(driver)
                 .pollingEvery(EXPLICIT_WAIT_POOLING, TimeUnit.MILLISECONDS)
                 .withTimeout(EXPLICIT_WAIT_TIMEOUT, TimeUnit.SECONDS)
-                .ignoring(NoSuchElementException.class, ElementNotVisibleException.class)
+                .ignoring(NoSuchElementException.class, 
+                          ElementNotVisibleException.class)
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        WebElement element = webDriver.findElement(By.xpath("//div[@id='sidebar']"));
+                        WebElement element = webDriver.findElement(
+                                                 By.xpath("//div[@id='sidebar']"));
                         element.click();
                         return element;
                     }
@@ -158,7 +163,8 @@ public final class ExplicitWaitTest {
 
     @Test(groups = {"reliability"})
     public void movingTest() {
-        // ignoring WebDriverException that will be thrown if we click() on moving element
+        // ignoring WebDriverException that will be thrown 
+        // if we click() on moving element
         new FluentWait<WebDriver>(driver)
                 .pollingEvery(EXPLICIT_WAIT_POOLING, TimeUnit.MILLISECONDS)
                 .withTimeout(EXPLICIT_WAIT_TIMEOUT, TimeUnit.SECONDS)
@@ -168,7 +174,8 @@ public final class ExplicitWaitTest {
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        WebElement element = webDriver.findElement(By.xpath("//div[@id='sidebar']"));
+                        WebElement element = webDriver.findElement
+                                                 (By.xpath("//div[@id='sidebar']"));
                         element.click();
                         return element;
                     }
@@ -185,7 +192,8 @@ public final class ExplicitWaitTest {
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        if(webDriver.findElements(By.xpath("//div[@id='progress']")).isEmpty()) {
+                        if(webDriver.findElements(
+                                By.xpath("//div[@id='progress']")).isEmpty()) {
                             return webDriver.findElement(By.xpath("//div[@id='sidebar']"));
                         }
                         return null;
