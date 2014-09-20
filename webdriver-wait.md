@@ -1,3 +1,48 @@
+# WebDriver - Explicit and Implicit Waits
+Waiting is having the automated task execution elapse a certain amount of time before continuing with the next step.
+
+## Explicit Waits
+An explicit waits is code you define to wait for a certain condition to occur before proceeding further in the code. The worst case of this is Thread.sleep(), which sets the condition to an exact time period to wait. There are some convenience methods provided that help you write code that will wait only as long as required. WebDriverWait in combination with ExpectedCondition is one way this can be accomplished.
+
+```java
+WebDriver driver = new FirefoxDriver();
+driver.get("http://somedomain/url_that_delays_loading");
+WebElement myDynamicElement = (new WebDriverWait(driver, 10))
+  .until(ExpectedConditions.presenceOfElementLocated(By.id("myDynamicElement")));
+```
+
+This waits up to 10 seconds before throwing a TimeoutException or if it finds the element will return it in 0 - 10 seconds. WebDriverWait by default calls the ExpectedCondition every 500 milliseconds until it returns successfully. A successful return is for ExpectedCondition type is Boolean return true or not null return value for all other ExpectedCondition types.
+
+This example is also functionally equivalent to the first Implicit Waits example.
+
+### Expected Conditions
+
+There are some common conditions that are frequently come across when automating web browsers. Listed below are Implementations of each. Java happens to have convienence methods so you don’t have to code an ExpectedCondition class yourself or create your own utility package for them.
+
+Element is Clickable - it is Displayed and Enabled.
+
+```java
+WebDriverWait wait = new WebDriverWait(driver, 10);
+WebElement element = wait.until(ExpectedConditions.elementToBeClickable(
+                         By.id("someid")));
+```
+
+The ExpectedConditions package (Java) (Python) (.NET) contains a set of predefined conditions to use with WebDriverWait.
+
+## Implicit Waits
+
+An implicit wait is to tell WebDriver to poll the DOM for a certain amount of time when trying to find an element or elements if they are not immediately available. The default setting is 0. Once set, the implicit wait is set for the life of the WebDriver object instance.
+
+```java
+WebDriver driver = new FirefoxDriver();
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+driver.get("http://somedomain/url_that_delays_loading");
+WebElement myDynamicElement = driver.findElement(By.id("myDynamicElement"));
+```
+
+
+
+
 ## Selenium Explicit Wait
 
 Explicit wait is a programmatic approach to problem of waiting for elements. 
