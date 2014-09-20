@@ -43,9 +43,118 @@ WebElement myDynamicElement = driver.findElement(
 ```
 
 
+## WebDriver Implicit Wait
+
+Implicit wait is a way of telling selenium driver that it should poll DOM for certain amount of time when performing findElement or findElements. Tests will continue immediately if the element is available earlier and if not then after timeout period NoSouchElementException will be thrown. Using it requires only one time initialization and after that all findElement and findElements invocations will be aware of additional time they should wait. Although it sounds like a convenient and reliable solution it is very limiting and you may sooner or later run into one of the problems mentioned below.
 
 
-## Selenium Explicit Wait
+### 1. Performance
+Idea of setting timeout that will be used globally on each method invocation is good as long as you can change it in some specific scenarios. You may need to do this for pages with AJAX loaded components because there will be a significant difference in load times between them and static content. This means you have to set timeout to load time of the slowest component or swap timeout value between default and specific. You may think that just setting it to some big value like 30 second will solve the problem because all component will load faster than that and program will continue anyway. However this way of solving problem can be very time consuming if you just need to verify presence of element and continue test whatever the results is. For example 'if there is a pop-up window close it and continue'. In that scenario driver will have to wait for 30 seconds just to prove that there is no window.
+
+### 2. Exceptions
+Information about what went wrong is probably the most important part of the test. Using Implicit Timeout we are left with NoSuchElementException. In most cases we would like to customize error message, create a screenshot or translate thrown exception to one of our own. Of course we can just surround invocation of findElement and findElements with try and catch block but writing explicit exception handling defeat the purpose of using implicit wait.
+
+### 3. Reliability
+When using implicit wait test continue immediately after element was located in DOM. In most cases this is what we want but if we are dealing with lot of JavaScript the answer is not that obvious. For example located element can be still temporarily invisible (if we click on it we will end up with ElementNotVisibleException) or moving (if we click on it we will end up with WebDriverException and message that the element is not clickable) or was detached from DOM and attached again (we will end up with StaleElementReferenceException).
+
+### 4. Conditions
+Implicit Wait applies only to finding element and therefore it is very limiting. There are lot of other actions that would benefit from trying to execute them for some period of time. Previously mentioned exception when trying to click element that is temporarily moving or invisible are good candidates. Other nice thing that is inconvenient to do using implicit wait is conditionally finding element. If pages contains progress bar or some other indicator of processing request using AJAX we can always wait until it disappears and then perform actual search for element.
+
+As you can see implicit wait is simple and convenient but also very limiting way of locating elements. Below is a test class that visualize some of the problems I have written about:
+
+
+```java
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import java.util.concurrent.TimeUnit;
+
+public final class ImplicitWaitTest {
+    private static final int IMPLICIT_WAIT_TIMEOUT = 5000;
+    private static final int IMPLICIT_WAIT_CUSTOM_TIMEOUT = 3000;
+    private WebDriver driver;
+
+    @BeforeTest
+    public void initialize() {
+        // requires system property: 
+        //     -Dwebdriver.chrome.driver=<path to chromedriver.exe>
+        driver = new ChromeDriver(); 
+        driver.manage()
+              .timeouts()
+              .implicitlyWait(IMPLICIT_WAIT_TIMEOUT, 
+                              TimeUnit.MILLISECONDS);
+        driver.get("http://docs.seleniumhq.org/");
+    }
+
+    // Changing timeout - inconvenient
+    @Test(groups = {"performance"}, 
+          timeOut = IMPLICIT_WAIT_TIMEOUT)
+    public void timeoutSwapTest() {
+        driver.manage()
+              .timeouts()
+              .implicitlyWait(IMPLICIT_WAIT_CUSTOM_TIMEOUT, 
+                              TimeUnit.MILLISECONDS);
+        driver.findElement(By.xpath("//div[@id='sidebar']"));
+        driver.manage()
+              .timeouts()
+              .implicitlyWait(IMPLICIT_WAIT_TIMEOUT, 
+                              TimeUnit.MILLISECONDS);
+    }
+
+    // Verify there there is no popup expecting 
+    //     NoSuchElementException - inefficient
+    @Test(groups = {"performance"}, 
+          expectedExceptions = {NoSuchElementException.class})
+    public void verifyTest() {
+        driver.findElement(By.xpath("//div[@id='popup']"));
+    }
+
+    // Translating NoSuchElementException to AssertionError 
+    //     with custom message - inconvenient
+    @Test(groups = {"exceptions"}, 
+          expectedExceptions = {AssertionError.class})
+    public void exceptionHandlingTest() {
+        try {
+            driver.findElement(By.xpath("//div[@id='popup']"));
+        } catch (NoSuchElementException ex) {
+            throw new AssertionError("Popup is not present");
+        }
+    }
+
+    // Chaining actions - no way of waiting for visibility 
+    // of element, we end up with ElementNotVisibleException
+    // This is just to present what happens if you perform an 
+    // action on 'hidden' element
+    @Test(groups = {"reliability"}, 
+          expectedExceptions = {ElementNotVisibleException.class})
+    public void reliabilityTest() {
+        driver.findElement(By.xpath("//input[@name='cof']")).click();
+    }
+
+    @AfterTest
+    public void shutdown() {
+        if(driver != null) {
+            try {
+                driver.quit();
+                driver.close();
+            } catch (Throwable e) {
+                // ignore
+            }
+        }
+    }
+}
+```
+
+
+
+
+
+## WebDriver Explicit Wait
 
 Explicit wait is a programmatic approach to problem of waiting for elements. 
 Contrary to Implicit Wait that I have described in previous article Explicit Wait 
