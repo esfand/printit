@@ -1,4 +1,5 @@
 # WebDriver - Explicit and Implicit Waits
+
 Waiting is having the automated task execution elapse a certain amount of time before continuing with the next step.
 
 ## Explicit Waits
@@ -43,21 +44,21 @@ WebElement myDynamicElement = driver.findElement(
 ```
 
 
-## WebDriver Implicit Wait
+# WebDriver Implicit Wait
 
 Implicit wait is a way of telling selenium driver that it should poll DOM for certain amount of time when performing findElement or findElements. Tests will continue immediately if the element is available earlier and if not then after timeout period NoSouchElementException will be thrown. Using it requires only one time initialization and after that all findElement and findElements invocations will be aware of additional time they should wait. Although it sounds like a convenient and reliable solution it is very limiting and you may sooner or later run into one of the problems mentioned below.
 
 
-### 1. Performance
+## 1. Performance
 Idea of setting timeout that will be used globally on each method invocation is good as long as you can change it in some specific scenarios. You may need to do this for pages with AJAX loaded components because there will be a significant difference in load times between them and static content. This means you have to set timeout to load time of the slowest component or swap timeout value between default and specific. You may think that just setting it to some big value like 30 second will solve the problem because all component will load faster than that and program will continue anyway. However this way of solving problem can be very time consuming if you just need to verify presence of element and continue test whatever the results is. For example 'if there is a pop-up window close it and continue'. In that scenario driver will have to wait for 30 seconds just to prove that there is no window.
 
-### 2. Exceptions
+## 2. Exceptions
 Information about what went wrong is probably the most important part of the test. Using Implicit Timeout we are left with NoSuchElementException. In most cases we would like to customize error message, create a screenshot or translate thrown exception to one of our own. Of course we can just surround invocation of findElement and findElements with try and catch block but writing explicit exception handling defeat the purpose of using implicit wait.
 
-### 3. Reliability
+## 3. Reliability
 When using implicit wait test continue immediately after element was located in DOM. In most cases this is what we want but if we are dealing with lot of JavaScript the answer is not that obvious. For example located element can be still temporarily invisible (if we click on it we will end up with ElementNotVisibleException) or moving (if we click on it we will end up with WebDriverException and message that the element is not clickable) or was detached from DOM and attached again (we will end up with StaleElementReferenceException).
 
-### 4. Conditions
+## 4. Conditions
 Implicit Wait applies only to finding element and therefore it is very limiting. There are lot of other actions that would benefit from trying to execute them for some period of time. Previously mentioned exception when trying to click element that is temporarily moving or invisible are good candidates. Other nice thing that is inconvenient to do using implicit wait is conditionally finding element. If pages contains progress bar or some other indicator of processing request using AJAX we can always wait until it disappears and then perform actual search for element.
 
 As you can see implicit wait is simple and convenient but also very limiting way of locating elements. Below is a test class that visualize some of the problems I have written about:
@@ -154,7 +155,7 @@ public final class ImplicitWaitTest {
 
 
 
-## WebDriver Explicit Wait
+# WebDriver Explicit Wait
 
 Explicit wait is a programmatic approach to problem of waiting for elements. 
 Contrary to Implicit Wait that I have described in previous article Explicit Wait 
@@ -166,7 +167,7 @@ then defined threshold then TimeoutException or any of the not ignored exception
 will be thrown. I will try to address problems that I have described in article 
 about Implicit Wait and show how they can be solved using explicit approach.
 
-### 1. Performance
+## 1. Performance
 What we would like is to have default timeout that will be used in most cases but 
 also possibility to change it if necessary. Fortunately this is what FluentWait 
 class offers. Moreover we can define how frequently we should check the condition. 
@@ -174,7 +175,7 @@ Knowing that we can solve problem of verifying that given element is not present
 on the page implementing our own condition with custom timeout or just use already 
 provided conditions that are defined in utility class called ExcepctedConditions.
 
-### 2. Exceptions
+## 2. Exceptions
 Second interesting feature that we get out of the box by using FluentWait is 
 ability to ignore specific exceptions and provide custom message that will be 
 included in exception. No longer we have to start analyzing our tests result from 
@@ -182,7 +183,7 @@ very detailed information about internals of WebDriver or XPath. This is especia
 convenient when you are dealing with large number of tests. Basically what we are 
 doing is putting another layer of user friendly information that is easier to analyze.
 
-### 3. Reliability
+## 3. Reliability
 This is where explicit approach really shines and probably most important reason to 
 use it, especially when testing pages with lot of JavaScript. For example if we want 
 to click on element that is present in DOM but temporarily invisible we can create a 
@@ -195,7 +196,7 @@ This means we will periodically try to find element and perform action on it ins
 of returning if from method and using it later (when it is more likely to end up 
 with stale reference).
 
-### 4. Conditions
+## 4. Conditions
 Explicit wait approach is not limited to only findElement and findElements methods 
 of WebDriver. We can use it to chain actions that would normally require few steps 
 and verifications along the way. For example we can define a custom condition that 
