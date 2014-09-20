@@ -8,7 +8,8 @@ An explicit waits is code you define to wait for a certain condition to occur be
 WebDriver driver = new FirefoxDriver();
 driver.get("http://somedomain/url_that_delays_loading");
 WebElement myDynamicElement = (new WebDriverWait(driver, 10))
-  .until(ExpectedConditions.presenceOfElementLocated(By.id("myDynamicElement")));
+  .until(ExpectedConditions.presenceOfElementLocated(
+             By.id("myDynamicElement")));
 ```
 
 This waits up to 10 seconds before throwing a TimeoutException or if it finds the element will return it in 0 - 10 seconds. WebDriverWait by default calls the ExpectedCondition every 500 milliseconds until it returns successfully. A successful return is for ExpectedCondition type is Boolean return true or not null return value for all other ExpectedCondition types.
@@ -24,7 +25,7 @@ Element is Clickable - it is Displayed and Enabled.
 ```java
 WebDriverWait wait = new WebDriverWait(driver, 10);
 WebElement element = wait.until(ExpectedConditions.elementToBeClickable(
-                         By.id("someid")));
+                                    By.id("someid")));
 ```
 
 The ExpectedConditions package (Java) (Python) (.NET) contains a set of predefined conditions to use with WebDriverWait.
@@ -37,7 +38,8 @@ An implicit wait is to tell WebDriver to poll the DOM for a certain amount of ti
 WebDriver driver = new FirefoxDriver();
 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 driver.get("http://somedomain/url_that_delays_loading");
-WebElement myDynamicElement = driver.findElement(By.id("myDynamicElement"));
+WebElement myDynamicElement = driver.findElement(
+                                  By.id("myDynamicElement"));
 ```
 
 
