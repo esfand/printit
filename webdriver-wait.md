@@ -93,7 +93,7 @@ public final class ExplicitWaitTest {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
                         return webDriver.findElement(
-                                   By.xpath("//div[@id='sidebar']"));
+                               By.xpath("//div[@id='sidebar']"));
                     }
                 });
         // presenceOfElementLocated - defined in ExpectedConditions
@@ -157,7 +157,7 @@ public final class ExplicitWaitTest {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
                         WebElement element = webDriver.findElement(
-                                                 By.xpath("//div[@id='sidebar']"));
+                                             By.xpath("//div[@id='sidebar']"));
                         element.click();
                         return element;
                     }
@@ -183,7 +183,7 @@ public final class ExplicitWaitTest {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
                         WebElement element = webDriver.findElement
-                                                 (By.xpath("//div[@id='sidebar']"));
+                                             (By.xpath("//div[@id='sidebar']"));
                         element.click();
                         return element;
                     }
@@ -204,7 +204,7 @@ public final class ExplicitWaitTest {
                         if(webDriver.findElements(
                                 By.xpath("//div[@id='progress']")).isEmpty()) {
                             return webDriver.findElement(
-                                       By.xpath("//div[@id='sidebar']"));
+                                   By.xpath("//div[@id='sidebar']"));
                         }
                         return null;
                     }
