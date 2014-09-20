@@ -76,7 +76,8 @@ public final class ExplicitWaitTest {
 
     @BeforeTest
     public void initialize() {
-        // requires system property: -Dwebdriver.chrome.driver=<path to chromedriver.exe>
+        // requires system property: 
+        //     -Dwebdriver.chrome.driver=<path to chromedriver.exe>
         driver = new ChromeDriver(); 
         driver.get("http://docs.seleniumhq.org/");
     }
@@ -91,17 +92,21 @@ public final class ExplicitWaitTest {
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        return webDriver.findElement(By.xpath("//div[@id='sidebar']"));
+                        return webDriver.findElement(
+                                   By.xpath("//div[@id='sidebar']"));
                     }
                 });
         // presenceOfElementLocated - defined in ExpectedConditions
         new WebDriverWait(driver, EXPLICIT_WAIT_CUSTOM_TIMEOUT)
-                .until(presenceOfElementLocated(By.xpath("//div[@id='sidebar']")));
+                .until(presenceOfElementLocated(
+                           By.xpath("//div[@id='sidebar']")));
     }
 
-    @Test(groups = {"performance"}, expectedExceptions = {TimeoutException.class})
+    @Test(groups = {"performance"}, 
+                    expectedExceptions = {TimeoutException.class})
     public void verifyTest() {
-        // withTimeout - using shorter timeout for checking for non existing elements
+        // withTimeout - using shorter timeout for checking 
+        //               for non existing elements
         new FluentWait<WebDriver>(driver)
                 .pollingEvery(EXPLICIT_WAIT_POOLING, TimeUnit.MILLISECONDS)
                 .withTimeout(EXPLICIT_WAIT_PRESENT_TIMEOUT, TimeUnit.SECONDS)
@@ -109,7 +114,8 @@ public final class ExplicitWaitTest {
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        return webDriver.findElement(By.xpath("//div[@id='popup']"));
+                        return webDriver.findElement(
+                                   By.xpath("//div[@id='popup']"));
                     }
                 });
 
@@ -132,7 +138,8 @@ public final class ExplicitWaitTest {
                 .until(new Function<WebDriver, WebElement>() {
                     @Override
                     public WebElement apply(WebDriver webDriver) {
-                        return webDriver.findElement(By.xpath("//div[@id='popup']"));
+                        return webDriver.findElement(
+                                   By.xpath("//div[@id='popup']"));
                     }
                 });
     }
@@ -157,7 +164,8 @@ public final class ExplicitWaitTest {
                 });
         // visibilityOfElementLocated - defined in ExpectedConditions
         new WebDriverWait(driver, EXPLICIT_WAIT_TIMEOUT)
-                .until(visibilityOfElementLocated(By.xpath("//div[@id='sidebar']")))
+                .until(visibilityOfElementLocated(
+                           By.xpath("//div[@id='sidebar']")))
                 .click();
     }
 
@@ -184,7 +192,8 @@ public final class ExplicitWaitTest {
 
     @Test(groups = {"conditions"})
     public void conditionTest() {
-        // finding if there is a progressbar and if not searching for another element
+        // finding if there is a progressbar and if not 
+        // searching for another element
         new FluentWait<WebDriver>(driver)
                 .pollingEvery(EXPLICIT_WAIT_POOLING, TimeUnit.MILLISECONDS)
                 .withTimeout(EXPLICIT_WAIT_TIMEOUT, TimeUnit.SECONDS)
@@ -194,7 +203,8 @@ public final class ExplicitWaitTest {
                     public WebElement apply(WebDriver webDriver) {
                         if(webDriver.findElements(
                                 By.xpath("//div[@id='progress']")).isEmpty()) {
-                            return webDriver.findElement(By.xpath("//div[@id='sidebar']"));
+                            return webDriver.findElement(
+                                       By.xpath("//div[@id='sidebar']"));
                         }
                         return null;
                     }
