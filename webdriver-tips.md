@@ -51,8 +51,10 @@ However, if within this time the element appears, the following code will
 move ahead:
 
 ```java
-WebElement myDynamicElement = (new WebDriverWait(driver, 60*3))
-              .until( ExpectedConditions.presenceOfElementLocated( By.id("username") ) );
+WebElement myDynamicElement = 
+    (new WebDriverWait(driver, 60*3))
+        .until( ExpectedConditions.presenceOfElementLocated( 
+                    By.id("username") ) );
 ```
 
 ## 4. If Click is not working – use JavaScript ##
@@ -63,7 +65,8 @@ element at this time:
 
 ```java
 public void JavascriptClick(WebElement elemen) {
-    ((JavascriptExecutor)driver).executeScript( "arguments[0].click();", element) );
+    ((JavascriptExecutor)driver).executeScript( "arguments[0].click();", 
+                                                element) );
 }
 ```
 
@@ -92,8 +95,9 @@ The following is the way you can do this:
 
 ```java
 FirefoxProfile fp = new FirefoxProfile();
-fp.setPreference("general.useragent.override", 
-                 "Mozilla/5.0 (Android; Mobile; rv:13.0) Gecko/13.0 Firefox/13.0");
+fp.setPreference(
+        "general.useragent.override", 
+        "Mozilla/5.0 (Android; Mobile; rv:13.0) Gecko/13.0 Firefox/13.0");
 WebDriver driver = new FirefoxDriver(fp);
 ```
 
