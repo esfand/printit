@@ -6,38 +6,32 @@ elements used for Data export, necessary comments and example of the export file
 
 ## 1. Description of the elements used for Data export ##
 
-### <root> ###
-The root element of XML-file is <root>.
-<root> may contain any number of elements <object>. 
-Each <object> describes one object and must contain the following elements necessary for Data export:
+### &lt;root&gt; ###
+The root element of XML-file is &lt;root&gt;.
+&lt;root&gt; may contain any number of elements &lt;object&gt;. 
+Each &lt;object&gt; describes one object and must contain the following elements necessary for Data export:
 
-### <objectid> ###
-<objectid> - the object identifier in the database of the client (non-negative integer). Compulsory element. It is used for the subsequent updating of the object information. When changing to new requirements for xml take note of saving objectid in your objects. 
+### &lt;objectid&gt; ###
+&lt;objectid&gt; - the object identifier in the database of the client (non-negative integer). Compulsory element. It is used for the subsequent updating of the object information. When changing to new requirements for xml take note of saving objectid in your objects. 
 
-###  ###
-<ref> - number of property for additional identification of listing. (60 symbols max). Not availible for visitors, only for clients
-Example: <ref>AB123456-2014</ref>
+&lt;ref&gt; - number of property for additional identification of listing. (60 symbols max). Not availible for visitors, only for clients
+Example: &lt;ref&gt;AB123456-2014&lt;/ref&gt;
 
-###  ###
-<title> - object name (up to 60 characters). Compulsory element.
-Example: <title>House in Elsterwerda</title>
+&lt;title&gt; - object name (up to 60 characters). Compulsory element.
+Example: &lt;title&gt;House in Elsterwerda&lt;/title&gt;
 
-###  ###
-< type> - type of advertisement. It can possess the values: 'sale' – advertisement for sale, 'rent' – advertisement for rent. Compulsory element.
-Example: <type>sale</type>
+&lt; type&gt; - type of advertisement. It can possess the values: 'sale' – advertisement for sale, 'rent' – advertisement for rent. Compulsory element.
+Example: &lt;type&gt;sale&lt;/type&gt;
 
-###  ###
-<market> - primary or secondary market. It can possess the values: 'primary' – primary market, 'secondary' – secondary market, 'mortgage' – mortgage market. Optional element.
-Example: <market>primary</market>
+&lt;market&gt; - primary or secondary market. It can possess the values: 'primary' – primary market, 'secondary' – secondary market, 'mortgage' – mortgage market. Optional element.
+Example: &lt;market&gt;primary&lt;/market&gt;
 
-###  ###
-<annotation> - short object description (up to 150 characters). Optional element.
-Example: <annotation>Residential and commercial real estate is located in Elsterwerda, in Brandenburg.</annotation>
+&lt;annotation&gt; - short object description (up to 150 characters). Optional element.
+Example: &lt;annotation&gt;Residential and commercial real estate is located in Elsterwerda, in Brandenburg.&lt;/annotation&gt;
 
-###  ###
-<description> - full object description. The text of this description should not contain text of the short description, as on the page of the object short and full descriptions are placed above each other. Optional element. Possible html-tags in container: <![CDATA[ òåêñò ]]>  Acceptable tags. <br> <strong> <b> <ul> <li> <i> <u> <sup>
+&lt;description&gt; - full object description. The text of this description should not contain text of the short description, as on the page of the object short and full descriptions are placed above each other. Optional element. Possible html-tags in container: &lt;![CDATA[ òåêñò ]]&gt;  Acceptable tags. &lt;br&gt; &lt;strong&gt; &lt;b&gt; &lt;ul&gt; &lt;li&gt; &lt;i&gt; &lt;u&gt; &lt;sup&gt;
  
-Example: <description>Built in: 1900
+Example: &lt;description&gt;Built in: 1900
 Total area: 261
 Condition: partial restoration was done 
 Leased: Yes
@@ -46,30 +40,27 @@ Number of commercial units: 1
 Current annual income: 15965
 Full annual income: 17789
 Current rental income: 8.87%
-Full rental income: 9.88%</description>
+Full rental income: 9.88%&lt;/description&gt;
 
-###  ###
-<price> - if the advertising type is «sale», the field specifies the price of the object (non-negative integer). If the field value is 0, the web-site will show «Price on request». Compulsory element.
+&lt;price&gt; - if the advertising type is «sale», the field specifies the price of the object (non-negative integer). If the field value is 0, the web-site will show «Price on request». Compulsory element.
 
-Example: <price>180000</price>
+Example: &lt;price&gt;180000&lt;/price&gt;
 If the advertising type is «rent», the field specifies the cost for the period (non-negative integer). At least one price must be indicated.
-<price_rent_d> - Rent price per day 
-<price_rent_w> - Rent price per week 
-<price_rent_m> - Rent price per month  
-<price_rent_y> - Rent price per year 
+&lt;price_rent_d&gt; - Rent price per day 
+&lt;price_rent_w&gt; - Rent price per week 
+&lt;price_rent_m&gt; - Rent price per month  
+&lt;price_rent_y&gt; - Rent price per year 
 
 Example: 
-<price_rent_d>100</price_rent_d>
-<price_rent_w>600</price_rent_w>
-<price_rent_m>2000</price_rent_m>
-<price_rent_y>20000</price_rent_y>
+&lt;price_rent_d&gt;100&lt;/price_rent_d&gt;
+&lt;price_rent_w&gt;600&lt;/price_rent_w&gt;
+&lt;price_rent_m&gt;2000&lt;/price_rent_m&gt;
+&lt;price_rent_y&gt;20000&lt;/price_rent_y&gt;
 
-###  ###
-<currency> - currency of price Possible values: eur (Euro), usd (USA dollar), chf (Swiss Franc), gbp (UK pound), rur (Russian ruble). Compulsory element.
-Example: <currency>eur</currency>  
+&lt;currency&gt; - currency of price Possible values: eur (Euro), usd (USA dollar), chf (Swiss Franc), gbp (UK pound), rur (Russian ruble). Compulsory element.
+Example: &lt;currency&gt;eur&lt;/currency&gt;  
 
-###  ###
-<region> - id of the region where the object is located (see the guide http://www.homesoverseas.ru/import/countries.php). Compulsory element.
+&lt;region&gt; - id of the region where the object is located (see the guide http://www.homesoverseas.ru/import/countries.php). Compulsory element.
 Regions in CSV format
 Id;name 
 http://homesoverseas.ru/import/countries.csv.php
@@ -78,10 +69,9 @@ http://homesoverseas.ru/import/countries.parents.csv.php
 Id;name_eng;parentid
 http://homesoverseas.ru/import/countries.parents.eng.csv.php
 
-Example: <region>42</region> 
+Example: &lt;region&gt;42&lt;/region&gt; 
  
-###  ###
-<realty_type> - type of the real estate. Compulsory element. It can possess the values:
+&lt;realty_type&gt; - type of the real estate. Compulsory element. It can possess the values:
 14 - Commercial real estate
 15 - Plots 
 16 - Flats (apartments)
@@ -95,109 +85,84 @@ Subtypes of commercial real estate
 24 – Warehouse 
 25 – Manufacturing 
 26 - Other 
-Example: <realty_type>16</realty_type>
+Example: &lt;realty_type&gt;16&lt;/realty_type&gt;
 
-<bedrooms> - number of bedrooms (non-negative integer). Optional element.
-Example: <bedrooms>5</bedrooms>
+&lt;bedrooms&gt; - number of bedrooms (non-negative integer). Optional element.
+Example: &lt;bedrooms&gt;5&lt;/bedrooms&gt;
 
-###  ###
-<size_house> - living area in square meters. (only for apartments, villas, townhouses) Optional element.
-Example: <size_house>5</size_house>
+&lt;size_house&gt; - living area in square meters. (only for apartments, villas, townhouses) Optional element.
+Example: &lt;size_house&gt;5&lt;/size_house&gt;
 
-###  ###
-<size_land> - size of a land plot in square meters. (only for selling townhouses, villas and plots) Optional element.
-Example: <size_land>5</size_land>
+&lt;size_land&gt; - size of a land plot in square meters. (only for selling townhouses, villas and plots) Optional element.
+Example: &lt;size_land&gt;5&lt;/size_land&gt;
 
-<year> - year of construction (except land plots). Optional element.
-Example: <year>1995</year>
+&lt;year&gt; - year of construction (except land plots). Optional element.
+Example: &lt;year&gt;1995&lt;/year&gt;
 
-###  ###
-<not_ready_year> - year of completion of construction if year of construction is not indicated. Optional element.
-Example: <not_ready_year>5</not_ready_year>
+&lt;not_ready_year&gt; - year of completion of construction if year of construction is not indicated. Optional element.
+Example: &lt;not_ready_year&gt;5&lt;/not_ready_year&gt;
 
-###  ###
-<not_ready_quarter> - quarter of completion of construction if year of construction is not indicated. Optional element. (1,2,3,4)
-Example: <not_ready_quarter>4</not_ready_quarter> 
+&lt;not_ready_quarter&gt; - quarter of completion of construction if year of construction is not indicated. Optional element. (1,2,3,4)
+Example: &lt;not_ready_quarter&gt;4&lt;/not_ready_quarter&gt; 
 
-###  ###
-<level> - level (only for flats (apartments)). Optional element.
-Example: <level>3</level>
+&lt;level&gt; - level (only for flats (apartments)). Optional element.
+Example: &lt;level&gt;3&lt;/level&gt;
 
-###  ###
-<levels> - number of floors in a building (except land plots). Optional element.
-Example: <levels>5</levels>
+&lt;levels&gt; - number of floors in a building (except land plots). Optional element.
+Example: &lt;levels&gt;5&lt;/levels&gt;
 
-###  ###
-<distance_aero> - Distance to the airport in kilometers. Optional element.
-Example: <distance_aero>120</distance_aero>
+&lt;distance_aero&gt; - Distance to the airport in kilometers. Optional element.
+Example: &lt;distance_aero&gt;120&lt;/distance_aero&gt;
 
-###  ###
-<distance_ sea> - Distance to the sea in kilometers. Optional element. Subject to the thousandths decimal values.
-Example: <distance_sea>120</distance_sea>
+&lt;distance_ sea&gt; - Distance to the sea in kilometers. Optional element. Subject to the thousandths decimal values.
+Example: &lt;distance_sea&gt;120&lt;/distance_sea&gt;
 
-###  ###
-<distance_ski> - Distance to the ski-lift in kilometers. Optional element. Subject to the thousandths decimal values
-Example: <distance_ski>10</distance_ski>
+&lt;distance_ski&gt; - Distance to the ski-lift in kilometers. Optional element. Subject to the thousandths decimal values
+Example: &lt;distance_ski&gt;10&lt;/distance_ski&gt;
 
-###  ###
-<distance_rus> - Distance to the boarder with Russia in kilometers. Only for Finland, Estonia, Latvia, Lithuania. Optional element.
-Example: <distance_rus>80</distance_rus>
+&lt;distance_rus&gt; - Distance to the boarder with Russia in kilometers. Only for Finland, Estonia, Latvia, Lithuania. Optional element.
+Example: &lt;distance_rus&gt;80&lt;/distance_rus&gt;
 
-###  ###
-<option> - id of the option (see Part 4 «Options»). Optional element. If there are several options for one object then the element <option> should be repeated.
+&lt;option&gt; - id of the option (see Part 4 «Options»). Optional element. If there are several options for one object then the element &lt;option&gt; should be repeated.
 Example:
-<option>9</option> 
-<option>18</option>
-<option>15</option>
+&lt;option&gt;9&lt;/option&gt; 
+&lt;option&gt;18&lt;/option&gt;
+&lt;option&gt;15&lt;/option&gt;
 
 
-###  ###
-<lat> - latitude
-<lng> - longitude 
+&lt;lat&gt; - latitude
+&lt;lng&gt; - longitude 
 The coordinates of the object to link to the map are indicated in degrees. Decimal separator is marked by a dot. Optional element.
-Example: <lat>56.298457922</lat><lng>-23.19283459</lng>
+Example: &lt;lat&gt;56.298457922&lt;/lat&gt;&lt;lng&gt;-23.19283459&lt;/lng&gt;
 
-###  ###
-<photo> - url of the file with the object photo. Optional element. For one object there can be up to 15 photos. In this case the element should be repeated. The minimal width of the picture must be 560 pixels.
+&lt;photo&gt; - url of the file with the object photo. Optional element. For one object there can be up to 15 photos. In this case the element should be repeated. The minimal width of the picture must be 560 pixels.
 Example:
-<photo>http://www.homesoverseas.ru/pic/objects/7648.jpg</photo>
-<photo>http://www.homesoverseas.ru/pic/objects/7581.jpg</photo> 
+&lt;photo&gt;http://www.homesoverseas.ru/pic/objects/7648.jpg&lt;/photo&gt;
+&lt;photo&gt;http://www.homesoverseas.ru/pic/objects/7581.jpg&lt;/photo&gt; 
 
-###  ###
-<ytid> - YouTube id video.  Optional element.
-Example: <ytid>oHDnTr5O28Q</ytid>
+&lt;ytid&gt; - YouTube id video.  Optional element.
+Example: &lt;ytid&gt;oHDnTr5O28Q&lt;/ytid&gt;
 
-###  ###
-<developer>- property from developer (only for sale).
+&lt;developer&gt;- property from developer (only for sale).
 Optional element. (Y/N)
-Example: <developer>Y</developer>
+Example: &lt;developer&gt;Y&lt;/developer&gt;
 
 
 ## 2. Characters and encoding ##
 
-On default (if it isn’t obviously specified in the title) the file is encoded in utf-8. 
-Otherwise it is necessary to set the encoding to xml file. 
-The most commonly used encodings: windows-1251, utf-8, koi8-r
-
-Note: actual encoding, that is given by the web-server, should ALWAYS be the 
-same as the encoding, that is indicated in the title of XML.
-
-The characters in the text < > & ' " should be changed to the appropriate elements:
-
-* & to &amp;
-* < to &lt;
-* > to &gt;
-* ' to &apos;
-* " to &quot;
-* ² to &sup2;
-
+On default (if it isn’t obviously specified in the title) the file is encoded in utf-8. Otherwise it is necessary to set the encoding to xml file. The most commonly used encodings: windows-1251, utf-8, koi8-r
+Note: actual encoding, that is given by the web-server, should ALWAYS be the same as the encoding, that is indicated in the title of XML.
+The characters in the text &lt; &gt; & ' " should be changed to the appropriate elements:
+& to &amp;
+&lt; to &lt;
+&gt; to &gt;
+' to &apos;
+" to &quot;
+² to &sup2;
 (here the semicolon is not the separator of the list but the compulsory part of the element!)
-
-Changes should be made in all the elements <object> - in <title>, <description>,
-<annotation>, <photo> etc.
-
+Changes should be made in all the elements &lt;object&gt; - in &lt;title&gt;, &lt;description&gt;,
+&lt;annotation&gt;, &lt;photo&gt; etc.
 For example, the link "http://some.host.ru/?id=1&page=10" becomes "http://some.host.ru/?id=1&amp;page=10".
-
 If the RSS-file transfers in koi8-r, it is necessary to change in the text the character encodings windows-1251 to the equivalents from koi8-r:
 
 dots character code 133
@@ -216,7 +181,6 @@ The example is available here: http://www.homesoverseas.ru/import/example_new.xm
 
 ## 4. Options ##
 
-```text
 Location
      7 first line to the sea/lake 
      8 city center 
@@ -275,6 +239,4 @@ Financing and management
      56 payment by installments 
      57 price is negotiable
      58 services of managing company 
-     59 services for renting out
-     ```
-     
+     59 services for renting out 
