@@ -14,21 +14,27 @@ Each &lt;object&gt; describes one object and must contain the following elements
 ### &lt;objectid&gt; ###
 &lt;objectid&gt; - the object identifier in the database of the client (non-negative integer). Compulsory element. It is used for the subsequent updating of the object information. When changing to new requirements for xml take note of saving objectid in your objects. 
 
+### &lt;ref&gt; ###
 &lt;ref&gt; - number of property for additional identification of listing. (60 symbols max). Not availible for visitors, only for clients
 Example: &lt;ref&gt;AB123456-2014&lt;/ref&gt;
 
+### &lt;title&gt; ###
 &lt;title&gt; - object name (up to 60 characters). Compulsory element.
 Example: &lt;title&gt;House in Elsterwerda&lt;/title&gt;
 
+### &lt;type&gt; ###
 &lt; type&gt; - type of advertisement. It can possess the values: 'sale' – advertisement for sale, 'rent' – advertisement for rent. Compulsory element.
 Example: &lt;type&gt;sale&lt;/type&gt;
 
+### &lt;market&gt; ###
 &lt;market&gt; - primary or secondary market. It can possess the values: 'primary' – primary market, 'secondary' – secondary market, 'mortgage' – mortgage market. Optional element.
 Example: &lt;market&gt;primary&lt;/market&gt;
 
+### &lt;annotation&gt; ###
 &lt;annotation&gt; - short object description (up to 150 characters). Optional element.
 Example: &lt;annotation&gt;Residential and commercial real estate is located in Elsterwerda, in Brandenburg.&lt;/annotation&gt;
 
+### &lt;description&gt; ###
 &lt;description&gt; - full object description. The text of this description should not contain text of the short description, as on the page of the object short and full descriptions are placed above each other. Optional element. Possible html-tags in container: &lt;![CDATA[ òåêñò ]]&gt;  Acceptable tags. &lt;br&gt; &lt;strong&gt; &lt;b&gt; &lt;ul&gt; &lt;li&gt; &lt;i&gt; &lt;u&gt; &lt;sup&gt;
  
 Example: &lt;description&gt;Built in: 1900
@@ -42,6 +48,7 @@ Full annual income: 17789
 Current rental income: 8.87%
 Full rental income: 9.88%&lt;/description&gt;
 
+### &lt;price&gt; ###
 &lt;price&gt; - if the advertising type is «sale», the field specifies the price of the object (non-negative integer). If the field value is 0, the web-site will show «Price on request». Compulsory element.
 
 Example: &lt;price&gt;180000&lt;/price&gt;
@@ -57,9 +64,11 @@ Example:
 &lt;price_rent_m&gt;2000&lt;/price_rent_m&gt;
 &lt;price_rent_y&gt;20000&lt;/price_rent_y&gt;
 
+### &lt;currency&gt; ###
 &lt;currency&gt; - currency of price Possible values: eur (Euro), usd (USA dollar), chf (Swiss Franc), gbp (UK pound), rur (Russian ruble). Compulsory element.
 Example: &lt;currency&gt;eur&lt;/currency&gt;  
 
+### &lt;region&gt; ###
 &lt;region&gt; - id of the region where the object is located (see the guide http://www.homesoverseas.ru/import/countries.php). Compulsory element.
 Regions in CSV format
 Id;name 
@@ -71,6 +80,7 @@ http://homesoverseas.ru/import/countries.parents.eng.csv.php
 
 Example: &lt;region&gt;42&lt;/region&gt; 
  
+### &lt;realty_type&gt; ###
 &lt;realty_type&gt; - type of the real estate. Compulsory element. It can possess the values:
 14 - Commercial real estate
 15 - Plots 
@@ -87,42 +97,55 @@ Subtypes of commercial real estate
 26 - Other 
 Example: &lt;realty_type&gt;16&lt;/realty_type&gt;
 
+### &lt;bedrooms&gt; ###
 &lt;bedrooms&gt; - number of bedrooms (non-negative integer). Optional element.
 Example: &lt;bedrooms&gt;5&lt;/bedrooms&gt;
 
+### &lt;size_house&gt; ###
 &lt;size_house&gt; - living area in square meters. (only for apartments, villas, townhouses) Optional element.
 Example: &lt;size_house&gt;5&lt;/size_house&gt;
 
+### &lt;size_land&gt; ###
 &lt;size_land&gt; - size of a land plot in square meters. (only for selling townhouses, villas and plots) Optional element.
 Example: &lt;size_land&gt;5&lt;/size_land&gt;
 
+### &lt;year&gt; ###
 &lt;year&gt; - year of construction (except land plots). Optional element.
 Example: &lt;year&gt;1995&lt;/year&gt;
 
+### &lt;not_ready_year&gt; ###
 &lt;not_ready_year&gt; - year of completion of construction if year of construction is not indicated. Optional element.
 Example: &lt;not_ready_year&gt;5&lt;/not_ready_year&gt;
 
+### &lt;not_ready_quarter&gt; ###
 &lt;not_ready_quarter&gt; - quarter of completion of construction if year of construction is not indicated. Optional element. (1,2,3,4)
 Example: &lt;not_ready_quarter&gt;4&lt;/not_ready_quarter&gt; 
 
+### &lt;level&gt; ###
 &lt;level&gt; - level (only for flats (apartments)). Optional element.
 Example: &lt;level&gt;3&lt;/level&gt;
 
+### &lt;levels&gt; ###
 &lt;levels&gt; - number of floors in a building (except land plots). Optional element.
 Example: &lt;levels&gt;5&lt;/levels&gt;
 
+### &lt;distance_aero&gt; ###
 &lt;distance_aero&gt; - Distance to the airport in kilometers. Optional element.
 Example: &lt;distance_aero&gt;120&lt;/distance_aero&gt;
 
+### &lt;distance_ sea&gt; ###
 &lt;distance_ sea&gt; - Distance to the sea in kilometers. Optional element. Subject to the thousandths decimal values.
 Example: &lt;distance_sea&gt;120&lt;/distance_sea&gt;
 
+### &lt;distance_ski&gt; ###
 &lt;distance_ski&gt; - Distance to the ski-lift in kilometers. Optional element. Subject to the thousandths decimal values
 Example: &lt;distance_ski&gt;10&lt;/distance_ski&gt;
 
+### &lt;distance_rus&gt; ###
 &lt;distance_rus&gt; - Distance to the boarder with Russia in kilometers. Only for Finland, Estonia, Latvia, Lithuania. Optional element.
 Example: &lt;distance_rus&gt;80&lt;/distance_rus&gt;
 
+### &lt;option&gt; ###
 &lt;option&gt; - id of the option (see Part 4 «Options»). Optional element. If there are several options for one object then the element &lt;option&gt; should be repeated.
 Example:
 &lt;option&gt;9&lt;/option&gt; 
@@ -130,19 +153,23 @@ Example:
 &lt;option&gt;15&lt;/option&gt;
 
 
+### &lt;lat&gt; &lt;lng&gt; ###
 &lt;lat&gt; - latitude
 &lt;lng&gt; - longitude 
 The coordinates of the object to link to the map are indicated in degrees. Decimal separator is marked by a dot. Optional element.
 Example: &lt;lat&gt;56.298457922&lt;/lat&gt;&lt;lng&gt;-23.19283459&lt;/lng&gt;
 
+### &lt;photo&gt; ###
 &lt;photo&gt; - url of the file with the object photo. Optional element. For one object there can be up to 15 photos. In this case the element should be repeated. The minimal width of the picture must be 560 pixels.
 Example:
 &lt;photo&gt;http://www.homesoverseas.ru/pic/objects/7648.jpg&lt;/photo&gt;
 &lt;photo&gt;http://www.homesoverseas.ru/pic/objects/7581.jpg&lt;/photo&gt; 
 
+### &lt;ytid&gt; ###
 &lt;ytid&gt; - YouTube id video.  Optional element.
 Example: &lt;ytid&gt;oHDnTr5O28Q&lt;/ytid&gt;
 
+### &lt;developer&gt; ###
 &lt;developer&gt;- property from developer (only for sale).
 Optional element. (Y/N)
 Example: &lt;developer&gt;Y&lt;/developer&gt;
@@ -159,7 +186,9 @@ The characters in the text &lt; &gt; & ' " should be changed to the appropriate 
 ' to &apos;
 " to &quot;
 ² to &sup2;
+
 (here the semicolon is not the separator of the list but the compulsory part of the element!)
+
 Changes should be made in all the elements &lt;object&gt; - in &lt;title&gt;, &lt;description&gt;,
 &lt;annotation&gt;, &lt;photo&gt; etc.
 For example, the link "http://some.host.ru/?id=1&page=10" becomes "http://some.host.ru/?id=1&amp;page=10".
@@ -181,6 +210,7 @@ The example is available here: http://www.homesoverseas.ru/import/example_new.xm
 
 ## 4. Options ##
 
+```text
 Location
      7 first line to the sea/lake 
      8 city center 
@@ -239,4 +269,5 @@ Financing and management
      56 payment by installments 
      57 price is negotiable
      58 services of managing company 
-     59 services for renting out 
+     59 services for renting out
+```
