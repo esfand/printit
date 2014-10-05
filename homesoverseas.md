@@ -20,18 +20,25 @@ Example: &lt;ref&gt;AB123456-2014&lt;/ref&gt;
 
 ### &lt;title&gt; ###
 &lt;title&gt; - object name (up to 60 characters). Compulsory element.
+
 Example: &lt;title&gt;House in Elsterwerda&lt;/title&gt;
 
 ### &lt;type&gt; ###
+
 &lt; type&gt; - type of advertisement. It can possess the values: 'sale' – advertisement for sale, 'rent' – advertisement for rent. Compulsory element.
+
 Example: &lt;type&gt;sale&lt;/type&gt;
 
 ### &lt;market&gt; ###
+
 &lt;market&gt; - primary or secondary market. It can possess the values: 'primary' – primary market, 'secondary' – secondary market, 'mortgage' – mortgage market. Optional element.
+
 Example: &lt;market&gt;primary&lt;/market&gt;
 
 ### &lt;annotation&gt; ###
+
 &lt;annotation&gt; - short object description (up to 150 characters). Optional element.
+
 Example: &lt;annotation&gt;Residential and commercial real estate is located in Elsterwerda, in Brandenburg.&lt;/annotation&gt;
 
 ### &lt;description&gt; ###
@@ -69,48 +76,68 @@ Example:
 Example: &lt;currency&gt;eur&lt;/currency&gt;  
 
 ### &lt;region&gt; ###
-&lt;region&gt; - id of the region where the object is located (see the guide http://www.homesoverseas.ru/import/countries.php). Compulsory element.
-Regions in CSV format
-Id;name 
+&lt;region&gt; - id of the region where the object is located 
+(see the guide http://www.homesoverseas.ru/import/countries.php ). Compulsory element.
+
+#### Regions in CSV format
+
+Id;name
 http://homesoverseas.ru/import/countries.csv.php
+
 Id;name_eng;parentid
 http://homesoverseas.ru/import/countries.parents.csv.php
+
 Id;name_eng;parentid
 http://homesoverseas.ru/import/countries.parents.eng.csv.php
 
 Example: &lt;region&gt;42&lt;/region&gt; 
  
 ### &lt;realty_type&gt; ###
-&lt;realty_type&gt; - type of the real estate. Compulsory element. It can possess the values:
+
+&lt;realty_type&gt; - type of the real estate. Compulsory element. 
+It can possess the values:
+
+```text
 14 - Commercial real estate
 15 - Plots 
 16 - Flats (apartments)
 17 - Houses (villas)
 18 - Townhouses
-Subtypes of commercial real estate 
+```
+
+#### Subtypes of commercial real estate
+
+```text
 20 - Hotel (inn)
 21 - Restaurant (cafe)
 22 - Store
 23 - Office
 24 – Warehouse 
 25 – Manufacturing 
-26 - Other 
+26 - Other
+```
+
 Example: &lt;realty_type&gt;16&lt;/realty_type&gt;
 
 ### &lt;bedrooms&gt; ###
+
 &lt;bedrooms&gt; - number of bedrooms (non-negative integer). Optional element.
 Example: &lt;bedrooms&gt;5&lt;/bedrooms&gt;
 
 ### &lt;size_house&gt; ###
+
 &lt;size_house&gt; - living area in square meters. (only for apartments, villas, townhouses) Optional element.
 Example: &lt;size_house&gt;5&lt;/size_house&gt;
 
 ### &lt;size_land&gt; ###
 &lt;size_land&gt; - size of a land plot in square meters. (only for selling townhouses, villas and plots) Optional element.
+
 Example: &lt;size_land&gt;5&lt;/size_land&gt;
 
 ### &lt;year&gt; ###
+
 &lt;year&gt; - year of construction (except land plots). Optional element.
+
 Example: &lt;year&gt;1995&lt;/year&gt;
 
 ### &lt;not_ready_year&gt; ###
