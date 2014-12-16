@@ -1,22 +1,25 @@
 # Adding Java 8 Lambda goodness to JDBC #
 
-source: http://dotneverland.blogspot.fi/2013/11/adding-java-8-lambda-goodness-to-jdbc.html
+source: dotneverland.blogspot.fi/2013/11/adding-java-8-lambda-goodness-to-jdbc.html
 
 Data access, specifically SQL access from within Java has never been nice. 
 This is in large part due to the fact that the JDBC api has a lot of ceremony.
 
-Java 7 vastly improved things with ARM blocks by taking away a lot of the ceremony around managing 
-database objects such as Statements and ResultSets but fundamentally the code flow is still the same.
+Java 7 vastly improved things with ARM blocks by taking away a lot of the ceremony 
+around managing database objects such as Statements and ResultSets but fundamentally 
+the code flow is still the same.
 
 Java 8 Lambdas gives us a very nice tool for improving the flow of JDBC.
 
-Out first attempt at improving things here is very simply to make it easy to work with a java.sql.ResultSet.
+Out first attempt at improving things here is very simply to make it easy to work 
+with a java.sql.ResultSet.
 
 Here we simply wrap the ResultSet iteration and then delegate it to Lambda function.
 
 This is very similar in concept to Spring's JDBCTemplate.
 
-NOTE: I've released All the code snippets you see here under an Apache 2.0 license on Github.
+NOTE: I've released All the code snippets you see here under an Apache 2.0 
+license on Github.
 
 First we create a functional interface called ResultSetProcessor as follows:
 
@@ -29,7 +32,8 @@ public interface ResultSetProcessor {
 
 }
 
-Very straightforward. This interface takes the ResultSet and the current row of the ResultSet  as a parameter.
+Very straightforward. This interface takes the ResultSet and the current row of the ResultSet  
+as a parameter.
 
 Next we write a simple utility to which executes a query and then calls our ResultSetProcessor 
 each time we iterate over the ResultSet:
@@ -60,7 +64,8 @@ public static void select(Connection connection,
 
 Note I've wrapped the SQLException in my own unchecked DataAccessException.
 
-Now when we write a query it's as simple as calling the select method with a connection and a query:
+Now when we write a query it's as simple as calling the select method with 
+a connection and a query:
 
 ```javq
 select(connection, 
@@ -94,8 +99,9 @@ But in order to create a Stream it needs an instance of java.util.stream.Spliter
 This is a specialised type for iterating and partitioning a sequence of elements, 
 the Stream needs for handling operations in parallel.
 
-Fortunately the Java 8 api also provides the java.util.stream.Spliterators class which 
-can wrap existing Collection and enumeration types. One of those types being a java.util.Iterator.
+Fortunately the Java 8 api also provides the java.util.stream.Spliterators class 
+which can wrap existing Collection and enumeration types. One of those types being 
+a java.util.Iterator.
 
 Now we wrap a query and ResultSet in an Iterator:
 
@@ -171,9 +177,9 @@ public class ResultSetIterator implements Iterator {
 This class basically delegates the iterator methods to the underlying result set and 
 then on the next() call transforms the current row in the ResultSet into my Tuple type.
 
-And that's the basics done. All that's left is to wire it all together to make a Stream object. 
-Note that due to the nature of a ResultSet it's not a good idea to try process them in parallel, 
-so our stream cannot process in parallel.
+And that's the basics done. All that's left is to wire it all together to make 
+a Stream object.  Note that due to the nature of a ResultSet it's not a good idea to 
+try process them in parallel, so our stream cannot process in parallel.
 
 ```java
 public static Stream stream(final Connection connection, 
