@@ -67,7 +67,7 @@ Note I've wrapped the SQLException in my own unchecked DataAccessException.
 Now when we write a query it's as simple as calling the select method with 
 a connection and a query:
 
-```javq
+```java
 select(connection, 
        "select * from MY_TABLE",
        (rs, cnt)-> {System.out.println(rs.getInt(1)+" "+cnt)});
