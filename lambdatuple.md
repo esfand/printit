@@ -66,7 +66,7 @@ Now when we write a query it's as simple as calling the select method with a con
 select(connection, 
        "select * from MY_TABLE",
        (rs, cnt)-> {System.out.println(rs.getInt(1)+" "+cnt)});
-
+```
 
 So that's great but I think we can do more...
 
