@@ -2,19 +2,18 @@
 
 ## A better domain events pattern ##
 
-<a href="http://www.udidahan.com/2009/06/14/domain-events-salvation/">Domain events</a> are one of the final patterns needed to create a <a href="http://lostechies.com/jimmybogard/2010/02/04/strengthening-your-domain-a-primer/">fully encapsulated domain model</a> – one that fully enforces a consistency boundary and invariants. The need for domain events comes from a desire to inject services into domain models. What we really want is to create an encapsulated domain model, but decouple ourselves from potential side effects and isolate those explicitly. The original example I gave looked something like this:
+[Domain events](http://www.udidahan.com/2009/06/14/domain-events-salvation/) are one of the final patterns needed to create a [fully encapsulated domain model](http://lostechies.com/jimmybogard/2010/02/04/strengthening-your-domain-a-primer/) – one that fully enforces a consistency boundary and invariants. The need for domain events comes from a desire to inject services into domain models. What we really want is to create an encapsulated domain model, but decouple ourselves from potential side effects and isolate those explicitly. The original example I gave looked something like this:
 
 ```java
 public Payment recordPayment(BigDecimal paymentAmount, IBalanceCalculator balanceCalculator) {
       
     Payment payment = new Payment(paymentAmount, this);
 
-    _payments.Add(payment);
+    _payments.add(payment);
 
     balance = balanceCalculator.calculate(this);
-
     if (balance == 0) {
-          DomainEvents.Raise(new FeePaidOff(this));
+          DomainEvents.raise(new FeePaidOff(this));
     }
     return payment;
 }
@@ -29,24 +28,20 @@ Instead of dispatching to a domain event handler immediately, what if instead we
 ```java
 public interface IEntity {
 
-    Collection<IDomainEvent> events = new ArrayList<>();
-
-    Collection<IDomainEvent> events() {
-        return events; 
-    }
+    Collection<IDomainEvent> getEvents();
 }
 ```      
 
 In our method that raises the domain event, instead of dispatching immediately, we simply record a domain event on our entity:
 
 ```java 
-public Payment recordPayment(decimal paymentAmount, IBalanceCalculator balanceCalculator) {
+public Payment recordPayment(BigDecimal paymentAmount, IBalanceCalculator balanceCalculator) {
 
-    var payment = new Payment(paymentAmount, this);
+    Payment payment = new Payment(paymentAmount, this);
 
-    _payments.Add(payment);
+    _payments.add(payment);
 
-    balance = balanceCalculator.Calculate(this);
+    balance = balanceCalculator.calculate(this);
     if (balance == 0) {
       Events.add(new FeePaidOff(this));
     }
@@ -57,21 +52,21 @@ public Payment recordPayment(decimal paymentAmount, IBalanceCalculator balanceCa
 This makes testing quite a bit simpler since we don’t this global domain event dispatcher firing things off, we can just assert on our self-contained entity class:
 
 ```java
-[Test]
-public void Should_notify_when_the_balance_is_paid_off() {
+@Test
+public void should_notify_when_the_balance_is_paid_off() {
 
       Fee paidOffFee = null;
 
-      var customer = new Customer();
+      Customer customer = new Customer();
 
-      var fee = customer.ChargeFee(100m);
+      Fee fee = customer.chargeFee(100m);
 
-      fee.RecordPayment(100m, new BalanceCalculator());
+      fee.recordPayment(100m, new BalanceCalculator());
 
-      var paidOffEvent = fee.Events.OfType&amp;lt;FeePaidOff&amp;gt;().SingleOrDefault();
+      FeePaidOff paidOffEvent = fee.Events.OfType<FeePaidOff>().singleOrDefault();
 
-      paidOffEvent.ShouldNotBeNull();
-      paidOffEvent.Fee.ShouldEqual(fee);
+      paidOffEvent.shouldNotBeNull();
+      paidOffEvent.getFee().shouldEqual(fee);
 }
 ```
 
@@ -79,24 +74,23 @@ Finally, we need to actually fire off these domain events. This is something we 
 
 
 ```java
-ublic override int SaveChanges() {
+@Override
+public int saveChanges() {
 
-      var domainEventEntities = ChangeTracker.Entries&amp;lt;IEntity&amp;gt;()
-      .Select(po =&amp;gt; po.Entity)
-      .Where(po =&amp;gt; po.Events.Any())
-      .ToArray();
+    var domainEventEntities = ChangeTracker.Entries<IEntity>()
+      .map(po -> po.entity)
+      .filter(po -> po.getEvents().any())
+      .toArray();
 
-      foreach (var entity in domainEventEntities)
-      {
-      var events = entity.Events.ToArray();
-      entity.Events.Clear();
-      foreach (var domainEvent in events)
-      {
-      _dispatcher.Dispatch(domainEvent);
+      foreach (IEntity entity: domainEventEntities) {
+          Collection<IEntity> events = entity.getEvents().toArray();
+          entity.getEvents().clear();
+          foreach (IDomainEvent domainEvent: events) {
+              _dispatcher.dispatch(domainEvent);
+          }
       }
-      }
 
-      return base.SaveChanges();
+      return base.saveChanges();
 }
 ```
 
