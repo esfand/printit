@@ -73,21 +73,22 @@ say charge your credit card because doing so would result in
 interesting behaviours when replaying events (by calling the Apply
 Method) to get the object back to its current state. Getting to this
 state has also brought us to a Hybrid Functional Domain Model.
+
 In order to get my object back to its state I will replay the events
 that I have saved for the object. If an InventoryItem had for instance
 been Created, Audited, and Deactivated the equivalent would be.
 
 ```java
-InventoryItem.apply(new Created());
-InventoryItem.apply(new Audited());
-InventoryItem.apply(new Deactivated());
+inventoryItem.apply(new Created());
+inventoryItem.apply(new Audited());
+inventoryItem.apply(new Deactivated());
 ```
 
-If I were just to make the Apply method return this at the end I could
+If I were just to make the `apply` method return `this` at the end I could
 also chain these methods resulting in.
 
 ```java
-item = InventoryItem.apply(new Created())
+item = inventoryItem.apply(new Created())
                     .apply(new Audited())
                     .apply(new Deactivated())
 ```
@@ -103,7 +104,7 @@ parameter is implicitly created by the compiler and named `this`. What
 would happen if `this` were made explicit?
 
 ```java
-public void Deactivate(InventoryItem item) {
+public void deactivate(InventoryItem item) {
     if(!_activated) {
         throw new InvalidOperationException(“already deactivated”);
     }
@@ -143,8 +144,8 @@ should be completely comfortable for you, for C# developer the next
 bits of code should seem somewhat familiar to you, and if you are a
 Java developer, well I hear Scala is a nice language :)
 
-The above pattern is a well known concept represented by a higher order
-function. Let’s try it that way.
+The above pattern is a well known concept represented by a higher order function. 
+Let’s try it that way.
 
 ```java
 State currentState = events.foldLeft(0)(state, event) -> 
