@@ -596,8 +596,6 @@ Maybe I was a little bit pedantic in this section of the tutorial, but in the sa
 I have the impression to have just scratched the surface of JExpr and JExpression.
 Anyway, I hope it will be enough for you as starting point.
 
-Next part will deal with Generics: don’t miss it!!!
-
 
 #Java code generation with CodeModel – Generics
 
@@ -836,7 +834,8 @@ And here’s the generated Abstract class
 package net.cardosi;
 
 /**
- * The <code>net.cardosi.MyNewAbstract</code> implementing the <code>net.cardosi.MyNewInterface</code> interface
+ * The <code>net.cardosi.MyNewAbstract</code> implementing 
+ * the <code>net.cardosi.MyNewInterface</code> interface
  * 
  */
 abstract class MyNewAbstract implements MyNewInterface {
@@ -889,9 +888,9 @@ codeModel.build(new File("."));
         
 And here’s the final result:
 
+```java
 package net.cardosi;
 
-```java
 import java.util.Iterator;
 
 /**
