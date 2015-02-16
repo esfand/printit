@@ -89,7 +89,8 @@ public static void main(String[] args)
         JMethod doprint = sample.method(JMod.PUBLIC, String.class, "doPrint");
         
         // Declare a String variable in doPrint method
-        JVar myNameVariable = doprint.body().decl(jcm._ref(String.class), "myName");
+        JVar myNameVariable = doprint.body()
+                                     .decl(jcm._ref(String.class), "myName");
         
         // Declare doScan method
         JMethod doScan = sample.method(JMod.PUBLIC, String.class, "doScan");
@@ -101,11 +102,17 @@ public static void main(String[] args)
         // with argument String -'Letmeshare'
         doprint.body()
                .assign(myNameVariable, 
-                       doprint.body().invoke(doScan).arg("Letmeshare"));
+                       doprint.body()
+                              .invoke(doScan)
+                              .arg("Letmeshare"));
         
         // print my variable
         doprint.body()
-               .directStatement("System.out.println(" + myNameVariable.name() + ");");
+               .directStatement(  
+                                  "System.out.println(" + 
+                                  myNameVariable.name() + 
+                                  ");"
+                               );
         
         // return doScan function with string with param 'myName'
         doScan.body()
