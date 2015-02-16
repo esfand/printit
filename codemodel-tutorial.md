@@ -834,8 +834,8 @@ And here’s the generated Abstract class
 package net.cardosi;
 
 /**
- * The <code>net.cardosi.MyNewAbstract</code> implementing 
- * the <code>net.cardosi.MyNewInterface</code> interface
+ * The < c o d e >net.cardosi.MyNewAbstract< / c o d e > implementing 
+ * the < c o d  e>net.cardosi.MyNewInterface< / c o d e> interface
  * 
  */
 abstract class MyNewAbstract implements MyNewInterface {
