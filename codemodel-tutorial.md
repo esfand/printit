@@ -700,15 +700,20 @@ JClass rawLLclazz = codeModel.ref(List.class);
 JClass fieldClazz = rawLLclazz.narrow(genericT);
 JClass rawArrayListClass = codeModel.ref(ArrayList.class);
 JClass arrayListFieldClazz = rawArrayListClass.narrow(genericT);
-JExpression newInstance = JExpr._new(arrayListFieldClazz).arg(JExpr.lit(0));
+JExpression newInstance = JExpr._new(arrayListFieldClazz)
+                            .arg(JExpr.lit(0));
 String listFieldString = "genericList";
-JFieldVar listFieldVar = concreteClass.field(JMod.PRIVATE, fieldClazz, listFieldString);
+JFieldVar listFieldVar = concreteClass.field(JMod.PRIVATE, 
+                                             fieldClazz, 
+                                             listFieldString);
 listFieldVar.init(newInstance);
 javadoc = listFieldVar.javadoc();
 commentString = "My Generic List<T>";
 javadoc.append(commentString);
 String methodName = "addGeneric";
-JMethod method = concreteClass.method(JMod.PUBLIC, void.class, methodName);
+JMethod method = concreteClass.method(JMod.PUBLIC, 
+                                      void.class, 
+                                      methodName);
 javadoc = method.javadoc();
 commentString = "Method to add a Generic T to our List<T>";
 javadoc.append(commentString);
