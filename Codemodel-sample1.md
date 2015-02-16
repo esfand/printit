@@ -79,7 +79,8 @@ public class Sample {
 Ok, lets try an example how to generate a sample java file.
 
 ```java
-public static void main(String[] args) throws JClassAlreadyExistsException, IOException {
+public static void main(String[] args) 
+                        throws JClassAlreadyExistsException, IOException {
 
         JCodeModel jcm = new JCodeModel();
         JDefinedClass sample = jcm._class("org.letmeshare.sample.Sample");
@@ -96,14 +97,19 @@ public static void main(String[] args) throws JClassAlreadyExistsException, IOEx
         // Declare parameter for doScan method
         JVar param = doScan.param(String.class, "myName");
         
-        // assign value to the declared variable with return of doScan with argument String -'Letmeshare'
-        doprint.body().assign(myNameVariable, doprint.body().invoke(doScan).arg("Letmeshare"));
+        // assign value to the declared variable with return of doScan 
+        // with argument String -'Letmeshare'
+        doprint.body()
+               .assign(myNameVariable, 
+                       doprint.body().invoke(doScan).arg("Letmeshare"));
         
         // print my variable
-        doprint.body().directStatement("System.out.println(" + myNameVariable.name() + ");");
+        doprint.body()
+               .directStatement("System.out.println(" + myNameVariable.name() + ");");
         
         // return doScan function with string with param 'myName'
-        doScan.body()._return(JExpr.direct("new String(\"return my name\"+myName)"));
+        doScan.body()
+              ._return(JExpr.direct("new String(\"return my name\"+myName)"));
         
         // tell whre to write this code
         jcm.build(new File("D:\\OUTGWT"));
