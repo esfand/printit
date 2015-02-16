@@ -645,7 +645,9 @@ JClass rawArrayListClass = codeModel.ref(ArrayList.class);
 JClass arrayListFieldClazz = rawArrayListClass.narrow(genericT);
 JExpression newInstance = JExpr._new(arrayListFieldClazz).arg(JExpr.lit(0));
 String listFieldString = "genericList";
-JFieldVar listFieldVar = concreteClass.field(JMod.PRIVATE, fieldClazz, listFieldString);
+JFieldVar listFieldVar = concreteClass.field(JMod.PRIVATE, 
+                                             fieldClazz, 
+                                             listFieldString);
 listFieldVar.init(newInstance);
 ```
 
@@ -764,12 +766,15 @@ As a plus, let’s add some methods and javadocs:
 
 ```java  
 String interfaceName = "net.cardosi.MyNewInterface";
-JDefinedClass definedInterface = codeModel._class(interfaceName, ClassType.INTERFACE);
+JDefinedClass definedInterface = codeModel._class(interfaceName, 
+                                                  ClassType.INTERFACE);
 JDocComment javadoc = definedInterface.javadoc();
 String commentString = "My wonderful Interface";
 javadoc.append(commentString);
 String methodName = "toBeImplemented";
-JMethod method = definedInterface.method(JMod.PUBLIC, void.class, methodName);
+JMethod method = definedInterface.method(JMod.PUBLIC, 
+                                         void.class, 
+                                         methodName);
 javadoc = method.javadoc();
 commentString = "Method to be implemented";
 javadoc.append(commentString);
