@@ -318,7 +318,7 @@ try {
     String getterMethodName = "get" + fieldNameWithFirstLetterToUpperCase;
     JMethod getterMethod = definedClass.method(JMod.PUBLIC, 
                                                int.class,
-		                               getterMethodName);
+		                                       getterMethodName);
     comment = getterMethod.javadoc();
     commentString = "Method to get " + fieldName + "";
     comment.append(commentString);
@@ -330,7 +330,7 @@ try {
     String setterMethodName = "set" + fieldNameWithFirstLetterToUpperCase;
     JMethod setterMethod = definedClass.method(JMod.PUBLIC, 
                                                Void.TYPE,
-				               setterMethodName);
+				                               setterMethodName);
     comment = setterMethod.javadoc();
     commentString = "Method to set " + fieldName + "";
     comment.append(commentString);
@@ -340,7 +340,7 @@ try {
     commentPart.append(commentString);
     setterMethod.param(int.class, setterParameter);
     setterMethod.body().assign(JExpr._this().ref(fieldName),
-			       JExpr.ref(setterParameter));
+			                   JExpr.ref(setterParameter));
     codeModel.build(new File("."));
 } catch (JClassAlreadyExistsException e) {
 	// ...
@@ -467,10 +467,13 @@ literal (boolean, double, float, char, int, long, and String):
 String className = "net.cardosi.MyNewClassD";
 JDefinedClass definedClass = codeModel._class(className);
 String stringName = "stringVar";
-JFieldVar stringField = definedClass.field(JMod.PRIVATE, String.class, stringName);
+JFieldVar stringField = definedClass.field(JMod.PRIVATE, 
+                                           String.class, 
+                                           stringName);
 JMethod constructorMethod = definedClass.constructor(JMod.PUBLIC);
 JBlock block = constructorMethod.body();
-block.assign(JExpr._this().ref(stringName), JExpr.lit("DEFAULT VALUE"));
+block.assign(JExpr._this().ref(stringName), 
+             JExpr.lit("DEFAULT VALUE"));
 ```	
 	
 Here’s the newly generated class, where the “stringVar” is initialized with 
