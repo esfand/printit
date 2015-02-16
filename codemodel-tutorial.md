@@ -830,7 +830,7 @@ codeModel.build(new File("."));
 
 And here’s the generated Abstract class
 
-```javba
+```java
 package net.cardosi;
 
 /**
