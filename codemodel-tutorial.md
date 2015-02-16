@@ -50,8 +50,8 @@ The bare minimum code needed to generate an (absolutely empty) “java” file l
 ```java
 JCodeModel codeModel = new JCodeModel();
 try {
-        JDefinedClass definedClass = codeModel._class("net.cardosi.MyNewClass");
-	codeModel.build(new File("."));
+    JDefinedClass definedClass = codeModel._class("net.cardosi.MyNewClass");
+    codeModel.build(new File("."));
 } catch (JClassAlreadyExistsException e) {
    // ...
 } catch (IOException e) {
@@ -85,13 +85,13 @@ Let’s add an int called `intVar` to our class:
 ```java
 JCodeModel codeModel = new JCodeModel();
 try {
-     JDefinedClass definedClass = codeModel._class("net.cardosi.MyNewClass");
-     codeModel.build(new File("."));
-     JFieldVar field = definedClass.field(JMod.PRIVATE, int.class, "intVar");
+    JDefinedClass definedClass = codeModel._class("net.cardosi.MyNewClass");
+    codeModel.build(new File("."));
+    JFieldVar field = definedClass.field(JMod.PRIVATE, int.class, "intVar");
 } catch (JClassAlreadyExistsException e) {
-   // ...
+    // ...
 } catch (IOException e) {
-   // ...
+    // ...
 }
 ```
 
@@ -101,7 +101,7 @@ and let’s see the result:
 package net.cardosi;
 
 public class MyNewClass {
-  private int intVar;
+    private int intVar;
 }
 ```
 
@@ -139,10 +139,13 @@ try {
      JDefinedClass definedClass = codeModel._class(className);
      String fieldName = "intVar";
      String fieldNameWithFirstLetterToUpperCase = "IntVar";
-     JFieldVar field = definedClass.field(JMod.PRIVATE, int.class, fieldName);
+     JFieldVar field = definedClass.field(JMod.PRIVATE, 
+                                          int.class, 
+                                          fieldName);
      String getterMethodName = "get" + fieldNameWithFirstLetterToUpperCase;
      JMethod getterMethod = definedClass.method(JMod.PUBLIC, 
-                                                int.class, getterMethodName);
+                                                int.class, 
+                                                getterMethodName);
      JBlock block = getterMethod.body();
      block._return(field);
      String setterMethodName = "set" + fieldNameWithFirstLetterToUpperCase;
