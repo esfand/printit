@@ -152,8 +152,7 @@ try {
      String setterParameter = "intVarParam";
      setterMethod.param(int.class, setterParameter);
     setterMethod.body()
-                .assign(JExpr._this()
-                             .ref(fieldName), 
+                .assign(JExpr._this().ref(fieldName), 
                         JExpr.ref(setterParameter));
      codeModel.build(new File("."));
 } catch (JClassAlreadyExistsException e) {
