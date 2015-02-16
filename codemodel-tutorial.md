@@ -519,7 +519,7 @@ block.assign(JExpr._this().ref(booleanName),
 codeModel.build(new File("."));
 ```	
 	
-Here the result:
+Here is the result:
 
 ```java
 package net.cardosi;
@@ -532,7 +532,7 @@ public class MyNewClassE {
         this.booleanVar = (!booleanVarParameter);
     }
 }
-```java
+```
 
 The line:
 
@@ -582,10 +582,18 @@ public class MyNewClassF {
 ```
 
 As a plus I have included the initialization of the variable in its declaration:
-JFieldVar intField = (JFieldVar) definedClass.field(JMod.PRIVATE, int.class, intName).init(JExpr.lit(14));
-Since JExpr.lit() is overloaded for different kind of literals (boolean, double, float, char, int, long, and String), the corresponding type of variables can be initialized that way.
 
-Maybe I was a little bit pedantic in this section of the tutorial, but in the same time I have the impression to have just scratched the surface of JExpr and JExpression.
+```java
+JFieldVar intField = (JFieldVar) definedClass.field(JMod.PRIVATE, 
+                                                    int.class, 
+                                                    intName).init(JExpr.lit(14));
+```
+
+Since 'JExpr.lit()' is overloaded for different kind of literals (boolean, double, float, 
+char, int, long, and String), the corresponding type of variables can be initialized that way.
+
+Maybe I was a little bit pedantic in this section of the tutorial, but in the same time 
+I have the impression to have just scratched the surface of JExpr and JExpression.
 Anyway, I hope it will be enough for you as starting point.
 
 Next part will deal with Generics: don’t miss it!!!
