@@ -1,4 +1,4 @@
-# Java code generation with CodeModel – JExpression
+# CodeModel – Expression
 
 This part of the tutorial is about JExpr and JExpression in CodeModel.
 
