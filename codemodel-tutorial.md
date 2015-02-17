@@ -18,7 +18,8 @@ to use this nice library.
 
 For this guide I will use codemodel-2.6.jar, with the following maven coordinates 
 
-```java
+```xml
+<dependency>
     <groupId>com.sun.codemodel</groupId>
     <artifactId>codemodel</artifactId>
     <version>2.6</version>
