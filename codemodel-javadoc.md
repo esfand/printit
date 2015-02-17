@@ -1,4 +1,4 @@
-# Java code generation with CodeModel – Javadoc
+# CodeModel – Javadoc
 
 This part of the tutorial is about Javadoc generation with CodeModel.
 
