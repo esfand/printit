@@ -28,8 +28,8 @@ For this guide I will use codemodel-2.6.jar, with the following maven coordinate
 
 The very first steps are:
 
-1) instantiate the root of the code DOM;
-2) use it to create the class;
+1. instantiate the root of the code DOM;
+2. use it to create the class.
 
 This is done in a couple of lines:
 
