@@ -1,4 +1,4 @@
-# Java code generation with CodeModel – Basics
+## CodeModel – Basics
 
 Source: blogtech.cardosi.net/2013/03/19/tutorial-java-codemodel-basics/
 
@@ -192,7 +192,7 @@ public class MyNewClass {
 }
 ```
 
-# Java code generation with CodeModel – Javadoc
+## CodeModel – Javadoc
 
 This part of the tutorial is about Javadoc generation with CodeModel.
 
@@ -390,7 +390,7 @@ public class MyNewClass {
 ```
 
 
-# Java code generation with CodeModel – JExpression
+## CodeModel – Expression
 
 This part of the tutorial is about JExpr and JExpression in CodeModel.
 
@@ -597,7 +597,7 @@ I have the impression to have just scratched the surface of JExpr and JExpressio
 Anyway, I hope it will be enough for you as starting point.
 
 
-#Java code generation with CodeModel – Generics
+## CodeModel – Generics
 
 This part of the tutorial is about Generics management with CodeModel.
 
@@ -758,7 +758,7 @@ public class MyNewGenericClass{
 ```
 
 
-#Java code generation with CodeModel – Inheritance
+# CodeModel – Inheritance
 
 This part of the tutorial is about Inheritance management with CodeModel.
 
