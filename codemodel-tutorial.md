@@ -5,24 +5,25 @@ Source: blogtech.cardosi.net/2013/03/19/tutorial-java-codemodel-basics/
 This part of the tutorial is about basic Java code generation using CodeModel.
 
 My current job is all about ETL – i.e. I have to transform flat formatted data to xml 
-and back again… exciting, uh?
+and back again… exciting, uh?  Anyway, my first step was to write classes to reflect 
+the different type of “records” that could be part of the flat file, but 
+the “specification” for the structure keep changing (sounds familiar ?). Being absolutely 
+lazy I realized that I needed something to generate that code for me!
 
-Anyway, my first step was to write classes to reflect the different type of “records” 
-that could be part of the flat file, but the “specification” for the structure keep 
-changing (sounds familiar ?). Being absolutely lazy I realized that I needed something 
-to generate that code for me!
+For code generation, I decided to use CodeModel.  It is also used (beyond the scene) 
+by JAXB – the library I am using to do xml-related stuff.  As for other stuff from 
+glassfish site, I think its pretty good, but the documentation could have been more 
+developer-friendly.  So, I write down this little tutorial for other people that want 
+to use this nice library.
 
-Surely there are many other frameworks I am not aware of, maybe even better, but I found 
-out CodeModel and decided to give it a try, also because it is used (beyond the scene) 
-by JAXB – the library I am using to do xml-related stuff.
+For this guide I will use codemodel-2.6.jar, with the following maven coordinates 
 
-As for other stuff from glassfish site, I think its pretty good, but the documentation 
-could have been more developer-friendly.
-
-So, I write down this little tutorial for other people that want to use this nice library.
-
-For this guide I will use codemodel-2.4.jar, that could be downloaded from here 
-http://download.java.net/maven/2/com/sun/codemodel/codemodel/2.4/.
+```java
+    <groupId>com.sun.codemodel</groupId>
+    <artifactId>codemodel</artifactId>
+    <version>2.6</version>
+</dependency>
+```
 
 The very first steps are:
 
