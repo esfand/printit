@@ -1,4 +1,4 @@
-# Java code generation with CodeModel – Inheritance
+# CodeModel – Inheritance
 
 This part of the tutorial is about Inheritance management with CodeModel.
 
