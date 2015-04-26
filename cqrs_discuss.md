@@ -1,4 +1,4 @@
-Patrick • 18 days ago    
+### Patrick • 18 days ago    
 re: "Unfortunately a lot of existing LOB applications do not follow this rather straight forward pattern."
 
 I agree that the pattern is straight forward, but do you feel like the user-experience takes on an additional layer of complexity if the design of the system should be one where the user can "read what they wrote"? The amazon shopping experience, as an example, has trained the user to expect asynchronous updates. Similarly, paying your credit card online has a similar non-immediate expectation. However, suppose you are building an SaaS accounting platform where your targeted user base has an expectation that when they pay a batch of invoices, the invoices are immediately closed and balanced out to $0. You could argue that they need to be re-trained an accept an asynchronous user experience, but for the sake of conversation, suppose the business doesn't want to do so.
@@ -8,10 +8,10 @@ With a single read/write model, the synchronous user experience is "free". Of co
 Anyhow, good write up. You definitely highlight some of the strength of this approach. It would be interesting to see a post that describes the complexities of CQRS. Everything has a trade-off, right?
 
 
-gabrielschenker Mod  Patrick • 18 days ago    
+### gabrielschenker Mod  Patrick • 18 days ago    
 In my first sample of a classical n-tier application using an RDBMS as back-end storage everything is synchronous. CQRS by no ways implies that we have to use event sourcing or an eventual consistent read model. The latter is just an option which scales out nicely.
 
-Stefan Billiet  Patrick • 18 days ago    
+### Stefan Billiet  Patrick • 18 days ago    
 Concerning the the synchronous user experience:
 
 It depends. There are workflows where you are changing data in one place, that is used in a completely different place. In this case async doesn't matter because by the time you get to that other screen, the async process would have already been completed (unless it's a long running process).
@@ -19,14 +19,14 @@ If the changed data needs to be "immediately" visible, you can setup a system wh
 
 Having set up something like this recently, if your backend is already eventdriven, then sending those events back to the browser is reasonably straightforward.
 
-jbogard  Stefan Billiet • 18 days ago    
+### jbogard  Stefan Billiet • 18 days ago    
 "There are workflows where you are changing data in one place, that is used in a completely different place" <- I find these few and far between. Even in ecommerce systems where I've worked with billions of dollars flowing through them, pricing is most assuredly synchronous with the "back end". A nightly ETL job pushes these to the read-only caches on the front-end.
 
 Users might not expect to see the side effects of their changes immediately, but they certainly expect to see their change immediately in whatever system they're using.
 
 We used event sourcing in one app. Devs loved it, users h...a...t...e...d it, because every operation introduced latency through all this back-end event publishing, denormalizing, SignalR'ing etc etc. We were promised better scaling, and users complained the app was slow.
 
-gabrielschenker Mod  jbogard • 18 days ago    
+### gabrielschenker Mod  jbogard • 18 days ago    
 I'm sorry for you Jimmy if your user hated the app. I have a completely different experience. Our users loved it. But that's not the point here. You can use CQRS in an application that is fully synchronous all the time. By the way we should never forget that as soon as we build a web application everything is asynchronous!
 
 jbogard  gabrielschenker • 18 days ago    
