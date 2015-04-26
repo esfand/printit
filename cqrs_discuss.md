@@ -1,4 +1,4 @@
-### Patrick • 18 days ago    
+#### Patrick • 18 days ago    
 re: "Unfortunately a lot of existing LOB applications do not follow this rather straight forward pattern."
 
 I agree that the pattern is straight forward, but do you feel like the user-experience takes on an additional layer of complexity if the design of the system should be one where the user can "read what they wrote"? The amazon shopping experience, as an example, has trained the user to expect asynchronous updates. Similarly, paying your credit card online has a similar non-immediate expectation. However, suppose you are building an SaaS accounting platform where your targeted user base has an expectation that when they pay a batch of invoices, the invoices are immediately closed and balanced out to $0. You could argue that they need to be re-trained an accept an asynchronous user experience, but for the sake of conversation, suppose the business doesn't want to do so.
@@ -8,7 +8,7 @@ With a single read/write model, the synchronous user experience is "free". Of co
 Anyhow, good write up. You definitely highlight some of the strength of this approach. It would be interesting to see a post that describes the complexities of CQRS. Everything has a trade-off, right?
 
 
-### gabrielschenker Mod  Patrick • 18 days ago    
+#### gabrielschenker Mod  Patrick • 18 days ago    
 In my first sample of a classical n-tier application using an RDBMS as back-end storage everything is synchronous. CQRS by no ways implies that we have to use event sourcing or an eventual consistent read model. The latter is just an option which scales out nicely.
 
 ### Stefan Billiet  Patrick • 18 days ago    
