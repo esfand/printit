@@ -25,14 +25,13 @@ The double equal “==” is an auto-type conversion. It’s used to check the v
 The three equal “===” is not auto-type conversion. It’s used to check only value of its variable.
 
 The real example as given below:
-
+````Javascript
 if(1 == ”1”) // Its returns true because it's an auto-type conversion and it check value and type both.
 
 if(1 === ”1”) // Its returns false because it's not auto-type conversion and it check only value not  type.
 
-
 If(1=== parseInt(”1”)) // Its returns true.
-
+````
 
 ##### What is an Object?
 
@@ -45,12 +44,13 @@ Var myObject= {empId : “001”, empCode :”X0091”};
 In the above example, here are two properties one is empId and other is empCode and its values are “001” and “X0091”.
 
 The properties name can me string or number. If a property name is number i.e.
-
+````javascript
 Var numObject= {1 : “001”, 2 :”X0091”};
 
 Console.log(numObject.1); //This line throw an error.
 
 Console.log(numObject[“1”]); // will access to this line not get any error.
+````
 
 As per my thought, the number property name should be avoided.
 
@@ -62,10 +62,11 @@ Object Literals: This is the most common way to create the object with object li
 
 The empty object initialized using object literal i.e.
 
-var emptyObj= {};
+    var emptyObj= {};
 
 This is an object with 4 items using object literal i.e.
 
+````javascript
 var emptyObj ={
   empId:”Red”,
   empCode: “X0091”,
@@ -73,20 +74,19 @@ var emptyObj ={
     alert(“Hi”);
 };
 };
+````
 
 Object Constructor: The second way to create object using object constructor and the constructor is a function used to initialize new object. 
 
 The example as given below
-
+````javascript
 Var obj = new Object();
 Obj.empId=”001”;
 Obj.empCode=”X0091”;
 Obj.empAddressDetai = function(){
        Console.log(“Hi, I Anil”);
-
-
 };
-
+````
 
 ##### What is scope variable in JavaScript?
 The scope is set of objects, variables and function and the JavaScript can have global scope variable and local scope variable.
