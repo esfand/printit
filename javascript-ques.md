@@ -1,130 +1,130 @@
 Source: http://www.careerride.com/Interview-Questions-JavaScript.aspx
 
-1.JavaScript vs. Jscript
+###### 1.JavaScript vs. Jscript
 
 Latest answer: Both JavaScript and Jscript are almost similar. Java script was developed by Netscape. Microsoft implemented its own scripting language and named it as Jscript...........
 Read answer
 
-2.What is the difference between Client side JavaScript and Server side JavaScript.
+###### 2.What is the difference between Client side JavaScript and Server side JavaScript.
 
 Latest answer: Client side java script comprises the basic language and predefined objects which are relevant to running java script in a browser. The client side java script is embedded directly by in the HTML pages.............
 Read answer
 
-3.Where are cookies actually stored on the hard disk?
+###### 3.Where are cookies actually stored on the hard disk?
 
 Latest answer: The storage of cookies on the hard disk depends on OS and the browser. The Netscape navigator on Windows, the file cookies.txt contains all the cookies. The path is :.........
 Read answer
 
-4.What is the difference between a web-garden and a web-farm?
+###### 4.What is the difference between a web-garden and a web-farm?
 
 Latest answer: Web garden is a web hosting system. It is a setup of multi processors in single server.
 
 Web farm is a web hosting system. It is a multi-server scenario...........
 Read answer
 
-5.What is the difference between SessionState and ViewState?
+###### 5.What is the difference between SessionState and ViewState?
 
 Latest answer: The values of controls of a particular page of the client browser is persisted by ViewState at the time of post back operation is done. If the user requests another page, the data of previous page is no longer available............
 Read answer
 
-6.How to Accessing Elements using javascript?
+###### 6.How to Accessing Elements using javascript?
 
 Latest answer: The elements of JavaScript are accessed by their names. By default the browser is accessed by the element ‘windows’ and the page by ‘document’. The corresponding element has user defined names for forms and its elements............
 Read answer
 
-7.What is the difference between undefined value and null value?
+###### 7.What is the difference between undefined value and null value?
 
 Latest answer: Undefined value: A value that is not defined and has no keyword is known as undefined value. For example in the declaration, int number; the number has undefined value..........
 Read answer
 
-8.How to set the cursor to wait in JavaScript?
+###### 8.How to set the cursor to wait in JavaScript?
 
 Latest answer: The cursor can set to wait in JavaScript by using the property ‘cursor’ property. The following example illustrates the usage.............
 Read answer
 
-9.What is decodeURI(), encodeURI() in JavaScript?
+###### 9.What is decodeURI(), encodeURI() in JavaScript?
 
 Latest answer: To send the characters that can not be specified in a URL should be converted into their equivalent hex encoding. To perform this task the methods encodeURI() and decodeURI() are used...........
 Read answer
 
-10.Methods GET vs. POST in HTML forms.
+###### 10.Methods GET vs. POST in HTML forms.
 
 Latest answer: Encoding form data into URL is needed by the GET method. The form data is to be appeared within the message body , by the POST method. By specification, GET is used basically for retrieving data where as POST is used for data storing, data updating, ordering a product or even e-mailing.............
 Read answer
 
-11.What does the EnableViewStateMac setting in an aspx page do?
+###### 11.What does the EnableViewStateMac setting in an aspx page do?
 
 Latest answer: EnableViewStateMac setting is a security measure in ASP.Net. It ensures the view state for a page not to tamper. To to so “ EnableViewStateMac=true “is used............
 Read answer
 
-12.What are windows object and navigator object in JavaScript?
+###### 12.What are windows object and navigator object in JavaScript?
 
 Latest answer: Windows object is top level object in Java script. It contains several other objects such as, document, history, location, name, menu bar etc., in itself. Window object is the global object for Java script that is written at client-side.........
 Read answer
 
-13.How to detect the operating system on the client machine in JavaScript?
+###### 13.How to detect the operating system on the client machine in JavaScript?
 
 Latest answer: The navigator.appVersion string should be used to find the name of the operating system on the client machine..............
 Read answer
 
-14.How to set a HTML document's background color in JavaScript?
+###### 14.How to set a HTML document's background color in JavaScript?
 
 Latest answer: Using document object the back ground color can be changed by JavaScript.........
 Read answer
 
-15.How do you assign object properties in JavaScript?
+###### 15.How do you assign object properties in JavaScript?
 
 Latest answer: Java script object properties are assigned like assigning a value to a variable. For example, the title property of document object can be assigned as follows:
 
 document.title="Welcome to the world of Javascripting";............
 Read answer
 
-16.What is JavaScript?  
+###### 16.What is JavaScript?  
 
 Latest answer: JavaScript is a scripting language most often used for client-side web development...................
 Read answer
 
-17.What boolean operators does JavaScript support?
+###### 17.What boolean operators does JavaScript support?
 
 Latest answer: ==, !=, < , >, <=, >=............. 
 Read answer
 
-18.Is a javascript script faster than an ASP script?  
+###### 18.Is a javascript script faster than an ASP script?  
 
 Latest answer: JSP is faster then ASP as the script is run on the client side...................
 Read answer
 
-19.What is == operator ?     
+###### 19.What is == operator ?     
 
 Latest answer: The ‘==’ operator is a boolean comparison operator that returns true if the variables................
 Read answer
 
-20.What is negative infinity?
+###### 20.What is negative infinity?
 
 Latest answer: It’s a number that is obtained by dividing a negative number by zero. (in JSP)...................
 Read answer
 
-21.What’s relationship between JavaScript and ECMAScript?
+###### 21.What’s relationship between JavaScript and ECMAScript?
 
 Latest answer: JavaScript is a scripting language most often used for client-side web development...................
 Read answer
 
-22.What does isNaN function do?
+###### 22.What does isNaN function do?
 
 Latest answer: The isNaN function determines if the value is a number or not and depending upon the result, it returns true or false................. 
 Read answer
 
-23.How to read and write a file using javascript?
+###### 23.How to read and write a file using javascript?
 
 Latest answer: There are two ways to do it: 1. Using JavaScript extensions (runs from JavaScript Editor), or 2. Using a web page and ActiveX objects (Internet Explorer only)......................
 Read answer
 
-24.How do you create a new object in JavaScript?
+###### 24.How do you create a new object in JavaScript?
 
 Latest answer: In order to generate dynamic content, JSP provides for creating, modifying and interacting with Java objects. The implicit objects like page, config, request, etc are called so because their availability in the in JSP page is automatic.....................
 Read answer
 
-25.How to create arrays in JavaScript? 
+###### 25.How to create arrays in JavaScript? 
 
 Latest answer: Although you can create the arrays using ‘new’ (var myArray = new myArray[10];), it is recommended that you create it in the following way: var myArray = [];....................
 Read answer
@@ -146,7 +146,7 @@ Who Benefits from AJAX?
 
 AJAX is employed to improve the user’s experience. A request is made for the initial page rendering. After that, asynchronous requests to the server are made. An asynchronous request is a background request to send or receive data in an entirely nonvisual manner
 
-26. What are the different actions that are performed using JavaScript?
+###### 26. What are the different actions that are performed using JavaScript?
 
 JavaScript allow the computer to be more secure by putting the privacy policies and disable the unauthorized access to the files. It allows many actions to be performed like
 Setting the browser's preferences and receiving the request from the servers for the client computer. The settings that are used gets saved on the client side on the features like actions buttons, appearance and printing. 
