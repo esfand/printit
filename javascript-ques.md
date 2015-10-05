@@ -1,3 +1,69 @@
+
+Source: http://tonyfreed.com/blog/top_javascript_interview_question_2015
+
+
+##### What is the difference between call and apply?
+
+While the syntax of those functions are almost identical. The fundamental difference is that call() accepts an argument list, while apply() accepts a single array of arguments.
+somefun.apply(valueForThis, arrayOfArgs)
+somefun.call(valueForThis, arg, arg, arg)
+
+##### What is the difference between == and === ?
+
+Double equals == is used to compare the value of two operands. While triple equals === is used to compare the value AND type of two operands.
+Double equals uses type coercion. So "1" == 1 will be true as well as [] == 0.
+While triple equals will return false in both cases.
+Type coercion has complex rules and can have surprising results.
+
+##### What is the difference between null and undefined?
+
+Undefined means that a variable has been declared but has no value yet. Since there is no value for a variable, it has no type assigned as well. So the type will be "undefined".
+If you call this variable, it will return undefined.
+Null is an object reference meaning "no object" and it returns null.
+
+##### How can you declare a class in Javascript?
+
+In JavaScript there is no classes like in Java or PHP. In JavaScript we creates a function that simulating a class behaviour.
+
+##### What is JavaScript Prototype?
+
+In JavaScript objects are pairs of keys and values. Every JavaScript object has an internal property called [[Prototype]].
+Objects in JavaScript inherits all properties from Object.prototype, while you can override them.
+So, prototype can be used to inherit functionality.
+
+##### What is event bubbling?
+
+Event bubbling occurs when a user interacts with a nested element and the event propagates up ("bubbles") through all of the ancestor elements.
+
+In order to stop event bubbling we can use event.stopPropagation();
+
+##### What is a "closure" in JavaScript and how to use it?
+
+A closure is an inner function that has access to the variables in the outer function's scope chain.
+The most famous example of using closures is:
+```` javascript
+for (var i = 0; i < 3; i++) {
+    setTimeout(function() { console.log(i); }, i * 1000 );
+}
+````
+                    
+The problem is that each function executed within the loop will be executed after the entire loop has been completed. That's why console.log() will display 3,3,3.
+It can be prevented by creating unique scope for each iteration.
+````
+var someFunction = function(i) {
+        return function() { console.log(i); };
+};
+for (var i = 0; i < 3; i++) {
+    setTimeout(someFunction(i), i * 1000, i);
+}
+````
+Closures can also be used to resolve issues with the this keyword, which is unique to each scope
+
+
+==============================================================================
+
+
+
 Source: http://www.code-sample.com/2015/04/javascript-interview-questions-answers.html
 
 ##### Is JavaScript case sensitive?
