@@ -146,7 +146,7 @@ Who Benefits from AJAX?
 
 AJAX is employed to improve the user’s experience. A request is made for the initial page rendering. After that, asynchronous requests to the server are made. An asynchronous request is a background request to send or receive data in an entirely nonvisual manner
 
-###### 26. What are the different actions that are performed using JavaScript?
+##### 26. What are the different actions that are performed using JavaScript?
 
 JavaScript allow the computer to be more secure by putting the privacy policies and disable the unauthorized access to the files. It allows many actions to be performed like
 Setting the browser's preferences and receiving the request from the servers for the client computer. The settings that are used gets saved on the client side on the features like actions buttons, appearance and printing. 
@@ -155,18 +155,18 @@ It allows reading and writing of files or directories on the client or server si
 It allows easy capturing of the data that is live streamed from server to the client machine for retransmission. 
 It also allows to safe and secure the application from the outside world.
 
-27. How can JavaScript language be separated from objects?
+##### 27. How can JavaScript language be separated from objects?
 
 JavaScript treats and creates applications for the scripting to make the browser's compatible for use. The language is separated from the objects as it allows the syntax to change the environment. It is a language that keeps the page element in the HTML document. JavaScript allows the elements of the page to remain in sync with the document objects. The language is used to create objects that are connected to page elements and other elements in a language. The separation allows the concept of development and effort to be shared with each factor. The JavaScript language allows dynamic data to be presented using the weakly typed language. It also support any action to be taken to support user interface and graphics.
 
-28. What is the use of DOM?
+##### 28. What is the use of DOM?
 
 DOM is also known as Document Object Model which is used to develop a model with documents or web pages containing objects like elements, links, etc. These objects can be manipulated or certain actions like add, delete or change of an element can be performed using this document object model. Through this change in attributes can be done to get all the list of all the elements in the document. The DOM model responds to API calls that result in documented level of DOM recommendation. It is used to support additional behavior on the web page and use of API give an extensible advantage over other models existing. DOM codes are reused to meet the requirement of the real world and to make all program interoperable.
 
-29. What is the importance of <SCRIPT> tag?
+##### 29. What is the importance of <SCRIPT> tag?
 
 JavaScript is used inside <SCRIPT> tag in HTML document. The tags that are provided provides the necessary information like alret to the browser for the program to begin interpreting all the text between the tags. The <script> tag uses JavaScript interpreter to handle the libraries that are written or the code of the program. JavaScript is a case sensitive language and the tags are used to tell the browser that if it is JavaScript enabled to use the text written in between the <Script> and 
-
+````javascript
 </Script> tags. The example is given as:
 <HTML>
 <HEAD>
@@ -179,13 +179,14 @@ JavaScript is used inside <SCRIPT> tag in HTML document. The tags that are provi
 // your code here
 </BODY>
 </HTML>
+````
 
-30. Why JavaScript is called as Script for all browsers?
+##### 30. Why JavaScript is called as Script for all browsers?
 
 JavaScript is written after <SCRIPT> tag and it is surrounded in between the <!-- your code --> tags this is also known as comment tag. JavaScript interpreter treats the tag such that it treats all the lines in the comments as script lines. The JavaScript comment starts with // inside the <SCRIPT> tag. The script is contained inside <HTML> tag that contains a comment tag. The browser that is non-compatible with JavaScripts ignore the lines and move on, but compatible browsers always treats it as a script and execute it. The browser treat the written lines between the comment tag as normal lines and just thinking of the comment ignores it. Some browsers just treat the <!-- comment--> as a comment only and ignores whatever is written inside it.
 
 
-31. What are the requirements of Web application using JavaScript?
+##### 31. What are the requirements of Web application using JavaScript?
 
 There are lots of application that require certain things when the user uses a JavaScript like
 Data entry validation: this tell that if the field of the form is filled out then during the processing of the server the client side can interact with it.
@@ -193,14 +194,14 @@ Serverless CGIs: this describes the processes that are not used with JavaScript 
 Dynamic HTML interactivity: it allows dynamic position of the data without using any other scripting language. 
 CGI prototyping: allows more reduction of time to access the user interface before implementing the application of the CGI.
 
-32. What are the different objects used in JavaScripts?
+##### 32. What are the different objects used in JavaScripts?
 
 JavaScripts uses a hierarchical structure that applies to the objects in a document. There are some objects that show the relationship of one object to another using the language.
 Window object: this is the topmost object in the hierarchy. It represent the content area of browser window that consists of HTML documents. Each frame is also a window that has some actions inside it.
 Document object: This object gets loaded in a window and consists of objects of different kind in the model. It consists of the content that will be written in the script.
 Form object: Form objects are used for more interaction with the users. It represents the form elements inside <FORM>...</FORM> tag.
 
-33. Why is object naming important to use in JavaScript?
+##### 33. Why is object naming important to use in JavaScript?
 
 Object naming is used to create script references to objects while assigning names to every
 scriptable object in the HTML code. The browsers that are script compatible looks for the optional tags and attributes that enables the assigning of a unique name to each object. The example is:
@@ -209,18 +210,22 @@ scriptable object in the HTML code. The browsers that are script compatible look
 <frame src=”info.html” name=”main”>
 The names act as a nametags through which the elements can be easily identified and easily located by the browsers. The references made for each object includes the object hierarchy from the top down. References are used to include names of each object that are coming in the window object. The object naming conventions are easy way to loacte the objects and the linking between them can be done more comfortably.
 
-34. What are the methods involved in JavaScript?
+##### 34. What are the methods involved in JavaScript?
 
 Method is an informative that gets performed over an action that is related to the object. Method either performs on some object or affect any part of the the script or a document. Object can have as many number of methods that have associations with other objects. There is a method that is used by the JavaScript statement that includes a reference to an object this is given as:
+
 document.orderForm.submit()
 document.orderForm.entry.select()
-These are the functions which perform the dynamic interaction with the user. The first statement execute the element when pressed submit button to send a form to a server. These two statements are related to only the form. The scripts that are invoked will have the write of the document as well and will be written as: 
+
+These are the functions which perform the dynamic interaction with the user. The first statement execute the element when pressed submit button to send a form to a server. These two statements are related to only the form. The scripts that are invoked will have the write of the document as well and will be written as:
+
 document.write(“Give the version “ + navigator.appVersion)
 document.write(“ of <B>” + navigator.appName + “</B>.”)
 
-35. Explain with an example the use of event handlers in JavaScript.
+##### 35. Explain with an example the use of event handlers in JavaScript.
 
 The events in JavaScript are the actions in a document that result from user activity. The actions are like clicking on a button or typing typing a character in the form. JavaScript object in a document that receives events of different kinds. To handle the events that are taking place requires an even handler that can handle the execution of the events. Event acts like an added attribute that is entered in object’s HTML. The attribute is consisting of event name, sign like (=), instructions. The following code shows the event handler as:
+
 <HTML>
 <BODY>
 <FORM>
@@ -230,7 +235,7 @@ The events in JavaScript are the actions in a document that result from user act
 </HTML>
 
 
-36. How are tag positions used in JavaScript?
+##### 36. How are tag positions used in JavaScript?
 
 The tag can be inserted in a document wherever there is a requirement for a tag to be put. Nested tags are also possible within a <HEAD>...</HEAD> tag. There are many other ways to use the tag like inside <BODY>...</BODY> section. The tags can be placed inside <SCRIPT> tag also. The position of a particular tag is not fixed and it can be placed anywhere in the HTML document. Head is a used to place the tags that consists of noncontent settings. The example will show the position of <SCRIPT> tag:
 
@@ -244,7 +249,9 @@ The tag can be inserted in a document wherever there is a requirement for a tag 
 <BODY>
 </BODY>
 </HTML>
+
 This uses the <SCRIPT> tag inside the HEAD section. There is one more code that will show the positon of <SCRIPT> in body section and it is as:
+
 <HTML>
 <HEAD>
 <TITLE>Tag position</TITLE>
@@ -256,7 +263,7 @@ This uses the <SCRIPT> tag inside the HEAD section. There is one more code that 
 </BODY>
 </HTML>
 
-37. What are the main functions performed by JavaScript Statements?
+##### 37. What are the main functions performed by JavaScript Statements?
 
 The <SCRIPT> Script statement(s) </SCRIPT> tag consists of JavaScript statement. Just to be compatible with all the browsers it is been written in comments and it also accepts a semicolon at the end of every statement. JavaScript also uses the carriage return at the end of a statement. Every statement has a purpose like 
 Define or initialize a variable that will be used in an object when executing the script
@@ -265,9 +272,10 @@ Change the value of a property or variable to give more flexibility to the use o
 Invoke an object’s method to allow faster processing of the system
 Invoke a function routine to allow the function to perform various activities so that the application can run at faster speed.
 
-38. Explain with an explain the process of document loading.
+##### 38. Explain with an explain the process of document loading.
 
 When a document loads that means it is getting ready for the execution on the system. The document loads in the browser when there is a running of a document on the system. The applicaiton allows the JavaScript to look for all the properties that is given to the object and include all the property values that are used in content that is being rendered for the page about to load. It is always a good practice to include the content in <SCRIPT> tags and statements in the Body portion of the document. This way the application gets loaded immediately. 
+
 <HTML>
 <HEAD>
 <TITLE>Immediate loading</TITLE>
@@ -284,13 +292,14 @@ document.write(“ of <B>” + navigator.appName + “</B>.”)
 </BODY>
 </HTML>
 
-39. What is the function of Deferred scripts?
+##### 39. What is the function of Deferred scripts?
 
 Deferred scripts are the scripts whose statements run as grouped together statements as a function. Function provides a definition of a block that a script statement consists of to run the statements that are in the <SCRIPT> tags after all the statements loaded in browser. Functions allow to see the user clearly the visiblity inside the <SCRIPT> tag. In this tag each function starts with function() and function name is written after it including the parentheses. Once a function is loaded it becomes ready to run whenever there is a use of it. It is useful when a function gets used immediately after a page load. The Window object uses an event handler that triggers the response to the user actions and the handler is onLoad.
 
-40. Write a program to exaplain the deferred scripts using event handlers in JavaScript.
+##### 40. Write a program to exaplain the deferred scripts using event handlers in JavaScript.
 
 Event handler allows a trigger to be generated when a user action takes place like clicking a button, clicking on images, etc. OnLoad is an event handlers that handles all of the page’s components that includes images, Java applets, and embedded multimedia to laod it in browser. The event handlers are mostly used in <BODY> tag. Event handler is also used to run several internal script statements such that it is better to use statements in a function definition and event handler invoking the function. The code below shows onLoad event handler triggers the done() function. The function consists of an alert box that gets displayed
+
 <HTML>
 <HEAD>
 <TITLE>Event_handler</TITLE>
@@ -305,33 +314,34 @@ alert(“The page has finished loading.”)
 <BODY Event_handler=”done()”>
 </BODY>
 </HTML>
-41. What is the difference between Scripting and Programming?
+
+##### 41. What is the difference between Scripting and Programming?
 
 Scripting is easier to write than programming. As programming requires more hands on to the code and a language specification to write. 
 Scripting consists of lots of tools to easily create an object model and run it using any browser, wheras programming doesn't have many tools to create an object model and it is not easy to use browser compatibility. 
 Scripts work with more than just objects, each statement of the JavaScript does something means perform some actions, whereas programming becomes different as each and every action takes time to execute. 
 Scriptting doesn't require lots of knowledge to be provided with and can be easily learnt, but to learn a programming language it requires lots of knowledge.
 
-42. What does dynamic component in JavaScript contain?
+##### 42. What does dynamic component in JavaScript contain?
 
 Dynamic component is a model that consists of many other sub-components that are based on dynamic theory only like:
 Dynamic typing: these are associated with values and not having any association with the variables. JavaScript support the use of many types that can be used as an object. 
 object based: JavaScript is an object-oriented language and it deals with the objects that are associated arrays used with prototypes. The properties of the object based component can be modified, removed or added at run-time. The properties are using built in functions that helps to keep the property of dynamicity of the application. 
 run-time evaluation: JavaScript provides a run time evaluation using the eval() that takes some arguments provided during run time. This evaluation is used to make the scripting language more widely used as run time evaluation slows down the system but JavaScript uses the libraries to take less space.
 
-43. What are different functional component in JavaScript?
+##### 43. What are different functional component in JavaScript?
 
 The different components that are required in the functional model is:
 First-class functions: Fuctions that are first class will have some objects whose properties and methods are given by using the methods like length() and call(). These methods can be given different varibles and passed by an argumnent. 
 nested functions: are the functions that are used in another function. It is created each time the outer function is invoked. If a function is used inside another then any constants, local variables and argument values, become part of the function object.
 Closures: JavaScript allows the function to be created with nested functionality. It usually try to find the combination of code that can be used to execute the application.
 
-44. What is the difference between script type and the script language attributes?
+##### 44. What is the difference between script type and the script language attributes?
 
 The script type specifies the type of content that is used to show the language used by the browsers like “language=text/javascript”. This defines the MIME type that is also known as Multipurpose Internet Mail Extensions (MIME). Text in this defines a plain text format and script defines the language that will be used. The script language attribute on the other hand specify a particular version of JavaScript language that is required to run the script and to provide a mechanism to fall back if any browser doesn't support it. 
 Script type is used to define the type through which the browser can understand the language and all the compatible browsers can execute the type according to themselves, whereas the script language attribute defines the content and its attributes that are used.
 
-45. What are the different types of errors supported by JavaScript?
+##### 45. What are the different types of errors supported by JavaScript?
 
 There are many errors that can occur in a system. JavaScript provides a message for all the errors at run time and dynamically generate the error code. The errors that are present: 
 Load-time errors: these are the errors that come when loading a web page like using of improper syntax and the errors gets detected the moment user loads a page. 
@@ -339,19 +349,27 @@ Run-time errors: These are the errors that comes due to misuse of the language c
 Logic errors: these are the errors that comes due to bad logic performed on a function that is having different operation but it is made to have logic differently.
 
 
-46. What are Math Constants and Functions using JavaScript?
+##### 46. What are Math Constants and Functions using JavaScript?
 
 Math object has two constant : Math.PI and Math.E
 Math object has following functions:
 Math.abs(val1);
+
 It will give absolute value of val1.
+
 Math.max(val1,val2);
+
 This fuction will return maximum value from val1 and val2.
+
 Math.random();
+
 This function will return a random number between 0 and 1.
+
 Math.floor(val1)
+
 This function will returns decimal value of val1
-47. What is Pop() method in JavaScript?
+
+##### 47. What is Pop() method in JavaScript?
 
 The pop() method is similar as the shift() method but the difference is that Shift method works at the end of the array.
 The pop() method take the last element off of the given array and returns it. The array on which is called is then altered.
@@ -364,7 +382,7 @@ we get the following console output:
 mango
 ["apple ", "banana “];
 
-48. What is difference between undefined variable and undeclared variable?
+##### 48. What is difference between undefined variable and undeclared variable?
 
 The variable which are declared in the program but not assigned any value yet is called undefined variable while the variable which are not declared in the program is called undeclared variable.
 
@@ -380,7 +398,7 @@ alert(p); // This will give error because p is undeclared variable.
 alert(p); //This will give error because p is undefined.
 </script>
 
-49. How to create an array in JavaScript?
+##### 49. How to create an array in JavaScript?
 
 We can create an array in JavaScript as following ways.
 
@@ -404,7 +422,7 @@ alert(fruits[0]);
 
 This will give output : Apple
 
-50. What is encodeURI() function?
+##### 50. What is encodeURI() function?
 
 encodeURI() function is used to encode the URI.
 This function does not encode following special characters:
@@ -422,7 +440,7 @@ Output:
 EmpDetails.asp?Emp=%C3%A5&mode=edit.
 
 
-51. Can you explain about Screen object?
+##### 51. Can you explain about Screen object?
 
 The screen object can be used to retrieve the information about the visitor’s screen.
 There are following properties of Screen objects
