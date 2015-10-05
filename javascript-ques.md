@@ -1,9 +1,9 @@
 Source: http://www.code-sample.com/2015/04/javascript-interview-questions-answers.html
 
-### Is JavaScript case sensitive?
+##### Is JavaScript case sensitive?
 Yes! JavaScript is a case sensitive because a function str is not equal to Str.
 
-### What is the Type of JavaScript?
+##### What is the Type of JavaScript?
 There are different of Type as given below.
 String, 
 Number,
@@ -13,13 +13,13 @@ Object,
 Null,
 Undefined etc
 
-### What types of Boolean operators in JavaScript?
+##### What types of Boolean operators in JavaScript?
 There are three types of Boolean operators as given below.
 AND (&&) operator, 
 OR (||) operator and 
 NOT (!) Operator
 
-### What is the difference between “==” and “===”?
+##### What is the difference between “==” and “===”?
 The double equal “==” is an auto-type conversion. It’s used to check the value and type of its variable.
 
 The three equal “===” is not auto-type conversion. It’s used to check only value of its variable.
@@ -34,7 +34,7 @@ if(1 === ”1”) // Its returns false because it's not auto-type conversion and
 If(1=== parseInt(”1”)) // Its returns true.
 
 
-### What is an Object?
+##### What is an Object?
 
 The object is a collection of properties and the each property associated with the name-value pairs. The object can contain any data types (numbers, arrays, object etc.)
 
@@ -54,7 +54,7 @@ Console.log(numObject[“1”]); // will access to this line not get any error.
 
 As per my thought, the number property name should be avoided.
 
-Types of creating an object
+##### Types of creating an object
 Object literals
 Object constructor
 
@@ -88,7 +88,7 @@ Obj.empAddressDetai = function(){
 };
 
 
-What is scope variable in JavaScript?
+##### What is scope variable in JavaScript?
 The scope is set of objects, variables and function and the JavaScript can have global scope variable and local scope variable.
 
 The global scope is a window object and its used out of function and within the functions.
@@ -123,7 +123,7 @@ and other example for local
     };
     console.log(x); //undefined
 
-What is associative arrays in JavaScript?
+##### What is associative arrays in JavaScript?
 What is array? Array is a collection of index items and it is a number indexes.
 
 Some of programming language support array as named indexes and the JavaScript not support the array as name indexes and its provide only number indexes but provide this feature using the associative array.
@@ -148,7 +148,7 @@ The name index array example as given below
     var length = users.length;         // users.length will return 0
     var detail = users[0];             // users[0] will return undefined
 
-Where to use the associate array?
+##### Where to use the associate array?
 I am going to explain the associate array over the database table columns. A table have some columns and its type. i.e.
 
 The empName as text type, empAge as number type and enpDOB as date type.
@@ -163,7 +163,7 @@ empDetailType["empDOB"] = "10/03/1984";
 
 console.log("Find the emp age type :" + empDetailType["empAge"]);
 
-How to achieve inheritance in JavaScript?
+##### How to achieve inheritance in JavaScript?
 In the JavaScript, we can implement the inheritance using the some alternative ways and we cannot define a class keyword but we create a constructor function and using new keyword achieve it.  
 
 The some alternative ways as given  below.
@@ -208,7 +208,7 @@ The Inheritance example for prototype based as given below
 The output is : Hi, I am a child!
 
 
-What is typeof operator?
+##### What is typeof operator?
 The typeof operator is used to find the type of variables.
 
 The example as given below.
